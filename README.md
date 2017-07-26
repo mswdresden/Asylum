@@ -6,95 +6,144 @@
 
 
 #### 'Manual' script
-The following is a merge of a installation script (sahana eden: https://raw.githubusercontent.com/nursix/sahana-setup/master/prod/debian/cherokee-postgis-install.sh) combined with my personal experience.
+These instructions work for ubuntu linux'es and the following is a merge of a installation script (sahana eden: https://raw.githubusercontent.com/nursix/sahana-setup/master/prod/debian/cherokee-postgis-install.sh) combined with my personal experience.
  
 
 ### update your system an get all needed python stuff
 - Update system
 
-	``sudo apt-get update``
+	``# sudo apt-get update``
 
-	''sudo apt-get upgrade''
+	``# sudo apt-get upgrade``
 
-	**sudo apt-get clean**
+	``# sudo apt-get clean``
 
 ### Install Admin Tools
+``# sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl`` (fails due to missing elinks-lite)
 
-- fails due to missing elinks-lite: sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl
-sudo apt-get install unzip psmisc mlocate telnet lrzsz vim  rcconf htop sudo p7zip dos2unix curl
+``#sudo apt-get install unzip psmisc mlocate telnet lrzsz vim  rcconf htop sudo p7zip dos2unix curl``
 
-# Install Git
-sudo apt-get install git-core
-sudo apt-get clean
+### Install Git
+``# sudo apt-get install git-core``
 
-# Email
-sudo apt-get install exim4-config exim4-daemon-light
-sudo apt-get clean
+``# sudo apt-get clean``
+
+### Email
+``# sudo apt-get install exim4-config exim4-daemon-light``
+
+``sudo apt-get clean``
 
 # Python
-sudo apt-get install libgeos-c1
-sudo apt-get install libgeos-dev
-sudo apt-get install python-dev
-sudo apt-get install python-lxml python-setuptools python-dateutil python-pip
-sudo apt-get install python-serial
-sudo apt-get install python-imaging
-sudo apt-get install python-matplotlib
-sudo apt-get install python-requests
-sudo apt-get install python-xlwt
-sudo apt-get install build-essential
-sudo apt-get clean
+``sudo apt-get install libgeos-c1``
+
+``sudo apt-get install libgeos-dev``
+
+``sudo apt-get install python-dev``
+
+``sudo apt-get install python-lxml python-setuptools python-dateutil python-pip``
+
+``sudo apt-get install python-serial``
+
+``sudo apt-get install python-imaging``
+
+``sudo apt-get install python-matplotlib``
+
+``sudo apt-get install python-requests``
+
+``sudo apt-get install python-xlwt``
+
+``sudo apt-get install build-essential``
+
+``sudo apt-get clean``
 
 
-# from an installation on a different laptop (64-debian)
-# for web2py (does not work do to two missing sources): apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl
-=> sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim  htop sudo p7zip dos2unix cur
-sudo apt-get install libgeos-c1v5
-sudo apt-get install python-lxml python-setuptools python-dateutil python-pip
-sudo apt-get install libgeos-dev
-sudo apt-get install python-dev
-sudo apt-get install python-lxml python-setuptools python-dateutil python-pip
-sudo apt-get install python-serial
-sudo apt-get install python-imaging
-sudo apt-get install python-matplotlib
-sudo apt-get install python-requests
-sudo apt-get install python-xlwt
-sudo apt-get install build-essential
-sudo apt-get install libodbc1
-sudo apt-get install python-openid
+### additional info from an installation on a different laptop (64-debian)
+ **for web2py**: 
+ 
+``apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl`` or
+``sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim  htop sudo p7zip dos2unix cur``
+
+``sudo apt-get install libgeos-c1v5``
+
+``sudo apt-get install python-lxml python-setuptools python-dateutil python-pip``
+
+``sudo apt-get install libgeos-dev``
+
+``sudo apt-get install python-dev``
+
+``sudo apt-get install python-lxml python-setuptools python-dateutil python-pip``
+
+``sudo apt-get install python-serial``
+
+``sudo apt-get install python-imaging``
+
+``sudo apt-get install python-matplotlib``
+
+``sudo apt-get install python-requests``
+
+``sudo apt-get install python-xlwt``
+
+``sudo apt-get install build-essential``
+
+``sudo apt-get install libodbc1``
+
+``sudo apt-get install python-openid``
+
 from: http://eden.sahanafoundation.org/wiki/InstallationGuidelines/Linux/Developer/Manual#InstallPythonLibraries
-sudo apt-get install python-lxml
-sudo apt-get install python-shapely
-sudo apt-get install python-reportlab
-sudo apt-get install python-imaging
-sudo apt-get install python-imaging
-sudo apt-get install python-dateutil
-sudo apt-get install python-xlwt
-sudo apt-get install python-xlrd
-sudo apt-get install python-numpy
-sudo apt-get install python-matplotlib
-sudo apt-get install python-setuptools
-sudo apt-get install python-serial
-sudo apt-get install python-tz
-sudo apt-get install python-mysqldb
+
+``sudo apt-get install python-lxml``
+
+``sudo apt-get install python-shapely``
+
+``sudo apt-get install python-reportlab``
+
+``sudo apt-get install python-imaging``
+
+``sudo apt-get install python-imaging``
+
+``sudo apt-get install python-dateutil``
+
+``sudo apt-get install python-xlwt``
+
+``sudo apt-get install python-xlrd``
+
+``sudo apt-get install python-numpy``
+
+``sudo apt-get install python-matplotlib``
+
+``sudo apt-get install python-setuptools``
+
+``sudo apt-get install python-serial``
+
+``sudo apt-get install python-tz``
+
+``sudo apt-get install python-mysqldb``
   	
-# Web2Py
-sudo apt-get install libodbc1
+**Web2Py**
 
-# for some reason insalled also (msw):
-sudo apt-get install python-openid
+``sudo apt-get install libodbc1``
 
-# get web2py and reset it to last stable version, which is compatible with sahana-eden
-git clone --recursive git://github.com/web2py/web2py.git
-cd web2py/
-git reset --hard cda35fd
-git submodule update
+ For some reason insalled also (msw):
+ 
+``sudo apt-get install python-openid``
+
+### get web2py and reset it to last stable version, which is compatible with sahana-eden###
+``git clone --recursive git://github.com/web2py/web2py.git``
+
+``cd web2py/``
+
+``git reset --hard cda35fd``
+
+``git submodule update``
+
 (in an older manual it read: git submodule update --init --recursive )
 
-# get sahana-eden
+### get sahana-eden
 cd applications
+
 git clone git://github.com/mswdresden/eden
 
-# run web2py (setting admin password to "pass")
+### run web2py (setting admin password to "pass")
 python web2py.py -a pass
 
 go to URL: http://127.0.0.1:8000/
@@ -117,117 +166,101 @@ go to URL: http://127.0.0.1:8000/
 	It most probably is usefull to edit also settings.base.debug to match
 	settings.base.debug = True
 	in 000_config.py
-
-Passwords for development:
-web2py: pass
-eden:   msw@3dd2.de 1234	(users: martin....online.de or mmm@hhh.de)
 	 
 
-#######
-# Git #
-#######
+## Git #
 
 https://github.com/mswdresden/eden # repository
 
-# push and pull
+### push and pull
 git push https://github.com/mswdresden/eden.git
+
 git pull [seems to work w/o https://github.com/mswdresden/eden.git]
 
-# updating from original master? 
+### updating from original master? 
 #http://www.flossmanuals.net/sahana-eden/installing-a-developer-environment/
-#
-# once do: git remote add upstream git://github.com/flavour/eden.git
+
+### once do: git remote add upstream git://github.com/flavour/eden.git
 git pull upstream master # this should do the job?!
 
 
-#########
-# links #
-#########
+## Links 
 
 
-# web2py
-http://www.web2py.com/book # the book!
+### web2py
+- http://www.web2py.com/book # the book!
 	or get the book as an application from git:
-	install gitpython and install app via admin interface: https://github.com/mdipierro/web2py-book.git
+	- install gitpython and install app via admin interface: https://github.com/mdipierro/web2py-book.git
 		python web2py.py --port=7000 -a pass
 		http://127.0.0.1:7000/book/default/chapter/29/07/forms-and-validators
 	
-# web2py API documentation:	http://web2py.readthedocs.io/en/l
-# http://www.web2py.com/init/default/examples
-# http://www.gbv.de/dms/tib-ub-hannover/71533753x.pdf
-# Field types: http://www.web2pyref.com/reference/field-type-database-field-types 
+- web2py API documentation:	http://web2py.readthedocs.io/en/l
+- http://www.web2py.com/init/default/examples
+- http://www.gbv.de/dms/tib-ub-hannover/71533753x.pdf
+- Field types: http://www.web2pyref.com/reference/field-type-database-field-types 
 
 Documentation of the code
-# http://web2py.readthedocs.io/en/latest/dal.html
+- http://web2py.readthedocs.io/en/latest/dal.html
 
-# Sahana Eden
+web-course (7 parts) on web2py
+- https://www.youtube.com/watch?v=bW9lpN95zwQ&index=5&list=PL5E2E223FE3777851
 
-https://sahanafoundation.org/        # sahana foundation main page
-http://eden.sahanafoundation.org/    # eden at sahana foundation (and wiki)
-https://github.com/sahana/eden       # sahana eden on github
-http://flossmanuals.net/sahana-eden/ # sahana book!
-http://booki.flossmanuals.net/sahana-eden/
-
-# sahana-eden google groups mailing list
-https://groups.google.com/forum/#!forum/sahana-eden
-
-# the sahana eden wiki
-http://eden.sahanafoundation.org/
-http://eden.sahanafoundation.org/wiki/TitleIndex
-
-# demo on the net:
-http://demo.eden.sahanafoundation.org/eden/
-
-# insalling local sahana instance on suse
-https://github.com/nursix/sahana-setup/wiki/Developer-Setup#opensuse
-
-# sahana components explained
-https://github.com/nursix/sahana-setup/wiki/Components
-
-# first long sahana tutorial
-# https://www.youtube.com/watch?v=UhvlxZFnUM8
-
-# gis (maps?) is something very cool and a little different
-http://eden.sahanafoundation.org/wiki/GIS
-
-# s3 documentation
-http://pub.nursix.org/eden/s3/
-http://eden.sahanafoundation.org/wiki/S3/S3Model/SuperEntities
-
-# web-course (7 parts) on web2py
-https://www.youtube.com/watch?v=bW9lpN95zwQ&index=5&list=PL5E2E223FE3777851
-
-# web2py course by Massimo (some parts, here part 2)
-https://www.youtube.com/watch?v=_4to_44DcJU
+web2py course by Massimo (some parts, here part 2)
+- https://www.youtube.com/watch?v=_4to_44DcJU
 
  - part1:
  - part2: 
- 	- up to 48:30 tour through the code (web2py files)
-		- parameters_8000 to deactivate admin access (or something like this)
-	- 48:30 DAL create tables and queries
-	- 1:27:00 rebuilding a reddit application
+ 	-- up to 48:30 tour through the code (web2py files)
+	-- 48:30 DAL create tables and queries
+	-- 1:27:00 rebuilding a reddit application
  - part 3:
  - part 4:
- 	- 00:00:00 tasks in todo lists
-		2:08:05 populating databases with example junk
+ 	-- 00:00:00 tasks in todo lists
+	-- 2:08:05 populating databases with example junk
  
 
-# 
-# IRC web interface
-http://webchat.freenode.net/?channels=sahana-eden&uio=d4 
+ 
+
+### Sahana Eden
+
+- https://sahanafoundation.org/        # sahana foundation main page
+- http://eden.sahanafoundation.org/    # eden at sahana foundation (and wiki)
+- https://github.com/sahana/eden       # sahana eden on github
+- http://flossmanuals.net/sahana-eden/ # sahana book!
+- http://booki.flossmanuals.net/sahana-eden/
+
+sahana-eden google groups mailing list
+- https://groups.google.com/forum/#!forum/sahana-eden
+
+the sahana eden wiki
+- http://eden.sahanafoundation.org/
+- http://eden.sahanafoundation.org/wiki/TitleIndex
+
+demo on the net:
+ - http://demo.eden.sahanafoundation.org/eden/
+
+insalling local sahana instance on suse
+- https://github.com/nursix/sahana-setup/wiki/Developer-Setup#opensuse
+
+sahana components explained
+- https://github.com/nursix/sahana-setup/wiki/Components
+
+first long sahana tutorial
+- # https://www.youtube.com/watch?v=UhvlxZFnUM8
+
+gis (maps?) is something very cool and a little different
+- http://eden.sahanafoundation.org/wiki/GIS
+
+s3 documentation
+- http://pub.nursix.org/eden/s3/
+- http://eden.sahanafoundation.org/wiki/S3/S3Model/SuperEntities
+
+IRC web interface
+- http://webchat.freenode.net/?channels=sahana-eden&uio=d4 
 
 
-########
+
 # TODO #
-########
-- create and improve a model
-- figure out how languages work (browser settings or setting within eden or setting within web2py?)
-	- github anmelden (account wiederfinden)
-	- sahana eden in git und workflow testen
-	- erste eigene entwicklungen (z.B. spreadsheet beispiel von web2py)
-- neue module machen	
-- module syntax lernen
-- styles und links und menues lernen
 
 ######################################################
 # msw's howto:                                       #
