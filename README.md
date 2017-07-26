@@ -1,38 +1,23 @@
-# Sahana Eden
-
-Sahana Eden is an Emergency Development Environment - an Open Source framework to rapidly build powerful applications for Emergency Management.
-
-It is a web based collaboration tool that addresses the common coordination problems during a disaster from finding missing people, managing aid, managing volunteers, tracking camps effectively between Government groups, the civil society (NGOs) and the victims themselves.
-
-Please see the website for more details: 
-+ http://eden.sahanafoundation.org/
-
-Note to developers -- get started here:
-+ http://eden.sahanafoundation.org/wiki/Develop
-
-Before your first pull request, sign the Contributor's License Agreement, which protects your rights to your code, while allowing it to be distributed and used in Sahana Eden:
-+ http://bit.ly/SSF-eCLA
 
 
+# Asylum on web2py
 
-//---------------------------------------------------------------------
+## installation of web2py
 
 
-##########################################
-# installation of web2py and sahana-eden # 
-##########################################
+#### 'Manual' script
+The following is a merge of a installation script (sahana eden: https://raw.githubusercontent.com/nursix/sahana-setup/master/prod/debian/cherokee-postgis-install.sh) combined with my personal experience.
+ 
 
-# following istructions found in:
-# wget https://raw.githubusercontent.com/nursix/sahana-setup/master/prod/debian/cherokee-postgis-install.sh
+### update your system an get all needed python stuff
+- Update system
+	sudo apt-get update
+	sudo apt-get upgrade
+	sudo apt-get clean
 
-# update your system an get all needed python stuff
-# Update system
-sudo apt-get update
-sudo apt-get upgrade
-sudo apt-get clean
+### Install Admin Tools
 
-# Install Admin Tools
-# fails due to missing elinks-lite: sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl
+- fails due to missing elinks-lite: sudo apt-get install -y unzip psmisc mlocate telnet lrzsz vim elinks-lite rcconf htop sudo p7zip dos2unix curl
 sudo apt-get install unzip psmisc mlocate telnet lrzsz vim  rcconf htop sudo p7zip dos2unix curl
 
 # Install Git
