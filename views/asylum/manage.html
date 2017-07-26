@@ -1,0 +1,13 @@
+{{extend 'layout.html'}}
+{{= H3(T('Manage table %s' % table))}} <br>
+{{=grid}}
+{{=A('Index'			 , _href=URL('asylum', 'index'), target="callback-target", _class="btn btn-info")}}
+{{=A(T('Basic Data')	 , _href=URL('asylum', 'manage', args=['asylum_pbase'			]), _class="btn btn-default")}}
+{{=A(T('Address')		 , _href=URL('asylum', 'manage', args=['asylum_address'			]), _class="btn btn-default")}}
+{{=A(T('Checklist')		 , _href=URL('asylum', 'manage', args=['asylum_checklist'		]), _class="btn btn-default")}}
+{{=A(T('Education') 	 , _href=URL('asylum', 'manage', args=['asylum_edu'				]), _class="btn btn-default")}}
+{{=A(T('SocialWellfare') , _href=URL('asylum', 'manage', args=['asylum_socialwellfare'	]), _class="btn btn-default")}}
+{{=A(T('Healthinsurance'), _href=URL('asylum', 'manage', args=['asylum_healthinsurance'	]), _class="btn btn-default")}}
+
+
+

@@ -1,0 +1,43 @@
+{{extend 'layout.html'}}
+{{"""
+	The main asylym index
+"""}}
+
+{{=H2(T('Asylum Index'))}}
+{{=linklist}}
+
+
+
+
+We have here: {{=A("show the grid",_href=URL("grid1_pbase"))}}<br>
+We have from variable: {{=a}}<br><br>
+
+{{my_arg=[99,77,44]}}
+{{=A('the link', callback=URL('asylum', 'index_helper', args=[1,2,3]), target="callback-target", _class="btn btn-default")}}
+{{=A('the link', callback=URL('asylum', 'index_helper', args=my_arg, vars=dict(a=56, b=-1)), 
+target="callback-target", _class="btn btn-info")}}
+
+<div id="callback-target"></div>
+
+<h2>---------------------</h2>
+A click with self destruction:<br>
+<div id="b">{{=A('click me', callback=URL('asylum', 'index_helper'), delete='div#b')}}</div>
+
+<h2>---------------------</h2>
+An ajax call?<br>
+{{=A('Ajax call?', _href=URL('index'), cid='myid')}}
+<div id="myid"></div>
+
+<h2>---------------------</h2>
+An ajax call to a other page?<br>
+{{=A('Ajax call?', _href=URL('ret99'), cid='myid2')}}
+<div id="myid2"></div>
+
+{{if len(response._vars)==1:}}
+	{{=BEAUTIFY(response._vars[next(iter(response._vars))])}}
+{{elif len(response._vars)>1:}}
+	{{=BEAUTIFY(response._vars)}}
+{{pass}}
+{{if request.is_local:}}
+	{{=response.toolbar()}}
+{{pass}}

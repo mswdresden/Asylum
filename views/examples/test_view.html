@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+{{= T('This is a Test view')}} <br> 
+
+Normal text in HTML is HTML text: "<b>hello</b><br>
+
+<hr>
+Python code is written in double curly brackets. A equal sign is a shortcut for
+'writeout', i.e. the result of the python code is written in this html file. 
+Flag the end of a block with 'pass'.<br>
+{{for i in [1,2,3]:}}
+	{{=i}}<br> <!-- this line goes into the html code-->
+	{{print "using print", i}} <!-- this line goes to console-->
+{{pass}}	
+
+<hr>
+As the web2py view helpers {{=A("see chapter 5 of the book", 
+_href="http://www.web2py.com/books/default/chapter/29/05/the-views#XML")}} are
+python code, they also go into double curly brackets. As you want the output 
+to be written into the html file, use '='.
+
+<hr>
+DIV makes a div:<br>
+{{=DIV('this', 'is', 'a', 'test', _id='123', _class='myclass')}}
+{{=XML(DIV('this', 'is', 'a', 'test', _id='123', _class='myclass'))}}
+
+<hr>
+
+{{=H3("HTML helper examples using H3")}}<br>
+{{=XML(DIV("SPAN('a', 'b'), 'c'"))}}<br>
+{{=DIV("SPAN('a', 'b'), 'c'")}}<br>
+{{=DIV(SPAN('a', 'b'), 'c')}}<br>
+
+{{print DIV("<b>hello</b>")}}<br>
+{{=DIV("<b>hello</b>")}}<br>
+{{=DIV(XML("<b>hello</b>"))}}<br>
+
+<hr>
+<h3>A</h3>
+The A helper:
+{{=A('Go to web2py', callback=URL('http://www.web2py.com'))}}<br>
+Callback and target
+{{=A('click me', callback=URL('test_view_action'), target="t")}}<br>
+<div id="t">HOW DOES THIS WORK?<div>
+{{=a}}<br>
+
+<hr>
+<h3>CODE</h3>
+{{=code}}<br>
+{{=CODE("this is code",styles={'CODE':'margin: 0;padding: 5px;border: none;'})}}
+<br><br><br><br><br>
+

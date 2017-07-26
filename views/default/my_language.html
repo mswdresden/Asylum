@@ -1,0 +1,10 @@
+{{extend 'layout.html'}}
+Possible langs:
+{{#for i, lang in langdict:}}
+{{#=lang[i]}}{{BR()}}
+{{#pass}}
+
+{{=form}}
+
+<br>{{=teststring}}
+<br>{{#=T(teststring)}}

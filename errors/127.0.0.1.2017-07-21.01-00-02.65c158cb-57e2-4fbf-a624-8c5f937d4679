@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'uuid' is not defined"
+p3
+sS'layer'
+p4
+S'/home/topf/Web2Py/web2py/applications/Asylum/controllers/appadmin.py'
+p5
+sS'code'
+p6
+S'<code object <module> at 0xaef6fc80, file "/home/topf/Web2Py/web2py/applications/Asylum/controllers/appadmin.py", line 7>'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/topf/Web2Py/web2py/gluon/restricted.py", line 219, in restricted\n    exec(ccode, environment)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/appadmin.py", line 697, in <module>\n  File "/home/topf/Web2Py/web2py/gluon/globals.py", line 409, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/appadmin.py", line 146, in insert\n    form = SQLFORM(db[table], ignore_rw=ignore_rw)\n  File "/home/topf/Web2Py/web2py/gluon/sqlhtml.py", line 1360, in __init__\n    default = default()\n  File "/home/topf/Web2Py/web2py/applications/Asylum/models/db_asylum.py", line 58, in <lambda>\n    Field(\'uuid\', length=64, default=lambda:str(uuid.uuid4())),\nNameError: global name \'uuid\' is not defined\n'
+p11
+s.

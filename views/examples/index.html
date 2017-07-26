@@ -1,0 +1,63 @@
+{{extend 'layout.html'}}
+{{"""
+<h1>Examples</h1>
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+<h4>Plain text</h4>
+<b>Plain text (HTML) is rendered as if you wirte in a standard HTML file</b>
+Hello World,
+ this is going to be 
+ all in one line.
+
+<h4>Using HTML</h4>
+<b>Just use HTML (HTML syntax is regarded to be 'standard knowledge' in web2py</b>
+<ul>
+	<li><a href="http://www.web2py.com" target="_blank">Link to web2py</a></li>
+	<li><b> bold text</b> ... </li>
+</ul>	
+
+<h4>Dealing with variables</h4>
+<b>Variables are passed from the controller to the view via a string or a dict
+returned. They can be accessed with:</b>
+{{#=}}
+
+<h4></h4>
+<b></b>
+{{#=}}
+
+<h4></h4>
+<b></b>
+{{#=}}
+
+<h4></h4>
+<b></b>
+{{#=}}
+
+<h4>Go to the examples:</h4>
+<b>Click</b>
+<ul>
+	<li>{{=A(T("This default controller"), _href=URL())}}</li>
+	<li>{{=A(T("Error")                  , _href=URL('error') ) }}</li>
+	<li>{{=A(T("test_view"              ), _href=URL('test_view') ) }}</li>
+	
+	<li>{{=A(T('communication'), _href=(URL('communication')) )}}</li>
+	<li>{{=A(T('form'), _href=(URL('form')) )}}</li>
+	<li>{{=A(T('sqlfrom'), _href=(URL('sqlfrom')) )}}</li>
+	<li>{{=A(T('formfactory'), _href=(URL('formfactory')) )}}</li>
+	<li>{{=A(T('grid'), _href=(URL('grid')) )}}</li>	
+	<li>{{=A(T('pythonexamples'), _href=(URL('pythonexamples')) )}}</li>
+	<li>{{=A(T('widget_examples'), _href=(URL('widget_examples')) )}}</li>
+	<li>{{=A(T('widget_examples_results'), _href=(URL('widget_examples_results')) )}}</li>
+	<li>{{=A(T(''), _href=(URL('')) )}}</li>
+	
+	
+</ul>
+
+<ul>	
+	<li>{{=A('display_form'			 , _href=(URL('display_form/1' 			)) )}}</li>
+	<li>{{=A('grid_person'			 , _href=(URL('grid_person'		  		)) )}}</li>
+	<li>{{=A('manage/<tablename>'    , _href=(URL('manage', args=['examples_dog'])) )}} (examples_dog)</li>
+	<li>{{=A('person_and_dog'		 , _href=(URL('person_and_dog'			)) )}}</li>
+	<li>{{=A('person_and_dog_smart'	 , _href=(URL('person_and_dog_smart'	)) )}}</li>
+	<li>{{=A('person_dog_thing_smart', _href=(URL('person_dog_thing_smart'	)) )}}</li>
+</ul>

@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.UnboundLocalError'> local variable 'returnval' referenced before assignment"
+p3
+sS'layer'
+p4
+S'/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py'
+p5
+sS'code'
+p6
+S'<code object <module> at 0xaededde8, file "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 5>'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/topf/Web2Py/web2py/gluon/restricted.py", line 219, in restricted\n    exec(ccode, environment)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 209, in <module>\n  File "/home/topf/Web2Py/web2py/gluon/globals.py", line 409, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/topf/Web2Py/web2py/gluon/tools.py", line 3964, in f\n    return action(*a, **b)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 130, in grid1_pbase\n    ondelete=my_ondelete,\n  File "/home/topf/Web2Py/web2py/gluon/sqlhtml.py", line 2469, in grid\n    next=referrer)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2300, in process\n    self.validate(**kwargs)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2238, in validate\n    if self.accepts(**kwargs):\n  File "/home/topf/Web2Py/web2py/gluon/sqlhtml.py", line 1640, in accepts\n    **kwargs\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2142, in accepts\n    call_as_list(onvalidation, self)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 141, in call_as_list\n    item(*a, **b)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 145, in my_onvalidate\n    if check_IBAN():\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 178, in check_IBAN\n    print "\\n\\ntesting iban %s: %s\\n" % (ibannum, returnval)\nUnboundLocalError: local variable \'returnval\' referenced before assignment\n'
+p11
+s.

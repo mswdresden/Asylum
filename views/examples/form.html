@@ -1,0 +1,6 @@
+{{extend 'layout.html'}}
+{{"""
+Form
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+{{=form}}

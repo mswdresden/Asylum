@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.ValueError'> Attempted relative import in non-package"
+p3
+sS'layer'
+p4
+S'/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py'
+p5
+sS'code'
+p6
+S'<code object <module> at 0xae67a4a0, file "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 5>'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/topf/Web2Py/web2py/gluon/restricted.py", line 219, in restricted\n    exec(ccode, environment)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 203, in <module>\n  File "/home/topf/Web2Py/web2py/gluon/globals.py", line 409, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/topf/Web2Py/web2py/gluon/tools.py", line 3964, in f\n    return action(*a, **b)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 130, in grid1_pbase\n    ondelete=my_ondelete,\n  File "/home/topf/Web2Py/web2py/gluon/sqlhtml.py", line 2469, in grid\n    next=referrer)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2300, in process\n    self.validate(**kwargs)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2238, in validate\n    if self.accepts(**kwargs):\n  File "/home/topf/Web2Py/web2py/gluon/sqlhtml.py", line 1640, in accepts\n    **kwargs\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 2142, in accepts\n    call_as_list(onvalidation, self)\n  File "/home/topf/Web2Py/web2py/gluon/html.py", line 141, in call_as_list\n    item(*a, **b)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 145, in my_onvalidate\n    print str(check_IBAN())\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 171, in check_IBAN\n    import iban\n  File "/home/topf/Web2Py/web2py/gluon/custom_import.py", line 77, in custom_importer\n    return NATIVE_IMPORTER(oname, globals, locals, fromlist, level)\n  File "/home/topf/Web2Py/web2py/site-packages/iban.py", line 4, in <module>\n    from .utils import validator\n  File "/home/topf/Web2Py/web2py/gluon/custom_import.py", line 111, in custom_importer\n    return NATIVE_IMPORTER(name, globals, locals, fromlist, level)\nValueError: Attempted relative import in non-package\n'
+p11
+s.

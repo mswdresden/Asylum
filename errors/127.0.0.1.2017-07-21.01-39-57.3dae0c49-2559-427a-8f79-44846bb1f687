@@ -1,0 +1,21 @@
+(dp1
+S'output'
+p2
+S"<type 'exceptions.NameError'> global name 'crud' is not defined"
+p3
+sS'layer'
+p4
+S'/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py'
+p5
+sS'code'
+p6
+S'<code object <module> at 0xaeb9c698, file "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 3>'
+p7
+sS'snapshot'
+p8
+(dp9
+sS'traceback'
+p10
+S'Traceback (most recent call last):\n  File "/home/topf/Web2Py/web2py/gluon/restricted.py", line 219, in restricted\n    exec(ccode, environment)\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 27, in <module>\n  File "/home/topf/Web2Py/web2py/gluon/globals.py", line 409, in <lambda>\n    self._caller = lambda f: f()\n  File "/home/topf/Web2Py/web2py/applications/Asylum/controllers/asylum.py", line 12, in create_pbase\n    form = crud.create(db.asylum_pbase, next=\'show_pbase\')\nNameError: global name \'crud\' is not defined\n'
+p11
+s.
