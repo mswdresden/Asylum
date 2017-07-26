@@ -12,11 +12,11 @@ The following is a merge of a installation script (sahana eden: https://raw.gith
 ### update your system an get all needed python stuff
 - Update system
 
-	sudo apt-get update
+	``sudo apt-get update``
 
-	sudo apt-get upgrade
+	''sudo apt-get upgrade''
 
-	sudo apt-get clean
+	**sudo apt-get clean**
 
 ### Install Admin Tools
 
