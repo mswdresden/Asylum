@@ -111,6 +111,7 @@ db.define_table('asylum_checklist',
     Field('uuid', length=64, default=lambda:str(uuid.uuid4()),writable=False, readable=False),
     Field('name', type='string',requires=IS_NOT_EMPTY(),
           label='Last Name', comment='A last name for testing'),
+
     Field('moveindate', type='date', requires=IS_EMPTY_OR(IS_DATE()),
           label=T('Move-In Date'), comment=T('The date the person moved into the current accommodation')),
     Field('dezi', type='boolean',

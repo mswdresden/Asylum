@@ -1,6 +1,10 @@
 #
 # examples: by msw
 #
+if not session.my_language:
+    pass
+else:
+    T.force(session.my_language)
 
 # ---------------
 # you should always have a index controller
@@ -57,9 +61,12 @@ def formfactory():
     return dict(form=form)
 
 # --------------
-def grid():
-    form = "Please implement code for grid"
-    return dict(form=form)
+@auth.requires_login()
+def my_manage():
+    table = request.args(0)
+    if not table in db.tables(): redirect(URL('error'))
+    mygrid = SQLFORM.grid(db[table],args=request.args[:1])
+    return locals()
 
 # --------------
 def pythonexamples():
@@ -70,6 +77,13 @@ def pythonexamples():
     mydict = {k: v for k, v in enumerate(lst)}
     print "mydict:",mydict
 
+    # concatenate strings
+    h = "hello"
+    w = "world"
+    c_1 = h+w
+    c_2 = "this is the %s example of the %s" % (h,w)
+    print c_1
+    print c_2
     return locals()
 
 # ------------------------
@@ -202,15 +216,36 @@ def grid_person():
 # --------------------
 # manage table manually using a grid, give table name as arg(0)
 @auth.requires_login()
-def manage():
+def examples_manage():
 
     table = request.args(0)
     if not table in db.tables(): redirect(URL('error'))
-    grid = SQLFORM.grid(db[table],
-                        args=request.args[:1],
-                        links_in_grid=True)
+    grid = SQLFORM.grid(db[table], args=request.args[:1],)
     return locals()
 
+# --------------------
+@auth.requires_login()
+def two_tables():
+    form = SQLFORM.grid(db.examples_checklist,left=db.examples_human.on(db.examples_human.checklist==db.examples_checklist.id))
+    return dict(form=form)
+
+# --------------------
+@auth.requires_login()
+def two_smart_tables():
+    form = SQLFORM.smartgrid(db.examples_checklist,linked_tables=['examples_human'])
+    #form = SQLFORM.smartgrid(db.examples_human, linked_tables=['examples_checklist','examples_mobility'])
+    #form = SQLFORM.smartgrid(db.examples_human, linked_tables=['examples_checklist'])
+
+    return dict(form=form)
+
+# --------------------
+#@auth.requires_membership('managers')
+@auth.requires_login()
+def powermanage():
+    table = request.args(0) or 'auth_user'
+    if not table in db.tables(): redirect(URL('error'))
+    grid = SQLFORM.smartgrid(db[table],args=request.args[:1])
+    return locals()
 # --------------------
 # show two (linked) tables together (using a grid)
 @auth.requires_login()
@@ -236,3 +271,71 @@ def person_dog_thing_smart():
 #
 # -----------------------
 #
+
+def examples_pbase():
+
+    form = SQLFORM(db.examples_pbase,
+                deletable=True, # creates the delete checkbox
+                submit_button = 'Please submit this msw',
+                showid=True,
+                #fields = ['name'],
+                #col3 = {'name':A('what is this?', _href='http://www.google.com/search?q=define:name'),'firstname':"This is the col3!"},
+                formstyle = 'bootstrap3_inline',
+                    #formstyle = "bootstrap3_stacked",
+                    #formstyle = "bootstrap2", does not exist
+                    #formstyle="table3cols",
+                    #formstyle="table2cols",
+                    #formstyle="ul",
+                    #formstyle="divs",
+                    #formstyle="bootstrap",
+
+                    #buttons=[INPUT(_name='test', _value='a', value='b'),
+                    #         TAG.button ('Next',_type="submit"),
+                    #         TAG.button('Back',_type="button",_onClick = "parent.location='%s' " % URL('index')),
+                    #         A("Go to another page",_class='btn',_href=URL("default","index")),]
+                   )
+    if form.process().accepted:
+        response.flash = 'form accepted'
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'please fill out the form'
+
+    #mymenu = MENU([['One', False, 'link1', [['Two', False, 'link2']]]])
+    #return dict(form=form,mymenu=mymenu)
+    return dict(form=form)
+
+# --------------------------
+def display_examples_pbase():
+   record = db.examples_pbase(request.args(0)) or redirect(URL('index'))
+
+   form = SQLFORM(db.examples_pbase, record,
+                  deletable=True, # creates the delete checkbox
+                  )
+
+   if form.process().accepted:
+       response.flash = 'form accepted'
+   elif form.errors:
+       response.flash = 'form has errors'
+   return dict(form=form)
+
+# --------------------------
+def display_examples_child():
+    record = db.examples_child(request.args(0)) or redirect(URL('index'))
+    form = SQLFORM(db.examples_child, record, deletable=True)
+
+    if form.process().accepted: response.flash = 'form accepted'
+    elif form.errors: response.flash = 'form has errors'
+    else: response.flash= 'form shown for the first time'
+
+    return dict(form=form)
+
+
+@auth.requires_login()
+def testerli():
+    #form = SQLFORM.grid(db.parent)
+    #form = SQLFORM.grid(db.child)
+    #form = SQLFORM.grid(db.parent,left=db.child.on(db.child.parent==db.parent.id))
+    form = SQLFORM.smartgrid(db.parent,linked_tables=['child', 'car'])
+
+    return dict(form=form)
