@@ -147,7 +147,7 @@ db.examples_child.father_id.requires = IS_IN_DB(db, db.examples_pbase.id,'%(name
 #    )
 
 # from book
-db.define_table('parent',Field('name'), format='%(name)s')
+db.define_table('parent',Field('name', requires=IS_NOT_EMPTY()), format='%(name)s')
 db.define_table('child',
                 Field('name'),
                 Field('birthdate', type='date'),
@@ -156,5 +156,11 @@ db.define_table('child',
 db.define_table('car',
                 Field('name', requires = IS_IN_SET(['VW', 'BMW', 'Ford', 'other'])),
                 Field('km', type = 'integer'),
+                Field('parent','reference parent', requires=IS_IN_DB(db, db.parent.id, '%(name)s',))
+                )
+
+db.define_table('job',
+                Field('name', requires = IS_IN_SET(['teacher', 'mailman', 'nurse', 'other'])),
+                Field('salary', type = 'integer'),
                 Field('parent','reference parent', requires=IS_IN_DB(db, db.parent.id, '%(name)s',))
                 )

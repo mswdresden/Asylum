@@ -75,12 +75,13 @@ asylum_familyreunion = [
 # possible accomodations
 db.define_table('asylum_accommodation',
                 Field('uuid', length=64, default=lambda: str(uuid.uuid4()), writable=False, readable=False),
-                Field('name', type='string', length=50, label=T('Name'), comment=T('A short description of the location')),
+
+                Field('name', type='string', length=50, requires=IS_NOT_EMPTY(), label=T('Name'), comment=T('A short description of the location')),
                 Field('postaddress', type='string', length=512, requires=IS_NOT_EMPTY(), label=T('Address'), comment=T('Street, Number, ZIP, City'
                                                                                                                        )),
                 Field('landlord', type='string', length=512, label=T('Owner'), comment=T('The owner of this housing facility')),
                 auth.signature,
-                format='%(postaddress)s',
+                format='%(name)s',
                 redefine=k_redefine,)
 
 
@@ -101,7 +102,7 @@ db.define_table('asylum_address',
     Field('mobile', type='integer', label=T('Mobile'), comment=T('Mobile Number (this is an int!)')),
 
     auth.signature,
-    format='%(street)s',
+    format='%(name)s',
     redefine=k_redefine,
     )
 
@@ -126,18 +127,18 @@ db.define_table('asylum_checklist',
           label=T('Bail for key(s)'), comment=T('The total bail for all the keys')),
     Field('heatingok', type='string', requires=IS_IN_SET(['ok','defunct','not known']), default='not known',
           label=T('Heating OK'), comment=T('Is the heating of the appartment ok?')),
-    Field('bamfaddress', 'reference asylum_address', requires=IS_IN_DB(db,'asylum_address.name', '%(name)s'),
+    Field('bamfaddress', 'reference asylum_address', requires=IS_IN_DB(db,'asylum_address.id', '%(name)s'),
           label=T('Address for BAMF'), comment=T('The address the BAMF uses for communication')),
     auth.signature,
-    #format='%(postaddress)s',
+    format='%(name)s',
     redefine=k_redefine,
                 )
 
 
 # the basic information of an asylum person
-db.define_table('asylum_pbase',
+db.define_table('asylum_pbase2',
                 Field('uuid', length=64, default=lambda:str(uuid.uuid4()),writable=False, readable=False),
-                #Field('modified_on', 'datetime', default=request.now),
+
                 Field('name', type='string', length=35,requires=IS_NOT_EMPTY(), comment=T('The family name (as written in the passport)')),
                 Field('firstname', type='string', length=50,requires=IS_NOT_EMPTY(), label=T('First Name'), comment=T('first and middle names')),
                 Field('birthday', type='date', label=T('Date of Birth'), comment=T('The (official) date of birh')),
@@ -148,17 +149,19 @@ db.define_table('asylum_pbase',
                       label=T('Health Insurance'), comment=T('')),
                 Field('bamfid', type='string', length=15, label=T('BAMF ID'), comment=T('The BAMF identification number')),
                 Field('bankiban',type='string', length=22, label=T('IBAN'), comment=T('IBAN Number: e.g. DE 10 0233 1111 ...')), # check for IBAN
-                Field('accommodation',  type='string',
-                        requires = IS_IN_DB(db, 'asylum_accommodation.postaddress','%(postaddress)s', zero=T('choose one')),
-                        label=T('Accommodation'),comment=T('')),
+                #Field('accommodation',  type='string',
+                #        requires = IS_IN_DB(db, 'asylum_accommodation.postaddress','%(postaddress)s', zero=T('choose one')),
+                #        label=T('Accommodation'),comment=T('')),
                 Field('citizenship', requires=IS_IN_SET(asylum_citizenship),
                         label=T('Citizenship'), comment=T('The official citizenship')),
                 Field('familyreunion', requires=IS_IN_SET(asylum_familyreunion),
                         label=T('Family Reunion'), comment=T('Status of possible family reunion')),
                 Field('checklist','reference asylum_checklist',
-                      requires = IS_IN_DB(db, db.asylum_checklist.uuid, '%(uuid)s'),
-                      label='Checklist',comment="the checklist of this person"),
-
+                        requires = IS_IN_DB(db, db.asylum_checklist.id, '%(name)s'),
+                        label='Checklist',comment="the checklist of this person"),
+                Field('accommodation', type='reference asylum_accommodation',
+                        requires = IS_IN_DB(db, db.asylum_accommodation.id, '%(name)s'),
+                        label=T('Accommodation'),comment=T("The accommodation of this person")),
                 auth.signature,
                 format='%(name)s',
                 redefine=k_redefine,
@@ -166,16 +169,6 @@ db.define_table('asylum_pbase',
 
     #db.asylum_pbase.healthinsurance.represent = lambda value, row: A('get it', _href=URL('download', args=value))
 
-## possible housing (probably broken through messing up field names)
-#db.define_table('asylum_housing',
-#                Field('uuid', length=64, default=lambda: str(uuid.uuid4()), writable=False, readable=False),
-#                Field('name', type='string', length=50, label=T('Name'), comment=T('A short description of the location')),
-#                Field('postaddress', type='string', length=512, requires=IS_NOT_EMPTY(), label=T('Address'), comment=T('Street, Number, ZIP, City'
-#                                                                                                                      )),
-#                Field('landlord', type='string', length=512, label=T('Owner'), comment=T('The owner of this housing facility')),
-#auth.signature,
-#                format='%(address)s',
-#)
 
 
 
@@ -186,7 +179,7 @@ db.define_table('asylum_healthinsurance',
                 Field('address', type='string', length=512, label=T('Address'), comment=T('Adress: Street, Number, ZIP and City')),
 
                 auth.signature,
-                format='%(address)s',
+                format='%(name)s',
                 redefine = k_redefine,)
 
 
@@ -194,6 +187,8 @@ db.define_table('asylum_healthinsurance',
 # -------------------
 db.define_table('asylum_edu',
     Field('uuid', length=64, default=lambda: str(uuid.uuid4()), writable=False, readable=False),
+
+    Field('name', type='string', requires=IS_NOT_EMPTY(), length=50),
     Field('bildungsagentur', type='boolean', label=T('Education Agency'), comment=T('')),
     Field('profession', type='string', length=30, label=T('Profession'), comment=T('The profession learned')),
     Field('germanlang', requires=IS_IN_SET(['00','A1','A2','B1','B2','C',T('not known')]),
@@ -207,13 +202,16 @@ db.define_table('asylum_edu',
         [T('English'),T('French'),T('German'),T('Arabic (standard)'),T('Arabic (local)'),
                               T('Russian'),T('Farsi'), T('Dutch'),T('Italian'), T('Bantu'),T('Chinese'),], multiple=True),
          label=T('Languages'), comment=T('The Languages spoken (min. at basic level)')),
-                auth.signature,
-    # format='%(name)s',
+
+    auth.signature,
+    format='%(name)s',
     redefine=k_redefine,
     )
 # ------------------
 db.define_table('asylum_socialwellfare',
     Field('uuid', length=64, default=lambda: str(uuid.uuid4()), writable=False, readable=False),
+
+    Field('name', type='string', length=50, requires=IS_NOT_EMPTY(),),
     Field('wbsapplication', type='boolean', label=T('WBS Application'), comment=T('Has an application for an WBS been done?')),
     Field('wbsdate', type='date', label=T('WBS date'), comment=T('Date when the WBS was approved')),
     Field('chonicillness', type='text', length=512,
@@ -224,7 +222,7 @@ db.define_table('asylum_socialwellfare',
           label=T('Reisepassgebührenermäßigung'), comment=T('Reisepassgebührenermäßigung in Euro')),
     #Field('', type='', length=, requires=, label=T(''), comment=T('')),
     auth.signature,
-    # format='%(name)s',
+    format='%(name)s',
     redefine=k_redefine,
     )
 
