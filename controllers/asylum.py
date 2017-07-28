@@ -10,16 +10,16 @@ else:
 def index():
     #return "hallo welt"
     linklist = UL(
-        LI("call controller: ", A("show_pbase",             _href=URL("show_pbase")), _class='test', _id=0),
-        LI("call controller: ", A("create_pbase",           _href=URL("create_pbase")), _class='test', _id=0),
-        LI("call controller: ", A("update_pbase",           _href=URL("update_pbase")), _class='test', _id=0),
-        LI("call controller: ", A("grid1_pbase",            _href=URL("grid1_pbase")), _class='test', _id=0),
+        LI("call controller: ", A("show_pbase2",             _href=URL("show_pbase2")), _class='test', _id=0),
+        LI("call controller: ", A("create_pbase2",           _href=URL("create_pbase2")), _class='test', _id=0),
+        LI("call controller: ", A("update_pbase2",           _href=URL("update_pbase2")), _class='test', _id=0),
+        LI("call controller: ", A("grid1_pbase2",            _href=URL("grid1_pbase2")), _class='test', _id=0),
         LI("call controller: ", A("grid_healthinsurance",   _href=URL("grid_healthinsurance")), _class='test', _id=0),
         LI("call controller: ", A("grid_accommodation",     _href=URL("grid_accommodation")), _class='test', _id=0),
         #LI("call controller: ", A("", _href=URL("")), _class='test', _id=0),
         LI("Manager",UL(
             LI("", A("asylum_accommodation", _href=URL("manage", args=['asylum_accommodation'])), _class='test', _id=0),
-            LI("", A("asylum_pbase", _href=URL("manage", args=['asylum_pbase'])), _class='test', _id=0),
+            LI("", A("asylum_pbase2", _href=URL("manage", args=['asylum_pbase2'])), _class='test', _id=0),
             LI("", A("asylum_healthinsurance", _href=URL("manage", args=['asylum_healthinsurance'])), _class='test', _id=0),
             LI("", A("asylum_address", _href=URL("manage", args=['asylum_address'])), _class='test', _id=0),
             LI("", A("asylum_checklist", _href=URL("manage", args=['asylum_checklist'])), _class='test', _id=0),
@@ -27,9 +27,17 @@ def index():
             LI("", A("asylum_socialwellfare", _href=URL("manage", args=['asylum_socialwellfare'])), _class='test', _id=0),
             #LI("", A("", _href=URL("manage", args=[''])), _class='test', _id=0),
             #LI("", A("", _href=URL("manage", args=[''])), _class='test', _id=0),
-        ))
+        )),
+        LI("Naumann-Manager",
+           UL(
+               LI("", A("asylum_accommodation", _href=URL("powergrid", args=['asylum_accommodation'])), _class='test',_id=0),
+
+               LI("", A("naumann1", _href=URL("naumann1", args=[])), _class='test',_id=0),
+
+           )
+        ),
     )
-    a = A(T("this is an example of an 'link to grid1', pushed from the controller to the this html"),_href=URL("grid1_pbase"))
+    a = A(T("this is an example of an 'link to grid1', pushed from the controller to the this html"),_href=URL("grid1_pbase2"))
     return locals()
 
 # -------------
@@ -75,13 +83,13 @@ def manage():
 
 
 # -------------
-def show_pbase():
+def show_pbase2():
     # very simple, just return the data base
-    #form = db(db.asylum_pbase).select(orderby=db.asylum_pbase.name)
-    # form = db(db.asylum_pbase).select(orderby=db.asylum_pbase.arrivaldate)
+    #form = db(db.asylum_pbase2).select(orderby=db.asylum_pbase2.name)
+    # form = db(db.asylum_pbase2).select(orderby=db.asylum_pbase2.arrivaldate)
 
     # more elaborate, use a SQLFORM
-    form = SQLFORM(db.asylum_pbase,
+    form = SQLFORM(db.asylum_pbase2,
                    #formstyle='bootstrap3_stacked'
                    #formstyle='divs'
                    #formstyle = 'bootstrap'
@@ -91,7 +99,7 @@ def show_pbase():
                     buttons = [A("Go to another page",_class='btn',_href="http://www.spiegel.de")]
 
                    )
-    #form = SQLFORM(db.asylum_pbase,
+    #form = SQLFORM(db.asylum_pbase2,
     #    record=None,     # The optional second argument turns the INSERT form into an UPDATE form for the
     #                      # specified record (see next subsection
     #    deletable=False, # If deletable is set to True, the UPDATE form displays a "Check to delete" checkbox.
@@ -134,11 +142,11 @@ def show_pbase():
 
 # -------------
 @auth.requires_login()
-def create_pbase():
-    form = SQLFORM(db.asylum_pbase)
+def create_pbase2():
+    form = SQLFORM(db.asylum_pbase2)
     if form.process().accepted:
         response.flash = 'form accepted'
-        redirect(URL('show_pbase'))
+        redirect(URL('show_pbase2'))
 
     elif form.errors:
         response.flash = 'form has errors'
@@ -147,15 +155,15 @@ def create_pbase():
 
     return dict(form=form)
 
-    #form = crud.create(db.asylum_pbase, next='show_pbase')
+    #form = crud.create(db.asylum_pbase2, next='show_pbase2')
     #return locals()
 
 # -------------
 @auth.requires_login()
-def update_pbase():
-    #pbase = db.company(request.args(0)) or redirect(URL('show_pbase'))
-    record = db.asylum_pbase(request.args(0)) or redirect(URL('show_pbase'))
-    form = SQLFORM(db.asylum_pbase, record)
+def update_pbase2():
+    #pbase2 = db.company(request.args(0)) or redirect(URL('show_pbase2'))
+    record = db.asylum_pbase2(request.args(0)) or redirect(URL('show_pbase2'))
+    form = SQLFORM(db.asylum_pbase2, record)
 
     if form.process().accepted:
         session.flash = 'form accepted'
@@ -163,21 +171,21 @@ def update_pbase():
         response.flash = 'form has errors'
     return dict(form=form)
 
-    #form = crud.update(db.asylum_pbase, , next='companies')
+    #form = crud.update(db.asylum_pbase2, , next='companies')
     #return locals()
 
 # -------------
 @auth.requires_login()
-def grid1_pbase():
+def grid1_pbase2():
 
     # show entries depending on other conditions
-    db.asylum_pbase.bankiban.show_if = (db.asylum_pbase.testbool == True)
+    db.asylum_pbase2.bankiban.show_if = (db.asylum_pbase2.testbool == True)
 
     # use the superpower of grids
-    grid = SQLFORM.grid(db.asylum_pbase, # the datebase or a query
+    grid = SQLFORM.grid(db.asylum_pbase2, # the datebase or a query
 
                         # fields: leave "None" (==default) or specify names to show
-                        #fields=[db.asylum_pbase.name, db.asylum_pbase.firstname],
+                        #fields=[db.asylum_pbase2.name, db.asylum_pbase2.firstname],
 
                         # headers: ???
                         #headers={'auth_user.email' : 'Email Address'},
@@ -213,17 +221,12 @@ def grid1_pbase():
 def grid_healthinsurance():
 
     # show entries depending on other conditions
-    #db.asylum_healthinsurance.name.show_if = <some db query> ex: (db.asylum_pbase.testbool == True)
+    #db.asylum_healthinsurance.name.show_if = <some db query> ex: (db.asylum_pbase2.testbool == True)
 
     form = SQLFORM.smartgrid(db.asylum_healthinsurance,)
     return locals()
 
 
-# -------------
-@auth.requires_login()
-def grid_accommodation():
-    grid = SQLFORM.smartgrid(db.asylum_accommodation,)
-    return locals()
 # -------------
 @auth.requires_login()
 def grid_accommodation():
@@ -265,7 +268,7 @@ def my_onvalidate(form):
     helth_tmp = form.vars.healthinsurance
 
     print "\n request.args", request.args
-    #db.asylum_pbase.insert(healthinsurance=helth_tmp)
+    #db.asylum_pbase2.insert(healthinsurance=helth_tmp)
 
 
     # return NOTHING: onvalidate functions do not return anything
@@ -313,6 +316,24 @@ def writenames_test():
 
     return dict()
 
+
+# -------------
+@auth.requires_login()
+def powergrid():
+    table = request.args(0) or 'auth_user'
+    if not table in db.tables(): redirect(URL('error'))
+    grid = SQLFORM.smartgrid(db[table],args=request.args[:1])
+    return locals()
+
+# -------------
+@auth.requires_login()
+def naumann1():
+    #form = SQLFORM.grid(db.parent)
+    #form = SQLFORM.grid(db.child)
+    #form = SQLFORM.grid(db.parent,left=db.child.on(db.child.parent==db.parent.id))
+    form = SQLFORM.smartgrid(db.asylum_pbase2,linked_tables=['asylum_checklist', 'asylum_accommodation'])
+
+    return dict(form=form)
 
 # -------------
 # msw: taken from the cookbook (p. 56) - what does this code do exactly?

@@ -332,10 +332,11 @@ def display_examples_child():
 
 
 @auth.requires_login()
-def testerli():
+def parentmanager():
     #form = SQLFORM.grid(db.parent)
     #form = SQLFORM.grid(db.child)
     #form = SQLFORM.grid(db.parent,left=db.child.on(db.child.parent==db.parent.id))
-    form = SQLFORM.smartgrid(db.parent,linked_tables=['child', 'car'])
+    form = SQLFORM.smartgrid(db.parent,linked_tables=['child', 'car', 'job'])
 
     return dict(form=form)
+
