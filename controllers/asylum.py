@@ -178,9 +178,6 @@ def update_pbase2():
 @auth.requires_login()
 def grid1_pbase2():
 
-    # show entries depending on other conditions
-    db.asylum_pbase2.bankiban.show_if = (db.asylum_pbase2.testbool == True)
-
     # use the superpower of grids
     grid = SQLFORM.grid(db.asylum_pbase2, # the datebase or a query
 

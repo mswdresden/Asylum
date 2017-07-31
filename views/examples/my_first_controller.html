@@ -1,0 +1,25 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+
+<p>
+This is the view file associated with the controller (of same name). It is used 
+to render the output of the controller. The output of the controller was
+a string or dictionary. You can access it with the 
+'double curly backet escape sequence'.
+</p>
+
+<p>
+You can put standard HTML here, if you like, ... and you can also build
+parts of your HTML in the controller itself (see examples/index()).
+</p>
+
+<p>
+Now let's display the output of the controller:<br>
+<center>
+	<b>
+		{{=text_to_display}}
+	</b>
+</center>
+

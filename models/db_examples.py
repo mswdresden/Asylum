@@ -1,9 +1,51 @@
-#
-# some test data structures for the examples controller
-#
+################################################################
+# some test data structures for the examples controllers/views #
+################################################################
 
-import uuid # this is needed for the creation of an uuid
+# allways start with including everything from gluon
 from gluon import *
+
+# further imports
+import uuid # this is needed for the creation of an uuid
+
+#######################
+# General Information #
+#######################
+
+# - Important:
+#   - Models in the same folder/subfolder are executed in alphabetical order.
+#   - Any variable defined in a model will be visible to other models following alphabetically,
+#     to the controllers, and to the views.
+#
+# one can think of situations where defining something 'generic' for you model like
+examples_standardstring = 'Examples make life much easier to understand - please write your own and then SHARE THEM!'
+# seems reasionable to do (e.g. in order to quickly create your 'own' globals (and not messing with the db.py)) ...
+# ... however ...
+# ... it surtenly is crying for chaos if you define things like 'myval' or 'foo' here globaly
+
+
+# - book: It is sometimes useful to create your own Storage objects. You can do so as follows:
+# from gluon.storage import Storage
+# my_storage = Storage()  # empty storage object
+# =>> LEARN HOW TO USE THIS!!
+
+############################
+# The usage of own modules #
+############################
+
+# Modules (python code for generic use within your app) is stored in /application/<app>/modules.
+# This location is allways searched first if you call an 'import'. In this way, you can add to your app
+# a) your own modules
+# b) all possible python modules, wich stick to your (this) app.
+# (modules that belong to your 'web2py' environment go to .../web2py/site-packages)
+#
+# Models are usually (the python way) read only once. So if you edit them, you must restart your web2py server (or even
+# restart your browser?!). It is probably convenient to set track_changes True only for development. Then the modules
+# files are re-read for each function call:
+from gluon.custom_import import track_changes
+track_changes(True)   # the modules are read at each call to a fuction (you see changes right away)
+#track_changes(False) # load modules only once (after any edit a restart of web2py is required). This makes it faster.
+
 
 #
 # first example
@@ -30,6 +72,9 @@ db.examples_thing.thing_owner.requires = IS_IN_DB(db,db.examples_person.id,'%(na
 #               second examples                       #
 #######################################################
 
+# The following is a second try to make a set of (referenced) tables which can be managed by a smartgrid
+#
+# see: two_tables, two_smart_tables,
 
 db.define_table('examples_checklist',
         Field('uuid', length=64, default=lambda: str(uuid.uuid4()), writable=False, readable=False),
@@ -130,7 +175,7 @@ db.define_table('examples_child',
         )
 db.examples_child.father_id.requires = IS_IN_DB(db, db.examples_pbase.id,'%(name)s')
 
-#if not db(db.examples_pbase.id).count()<10:
+#if not db(db.examples_pbase.id).count():
 #    id = uuid.uuid4()
 #    db.examples_pbase.insert(name="Massimo", uuid=id)
 #    db.examples_child.insert(father_id=id, name="Chair")
@@ -146,7 +191,12 @@ db.examples_child.father_id.requires = IS_IN_DB(db, db.examples_pbase.id,'%(name
 #    redefine=k_redefine,
 #    )
 
-# from book
+###################################
+# Smartgrid and referenced tables #
+###################################
+
+# from book: the use of a smartgrid!!
+# see: parentmanager
 db.define_table('parent',Field('name', requires=IS_NOT_EMPTY()), format='%(name)s')
 db.define_table('child',
                 Field('name'),
@@ -164,3 +214,63 @@ db.define_table('job',
                 Field('salary', type = 'integer'),
                 Field('parent','reference parent', requires=IS_IN_DB(db, db.parent.id, '%(name)s',))
                 )
+
+##################################################################
+# show a field dependig on a switch (possibly in the same table) #
+##################################################################
+
+# see: showbooleffect()
+db.define_table('examples_booltest',
+                Field('name', requires = IS_NOT_EMPTY()),
+                Field('showbool', type = 'boolean', default= 'off', label = 'shwo more info'),
+                Field('moreinfo1', default = 'more ...'),
+                Field('moreinfo2', default = '... info'),
+                )
+
+###############
+# field types #
+###############
+
+# drop/prepopulate and simple queries
+# http://www.web2pyref.com/reference/field-type-database-field-types
+# # see: show_examples_fieldtypenquery, populate_examples_fieldtypenquery
+db.define_table('examples_fieldtypenquery2',
+                Field('my_string',        type = 'string', requires = IS_NOT_EMPTY()), #IS_LENGTH(length) default length is 512
+                Field('my_text',          type = 'text'),        # IS_LENGTH(65536)
+                Field('my_blob',          type = 'blob'),        # None
+                Field('my_boolean',       type='boolean'),       # None
+                Field('my_intnum',        type='integer'),       # IS_INT_IN_RANGE(-1e100, 1e100)
+                Field('my_double',        type='double'),        # IS_FLOAT_IN_RANGE(-1e100, 1e100)
+                Field('my_decimal',       type='decimal(0,10)'),  # IS_DECIMAL_IN_RANGE(-1e100, 1e100)
+                Field('my_date',          type='date'),          # IS_DATE()
+                Field('my_time',          type='time'),          # IS_TIME()
+                Field('my_datetime',      type='datetime'),      # IS_DATETIME()
+                Field('my_password',      type='password'),      # None
+                Field('my_upload',        type='upload'),        # None
+#                Field('my_reference <table>', type='reference <table>'), # IS_IN_DB(db,table.field,format)
+                Field('my_list_string',   type='list:string'),   # None
+                Field('my_list_integer',  type='list:integer'),  # None
+#                Field('my_list:reference <table>', type='list:reference <table>'), #IS_IN_DB(db,table.field,format,multiple=True)
+                #Field('my_json',          type='json'),          # IS_JSON()
+                #Field('my_bigint',        type='bigint'),        # None msw: ???
+                #Field('my_big_id',        type='big-id'),        # None msw: ???
+                #Field('my_big_reference', type='big-reference'), # None msw: ???
+                )
+
+#####################
+# Import/Export (1) #
+#####################
+
+# the book (chapter DAL)
+
+# and maybe: https://groups.google.com/forum/#!topic/web2py/b-mW4VsajR4
+#1.- Define the tables that are being pre-populate.
+#2.- Insert all the data with appadmin.
+#3.- Using the appadmin export the data to a .CSV (db_colors.csv) file
+#and put it in the private folder of your app.
+#4.- Do the same thing you are doing except for:
+#
+#db.color.import_from_csv_file(
+#   open(os.path.join(request.folder, os.path.join('private',
+#'db_colors.csv')), 'r')
+#)

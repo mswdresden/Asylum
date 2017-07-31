@@ -1,0 +1,55 @@
+{{extend 'layout.html'}}
+{{"""
+args, vars and env
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+
+This example shows some ways of dealing with the args, vars and env globals. Mainly how to 
+get them is used. The values are stored in the controller in local variables and then passed
+into this view only for parctising purposes. As globals are global, you can also call them directly
+in a view (although it seems to me much more structured, to do work in the controller).<br><br>
+
+Example:<br>
+ Get the controller name here:
+{{=request.controller}} <br> 
+ Get the numer of args: {{=len(request.args)}}
+
+
+
+<br>
+
+
+<br><br>
+AppConFund:<br>
+requapp: {{=requapp}} <br>
+requcon: {{=requcon}} <br>
+requfun: {{=requfun}} <br>
+
+<br><br>
+args:<br>
+arg0: {{=arg0}} <br>
+arg9999: {{=arg9999}} <br>
+arglist: {{=arglist}} <br>
+arg0different: {{=arg0different}} <br>
+
+<br><br>
+vars:<br>
+var0: {{=var0}} <br>
+vardict: {{=vardict}} <br>
+: {{#=}} <br>
+
+
+<br>
+env is big
+env:<br>
+env_path: {{=env_path}} <br>
+<br>
+env_dict: {{=env_dict}} <br>
+
+
+
+
+<br><br>
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}

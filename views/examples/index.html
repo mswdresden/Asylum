@@ -18,20 +18,11 @@ Hello World,
 
 <h4>Dealing with variables</h4>
 <b>Variables are passed from the controller to the view via a string or a dict
-returned. They can be accessed with:</b>
-{{#=}}
-
+returned. 
+<!--
 <h4></h4>
 <b></b>
-{{#=}}
-
-<h4></h4>
-<b></b>
-{{#=}}
-
-<h4></h4>
-<b></b>
-{{#=}}
+-->
 
 <h4>Go to the examples:</h4>
 <b>Click</b>
@@ -81,7 +72,13 @@ New examples:
 	<li>{{=A('manage parent', _href=(URL('examples_manage', args=['parent' ])) )}}</li>
 	
 	<li>{{=A('link tester', _href=(URL('parentmanager', args=[''    ] )) )}}</li>
-	
-	
 </ul>
+
+<h3>Links from the linklist</h3>
+{{=linklist}}<br>
+
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}
+{{pass}}
+
 

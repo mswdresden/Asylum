@@ -1,18 +1,57 @@
-#
-# examples: by msw
-#
+####################
+# examples: by msw #
+####################
+
+
+#  import things if you need them
+from gluon import * # is this really needed, as we import also in the model, hmmm?
+
+
+##########################################
+# 'Global' settings in a controller file #
+##########################################
+
+# ??? what is the convention (they are seen for this model/controller??)
+
+#  speciality of asylum app. the current language of the user is stored in the 'session' object
 if not session.my_language:
     pass
 else:
     T.force(session.my_language)
 
-# ---------------
-# you should always have a index controller
-# - controller functions (called via an URL) do NOT have parameters
+###############
+# First steps #
+###############
+
+# you should always have a 'index' controller (the default, if no fuction is given in the url)
 def index():
     # returning a dict(...) means that web2py will look for a
     # corresponding ../views/<controller>/<function>.html file and call/evaluate/render it
-    return dict()
+
+    linklist = UL(
+
+        LI(A('', 'my_first_controller', _href=URL('my_first_controller')), _class='test', _id=0),
+        LI(A('', 'callhelpers', _href=URL('callhelpers')), _class='test', _id=0),
+        LI(A('', 'test_view', _href=URL('test_view')), _class='test', _id=0),
+        LI(A('', 'pythonexamples', _href=URL('pythonexamples')), _class='test', _id=0),
+        LI('Forms:'),
+        LI(A('', 'form', _href=URL('form')), _class='test', _id=0),
+        LI(A('', 'sqlform', _href=URL('sqlfrom')), _class='test', _id=0),
+        LI(A('', 'formfactory', _href=URL('formfactory')), _class='test', _id=0),
+        LI(),
+
+        LI(A('', 'showbooleffect', _href=URL('showbooleffect')), _class='test', _id=0),
+        LI(A('', 'show_examples_fieldtypenquery', _href=URL('show_examples_fieldtypenquery')), _class='test', _id=0),
+        LI(A('', 'populate_examples_fieldtypenquery', _href=URL('populate_examples_fieldtypenquery')), _class='test', _id=0),
+        LI(A('DOES NOT WORK:', 'examples_fieldtypenquery_drop', _href=URL('examples_fieldtypenquery_drop')), _class='test', _id=0),
+        LI(A('', 'examples_request_playing', _href=URL('examples_request_playing')), _class='test', _id=0),
+        LI(A('Calling a function from a module:', 'call_foo', _href=URL('call_foo')), _class='test', _id=0),
+        LI(A('Calling a function from a module:', 'call_more_complex', _href=URL('call_more_complex')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+                )
+    return locals()
 
 
 # ---------------
@@ -26,23 +65,88 @@ def error():
 
 
 
-# --------------------
+###################
+# Python examples #
+###################
+
+# This is just a list of some python examples (how to ...)
+def pythonexamples():
+
+    # convert a list into a dict:
+    lst=('dog','cat','mouse')
+    mydict = {k: v for k, v in enumerate(lst)}
+    print "mydict:",mydict
+
+    # concatenate strings
+    h = "hello"
+    w = "world"
+    c_1 = h+w
+    c_2 = "this is the %s example of the %s" % (h,w)
+    print c_1
+    print c_2
+
+    # loop and cont at the same time
+    my_lst = ['a',9999,'hugo']
+    for i, val in enumerate(my_lst):
+        print 'number %d, value %s' % (i, val)
+
+
+    return locals()
+
+##############################################
+# Basics on controllers (an other functions) #
+##############################################
+
+# Controllers are functions. where
+# - their name refers to the calling URL
+# - they do NOT have parameters
+#
+# if controllers return a dictionary, a view.html is taken for further info
+
+# this is a controller, called via the URL "http://127.0.0.1:8000/Asylum/examples/my_first_controller
+# if it returns a string or a dict, it is rendered with the help of ../views/examples/my_first_controller.html
+def my_first_controller():
+    text_to_display = "This is my first communication with a view file, ..., hi view-file!"
+    return dict(text_to_display=text_to_display) # string
+
+# you can push variables from the action to the view via a dict
+def communication():
+    singledict = {"key": "value"}
+    return singledict # dict
+
+
+# - controller functions with parameters or which start with '__' are not callable via an URL. they are 'helpers'
+#   and must be called from within a real controller
+def foo1(tmp=9):
+    return 'foo1: the value of tmp is: %d' % tmp
+
+def __foo2():
+    return 'you called __foo2!'
+
+def callhelpers():
+    retdict = {'foo1' : foo1(), 'foo2' : __foo2()}
+    return retdict
+
+####################
+# The view helpers #
+####################
+
 # this could one day be a long example list of the web2py view helpers
 def test_view():
     a = DIV(SPAN('a', 'b'), 'c')
     code=CODE("print code",styles={'CODE':'margin: 0;padding: 5px;border: none;'})
+    markmin = MARKMIN("``abab``:custom", extra=dict(custom=lambda text: text.replace('a', 'c')))
+    textarea = TEXTAREA('hallo du schoener hase', _class="test")
+
     return locals()
 # --------------
-# called from within the view (in the 'A' section)
 def test_view_action():
     retval = "Hello World"
     return dict(retval=retval)
 
-# --------------
-# you can push variables from the action to the view via a dict
-def communication():
-    singledict = {"key": "value"}
-    return locals()
+###################
+# Forms and Grids #
+###################
 
 # --------------
 def form():
@@ -60,33 +164,15 @@ def formfactory():
     form = "Please implement code for formfactory"
     return dict(form=form)
 
-# --------------
-@auth.requires_login()
-def my_manage():
-    table = request.args(0)
-    if not table in db.tables(): redirect(URL('error'))
-    mygrid = SQLFORM.grid(db[table],args=request.args[:1])
-    return locals()
 
-# --------------
-def pythonexamples():
-    # here we have some pythonexamples
+########################################
+# Widget, redirect, session and others #
+########################################
 
-    # convert a list into a dict:
-    lst=('dog','cat','mouse')
-    mydict = {k: v for k, v in enumerate(lst)}
-    print "mydict:",mydict
-
-    # concatenate strings
-    h = "hello"
-    w = "world"
-    c_1 = h+w
-    c_2 = "this is the %s example of the %s" % (h,w)
-    print c_1
-    print c_2
-    return locals()
-
-# ------------------------
+# - create and show a SQLFORM
+# - set a black border for the form
+# - validate form and retrieve the results, store results in 'session'
+# - redirect to the next page and show results there
 def widget_examples():
 
     form = SQLFORM.factory(
@@ -150,11 +236,10 @@ def widget_examples_results():
 
 
 
-#
-# ----------------
-#
+##################################
+# 'Manually; display information #
+##################################
 
-# ---------------
 # manually display a person (give id-number as first arg: e.g. asylum/msw/display_form/2)
 # uses list_records() defined below
 # taken from book, ch 7, "Links to referencing records"
@@ -213,8 +298,10 @@ def grid_person():
     grid = SQLFORM.grid(db.examples_person)
     return locals()
 
-# --------------------
-# manage table manually using a grid, give table name as arg(0)
+##########
+# Manage #
+##########
+# manage any table using a grid, give table name as arg(0), e.g. .../<app>/<controller>/examples_manage/<table_name>
 @auth.requires_login()
 def examples_manage():
 
@@ -319,6 +406,8 @@ def display_examples_pbase():
        response.flash = 'form has errors'
    return dict(form=form)
 
+
+# from book: the use of a smartgrid!!
 # --------------------------
 def display_examples_child():
     record = db.examples_child(request.args(0)) or redirect(URL('index'))
@@ -330,7 +419,6 @@ def display_examples_child():
 
     return dict(form=form)
 
-
 @auth.requires_login()
 def parentmanager():
     #form = SQLFORM.grid(db.parent)
@@ -338,5 +426,146 @@ def parentmanager():
     #form = SQLFORM.grid(db.parent,left=db.child.on(db.child.parent==db.parent.id))
     form = SQLFORM.smartgrid(db.parent,linked_tables=['child', 'car', 'job'])
 
+    return dict(form=form)
+
+#
+# show a field dependig on a switch (possibly in the same table)
+#
+def showbooleffect():
+
+    db.examples_booltest.moreinfo1.show_if = (db.examples_booltest.showbool == True)
+    db.examples_booltest.moreinfo2.show_if = (db.examples_booltest.showbool == True)
+
+    # or try this
+    #print 'request.args:' type(request.args)
+    #print 'request.vars:' type(request.vars)
+
+
+    form = SQLFORM.grid(db.examples_booltest)
+    return locals()
+
+#
+# field types, drop/prepopulate and simple queries
+#
+def show_examples_fieldtypenquery():
+
+    form = SQLFORM.grid(db.examples_fieldtypenquery2)
+    return locals()
+
+def populate_examples_fieldtypenquery():
+
+    # ask for the number of new entries via a simple FORM
+    form = FORM('How many entries should I create:',
+              INPUT(_name='nofentries', requires=[IS_NOT_EMPTY(),IS_INT_IN_RANGE(1,1e4)]),
+              INPUT(_type='submit')
+                )
+
+    # process and validate the form, if number correct, populate table and redirect to the controller/page of this table
+    if form.process().accepted:
+        from gluon.contrib.populate import populate
+
+        populate(db.examples_fieldtypenquery2, form.vars.nofentries)
+
+        session.flash = 'entries created'
+        redirect(URL('show_examples_fieldtypenquery'))
+
+    elif form.errors: response.flash = 'form has errors'
+    else: response.flash = 'please fill the form'
+
+    # if you like, add some buttons just because you know how to do it
+    form.add_button('Index', URL('index'))
+    form.add_button('web2py', 'http://www.web2py.com')
+
+    return dict(form=form)
+
+def examples_fieldtypenquery_drop():
+    # something strange with 'drop'. i can drop the table, however the data seems to still be there. this could be
+    # due to the comment below. removing files like "examples_fieldtypenquery.table does not seem to have an effect:
+    # the data is still in the browser (cache?). running the fuction again gives a very bad ticket and sais:
+    # OperationalError: table "examples_fieldtypenquery" already exists
+    # my suspicion is, that the list:integer fields use some workaround to emulate their behaviour - and this
+    # seem to still have some 'remnants' to the 'droped' table.
+    # please investigate this further, as it is not good to not be able to drop a table
+
+    # drop the table
+    #if db(db.examples_fieldtypenquery.id).count() > 3:
+    #    db.examples_fieldtypenquery.drop()
+
+    # ... however (see book, chapter DAL): Note for sqlite: web2py will not re-create the dropped table until you
+    # navigate the file system to the databases directory of your app, and delete the file associated
+    # with the dropped table.
+
+    import os
+    cwd = os.getcwd() # get current working directory
+    print cwd
+    #db_filename =
+
+    #os.remove(db_filename)
+
+#
+# request.args and request.vars
+#
+
+# - request.args is a list, args follow after main path a/c/f/arg0/arg1/arg0
+# - request.vars is a dictionary. they follow after a '?' (questionmark), like ...?var0=9
+# - request.args[i] raises exception while request.args(i) returns 'None'
+
+def examples_request_playing():
+
+    # you always get this info (however, in most cases you should know where you are)
+    requapp = request.application
+    requcon = request.controller
+    requfun = request.function
+
+    arg0=-999
+    arg9999 = -999
+    arglist = []
+    arg0different = -999
+
+    if request.args(0)==None:
+        print 'you have no request.arg entries'
+    else:
+        print request.args
+        arg0 = request.args(0)
+        arg9999 = request.args(9999) # None
+        #arg9999 = request.args[9999]  # if you use [9999] you get a ticket
+        arg0different = request.args[:1]
+        for a in request.args:
+            arglist.append(a)
+
+    var0 = -999
+    vardict = request.vars
+
+    if len(request.vars)<=0:
+        print 'you have no request.vars'
+    else:
+        #var0 = request.vars(0) #makes no sense, as dicts have no order
+        for key, value in request.vars.iteritems():
+            print 'key=%s, value=%s' % (key,value)
+
+
+
+    ## and there is the request.env object:
+    env_path = request.env.path_info
+    env_dict = request.env
+
+    return locals()
+
+#
+# writing your own modules
+#
+
+# place a file in ../modules/<examples_module>.py
+#    - import gluon stuff: from gluon import *
+#    - write fuctions/classes: def foo(): return 'hello world'
+#
+# include and use it:
+import examples_module
+
+def call_foo():
+    return examples_module.foo()
+
+def call_more_complex():
+    form = examples_module.more_complex()
     return dict(form=form)
 

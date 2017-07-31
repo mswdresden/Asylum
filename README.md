@@ -212,10 +212,31 @@ web2py course by Massimo (some parts, here part 2)
  - part2: 
  	-- up to 48:30 tour through the code (web2py files)
 	-- 48:30 DAL create tables and queries
-	-- 1:27:00 rebuilding a reddit application
+	-- 1:27:00 rebuilding a reddit application (Reddit Clone)
  - part 3:
+ 	-- 0:00:00 (cont) Reddit Clone
+	-- 1:00.20 Template language of web2py
+		--- 1:01:00 basics of view HTML ... globals, python code, loops,
+			'socket timeout'=='most probably bracket missing', bracket-rules,
+			response.write, define functions in views, freaking use of
+			HTML in functions (loop with different font sizes), div (header, footer, content),
+			layout-file, extend, include, response.flash, ajax and flash-messages,
+		--- 1:15:00 tour through layout.html 
+		--- 1:27:00 menue.py
+		1:28:30 blocks (e.g. left side bar)
+	-- 1:31:50 a new app: surverys
+		--- uuid, 
+		--- 1:37:30 web2py UUID!! (is this important?)
+		--- 1:42:00 loop in selfsubmitting form, count, and stuff + radio_button
+		--- class "well" in a radio-button	
+		--- 1:53:00 represents!		
+		--- 			
+			
+		--- 
+	-- 
  - part 4:
  	-- 00:00:00 tasks in todo lists
+	-- 00:08:30 record versioning
 	-- 2:08:05 populating databases with example junk
  
 
