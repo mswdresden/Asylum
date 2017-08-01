@@ -1,0 +1,12 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>This is a SQLFORM showing the table {{=form.vars.db}}</h2>
+{{=form}}
+
+<br><br><br>
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
+<br><br><br>

@@ -202,7 +202,7 @@ git pull upstream master # this should do the job?!
 Documentation of the code
 - http://web2py.readthedocs.io/en/latest/dal.html
 
-web-course (7 parts) on web2py
+web-course (7 parts) on web2py 
 - https://www.youtube.com/watch?v=bW9lpN95zwQ&index=5&list=PL5E2E223FE3777851
 
 web2py course by Massimo (some parts, here part 2)
@@ -239,8 +239,10 @@ web2py course by Massimo (some parts, here part 2)
 	-- 00:08:30 record versioning
 	-- 2:08:05 populating databases with example junk
  
-
+- exporting: http://rootpy.com/Export-in-SQLFORM-grid/
  
+- database tutorial: http://www.pyguy.com/web2py/web2py-one-to-many-database-tutorial/
+
 
 ### Sahana Eden
 

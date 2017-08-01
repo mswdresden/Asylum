@@ -5,6 +5,8 @@ You should not modify this file.
 It is used as default when a view is not provided for your controllers
 
 """}}
+
+<h3>THIS IS THE DEFAULT VIEW - please make a custom one for your function!</h3>
 <h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
 {{if len(response._vars)==1:}}
 {{=BEAUTIFY(response._vars[next(iter(response._vars))])}}

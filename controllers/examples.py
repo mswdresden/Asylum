@@ -36,10 +36,18 @@ def index():
         LI(A('', 'pythonexamples', _href=URL('pythonexamples')), _class='test', _id=0),
         LI('Forms:'),
         LI(A('', 'form', _href=URL('form')), _class='test', _id=0),
-        LI(A('', 'sqlform', _href=URL('sqlfrom')), _class='test', _id=0),
+        LI(A('', 'sqlform', _href=URL('sqlform')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        LI(A('', 'sqlform_basic', _href=URL('sqlform_basic')), _class='well', _id=0),
+        LI(A('', 'sqlform_v1', _href=URL('sqlform_v1')), _class='well', _id=0),
+
         LI(A('', 'formfactory', _href=URL('formfactory')), _class='test', _id=0),
         LI(),
+        LI(A('Truncate tables for smartgrid test:', 'trunc_n_fill?trunc=True', _href=URL('trunc_n_fill?', vars={'trunc':'True'})), _class='test', _id=0),
+        LI(A('Fill tables for smartgrid test:', 'trunc_n_fill?trunc=False', _href=URL('trunc_n_fill', vars={'trunc': 'False'})), _class='test', _id=0),
+        LI(A('Show smartgrid', 'smartgrid_pbase', _href=URL('smartgrid_pbase')), _class='test', _id=0),
 
+        LI(),
         LI(A('', 'showbooleffect', _href=URL('showbooleffect')), _class='test', _id=0),
         LI(A('', 'show_examples_fieldtypenquery', _href=URL('show_examples_fieldtypenquery')), _class='test', _id=0),
         LI(A('', 'populate_examples_fieldtypenquery', _href=URL('populate_examples_fieldtypenquery')), _class='test', _id=0),
@@ -47,8 +55,15 @@ def index():
         LI(A('', 'examples_request_playing', _href=URL('examples_request_playing')), _class='test', _id=0),
         LI(A('Calling a function from a module:', 'call_foo', _href=URL('call_foo')), _class='test', _id=0),
         LI(A('Calling a function from a module:', 'call_more_complex', _href=URL('call_more_complex')), _class='test', _id=0),
+        LI(A('', 'validatorwidget', _href=URL('validatorwidget')), _class='test', _id=0),
+        LI(A('', 'fieldplay', _href=URL('fieldplay')), _class='test', _id=0),
+        LI(A('', 'query_set_rows', _href=URL('query_set_rows')), _class='test', _id=0),
+        LI(A('', 'autoinsert', _href=URL('autoinsert')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
-
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
                 )
     return locals()
@@ -89,7 +104,6 @@ def pythonexamples():
     my_lst = ['a',9999,'hugo']
     for i, val in enumerate(my_lst):
         print 'number %d, value %s' % (i, val)
-
 
     return locals()
 
@@ -144,9 +158,9 @@ def test_view_action():
     retval = "Hello World"
     return dict(retval=retval)
 
-###################
-# Forms and Grids #
-###################
+###########################
+# Form, SQLFORM and Grids #
+###########################
 
 # --------------
 def form():
@@ -155,9 +169,95 @@ def form():
     return dict(form=form)
 
 # --------------
-def sqlfrom():
-    form = "Please implement code for sqlform"
+def sqlform_basic():
+    # the full signature of a SQLFORM is:
+    #SQLFORM(table, record=None,
+    #    deletable=False, linkto=None,
+    #    upload=None, fields=None, labels=None,
+    #    col3={}, submit_button='Submit',
+    #    delete_label='Check to delete:',
+    #    showid=True, readonly=False,
+    #    comments=True, keepopts=[],
+    #    ignore_rw=False, record_id=None,
+    #    formstyle='table3cols',
+    #    buttons=['submit'], separator=': ',
+    #    **attributes)
+
+    # therefore, the simples way to use a SQLFORM is to create it and return it as a dictionary
+    # to the view (../views/examples/sqlform_basic.html)
+    form = SQLFORM(db.examples_person)
+
+    # as you do not define anything to do after something is submitted, the form just shows
+    # itself and 'selfsubmits' on submission (goes to the same URL again)
     return dict(form=form)
+
+# --------------
+def sqlform_v1():
+    # the full signature of a SQLFORM is:
+    #SQLFORM(table, record=None,
+    #    deletable=False, linkto=None,
+    #    upload=None, fields=None, labels=None,
+    #    col3={}, submit_button='Submit',
+    #    delete_label='Check to delete:',
+    #    showid=True, readonly=False,
+    #    comments=True, keepopts=[],
+    #    ignore_rw=False, record_id=None,
+    #    formstyle='table3cols',
+    #    buttons=['submit'], separator=': ',
+    #    **attributes)
+
+    print 'request.args(0)=', request.args(0)
+    print 'db.examples_person(request.args(0))', db.examples_person(request.args(0))
+
+    url = URL('download')
+    link = URL('list_records', args='db')
+
+    form = SQLFORM(db.examples_person,
+                   # record defines kind of the type of your form
+                   #record=None,    # this is only a input form
+                   # now it's an update form, if a number (person_id) is given in the UPL (e.g. .../sqlform_v1/1)
+                   #record=db.examples_person(request.args(0) or redirect(URL('index'))),
+                   record=db.examples_person(request.args(0)), # this should work for insert and update, correct?
+                   #record=5, # this sets the 5'th data-set (kind of hardcoded)
+
+                   deletable=True, # this makes delete checkbox
+
+                   linkto=link, #links to the URL of the list_records funciton
+
+                   # upload needs a download fuction! the reason seems to be, that upload/download is so much individual
+                   # that web2py does not have one included. to make it work you need three things:
+                   # - the field must be defined as upload field in the table (model)
+                   # - the upload variable here must name an function
+                   # - there needs to be a function in this controller, named as the entry here
+                   upload=URL('download'),
+                   #fields=None, labels=None,
+                   #    col3={},
+                   #submit_button='Submit this form',
+                   #    delete_label='Check to delete:',
+                   #    showid=True, readonly=False,
+                   #    comments=True, keepopts=[],
+                   #    ignore_rw=False, record_id=None,
+                   #    formstyle='table3cols',
+                   #    buttons=['submit'], separator=': ',
+                   #    **attributes)
+                   )
+
+    # process the form and do things according to what has happened
+    if form.process(keepvalues=True).accepted:
+        name = form.vars.name # all info of the form is stored in <formname>.vars
+        response.flash = 'form accepted! Hi %s' % name
+
+    elif form.errors:
+        response.flash = 'form contains errors'
+    else:
+        response.flash = 'please fill the form'
+
+    return dict(form=form)
+
+# define a download function for SQLFORMS to use
+def download():
+    return response.download(request, db)
+
 
 # --------------
 def formfactory():
@@ -419,6 +519,7 @@ def display_examples_child():
 
     return dict(form=form)
 
+
 @auth.requires_login()
 def parentmanager():
     #form = SQLFORM.grid(db.parent)
@@ -427,6 +528,72 @@ def parentmanager():
     form = SQLFORM.smartgrid(db.parent,linked_tables=['child', 'car', 'job'])
 
     return dict(form=form)
+
+
+# --------------------
+# truncate data from some tables or create new example data
+def trunc_n_fill():
+
+    if len(request.vars)<=0:
+        request.flash = 'you need var: trunc==True'
+        session.flash = 'you need var: trunc==True'
+        print 'you need var: trunc==True'
+    else:
+        trunc=request.vars.trunc
+        print 'trunc=', trunc
+        print 'type(trunc)=', type(trunc)
+
+        if trunc=='True':
+            db.examples_pbase.truncate()
+            db.examples_checklist.truncate()
+            db.examples_mobility.truncate()
+            db.examples_edu.truncate()
+            db.examples_housing.truncate()
+            db.examples_child.truncate()
+        else:
+            db.examples_pbase.insert(name='Amir1', firstname="Abu1", fullname='Abu Amir 1', zab='012345')
+            db.examples_pbase.insert(name='Amir2', firstname="Abu2", fullname='Abu Amir 2', zab='012346')
+            db.examples_pbase.insert(name='Amir3', firstname="Abu3", fullname='Abu Amir 3', zab='012347')
+
+            db.examples_checklist.insert(name='Abu Amir', pbase_id=1, moveindate='2017-05-05',dezi='On', mailbox_labeled=False)
+            db.examples_checklist.insert(name='Baba Basu', pbase_id=2, moveindate='2014-05-05', dezi=True, mailbox_labeled=False)
+            db.examples_checklist.insert(name='Charly Cheen', pbase_id=3, moveindate='2011-01-02', dezi=True, mailbox_labeled='On')
+
+            db.examples_mobility.insert(name='Abu Amir', pbase_id=1, ticket=True, expires='2017-09-16')
+            db.examples_mobility.insert(name='autoset', pbase_id=2, ticket=False, expires='2017-10-16')
+            db.examples_mobility.insert(name='autoset', pbase_id=3, ticket=True, expires='2018-05-20')
+
+            db.examples_edu.insert(name='Abu Amir', pbase_id=1, job='Worker' , edu='none', german='A0')
+            db.examples_edu.insert(name='autoset', pbase_id=2, job='Nurse'  , edu='elementary', german='B1')
+            db.examples_edu.insert(name='autoset', pbase_id=3, job='Student', edu='phd', german='B2')
+
+            db.examples_housing.insert(name='Abu Amir', pbase_id=1, address='Am Hang 1', landlord='LH DD', contact_address='Bergstr. 1', contact_phone='0351 1234567')
+            db.examples_housing.insert(name='autoset', pbase_id=2, address='Ind der Stadt 5', landlord='VONOVIA', contact_address='', contact_phone='111 1111111')
+            db.examples_housing.insert(name='autoset', pbase_id=3, address='Wanderweg 8', landlord='Herr Krause', contact_address='', contact_phone='')
+
+            db.examples_child.insert(name='Amir', pbase_id=1, firstname='Bob', birthdate='2011-03-03')
+            db.examples_child.insert(name='Schneider', pbase_id=2, firstname='Carla', birthdate='2011-09-13')
+            db.examples_child.insert(name='Simson', pbase_id=3, firstname='Sam', birthdate='2010-03-03')
+
+        redirect(URL('examples_manage', args=('examples_checklist')))
+
+    return 'end of trunc_n_fill controller reached'
+
+
+
+# --------------------
+# show (linked) tables of pbase together (using a smartgrid)
+@auth.requires_login()
+def smartgrid_pbase():
+
+    grid = SQLFORM.smartgrid(db.examples_pbase,
+            linked_tables=['examples_checklist','examples_mobility','examples_edu','examples_housing', 'examples_child'],
+            headers= {},
+
+            )
+
+    return locals()
+
 
 #
 # show a field dependig on a switch (possibly in the same table)
@@ -569,3 +736,117 @@ def call_more_complex():
     form = examples_module.more_complex()
     return dict(form=form)
 
+
+##################################################################
+# Validators and widgets define the behaviour of forms and grids #
+##################################################################
+
+@auth.requires_login()
+def validatorwidget():
+
+    form = SQLFORM(db.examples_validatorwidget)
+
+    return dict(form=form)
+
+##################################
+# Playing with tables and field  #
+##################################
+
+@auth.requires_login() # every fuction with grids should require (at least) login
+def fieldplay():
+    print 'you can access/change table an field things'
+    print 'list all tables, db.tables:';  print db.tables
+    print 'list all fields of a table, db.examples_fieldplay.fields:'; print db.examples_fieldplay.fields
+
+    print 'access the field attributes'
+    print 'db.examples_fieldplay.firstname.unique = ', db.examples_fieldplay.firstname.unique
+    print 'db.examples_fieldplay.secondname.default = ' ,db.examples_fieldplay.firstname.unique
+
+    print 'access the info of the parent'
+    print '_table:', db.examples_fieldplay.firstname._table
+    print '_tablename:', db.examples_fieldplay.firstname._tablename
+    print '_db:', db.examples_fieldplay.firstname._db
+
+    print 'you can use the validator of this field programatically'
+    print 'John in firstname:', db.examples_fieldplay.firstname.validate('John')
+    print 'void in firstname:', db.examples_fieldplay.firstname.validate('')
+
+
+    print 'You can truncate the table, i.e., delete all records and reset the counter of the id'
+    print db.examples_fieldplay.truncate() # in a modules you need also 'commit' (see book, chapter DAL)
+
+    print 'insert a new record'
+    print db.examples_fieldplay.insert(firstname='Dagobert')
+    print db.examples_fieldplay.insert(secondname='Duck')
+
+
+    #print 'update?' DOES NOT WORK THIS WAY!
+    #print db.examples_fieldplay.update(firstname='Dagobert Dogmata')
+
+    #
+    form = SQLFORM.grid(db.examples_fieldplay,)
+    return locals()
+
+@auth.requires_login()
+def query_set_rows():
+    # store table in an variable
+    table = db.examples_qsr
+
+    # you can store fields in variables
+    name = db.examples_qsr # long way
+    job  = table.job       # using the above created variable 'table'
+
+    # truncate ...
+    table.truncate()
+
+    # ... and fill with some data
+    table.insert(name='Peter', job='Cleaning Woman')
+    table.insert(name='Paul', job='Taxidriver')
+    table.insert(name='Mary', job='Doctor')
+
+    # you can define a query
+    q = job == 'Doctor'
+
+    # calling a db with a query creates (or better defines) a set of data ...
+    s = db(q)
+    #s = db(job == 'Doctor')
+
+    # ... and select interacts with the pysical database and returns the result as a set of rows
+    rows = s.select()
+    # you can also do all of this in one line
+    #rows = db(db.examples_qsr.job == 'Doctor').select()
+
+    print 'you can loop'
+    for row in rows:
+        print
+        row.id, row.name
+
+    print 'select only some data (e.g. only column job)'
+    rows = db(db.examples_qsr.job == 'Doctor').select(job)
+    for row in rows:
+        print "job:",  row.job
+        # print 'name:', row.name # => raise AttributeError
+
+    print 'The table attribute ALL allows you to specify all fields:'
+    for row in db().select(db.examples_qsr.ALL): print row
+
+    print 'updating a record'
+    for row in db(table.id > 0).select():
+        if row.name=='Paul':
+            row.update_record(job='web2py programmer')
+
+    # show the table in a grid
+    form = SQLFORM.grid(table)
+    return locals()
+
+@auth.requires_login()
+def autoinsert():
+    # Adding a value to the table which is computed/compused from other values in the table can
+    # be done using the 'compute' attribute and a function/lambda.
+    #
+    # as far as I understand, the value of the computed field is not always updated (probably only
+    # update in a form/grid?). if you have more complex database manipulation, look into virual fields or
+    # invent something in the onvalidate fuction of your form/grid (are these lines true or nonsense?)
+
+    form = SQLFORM.grid(db.examples_fieldplay)
+    return locals()
