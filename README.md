@@ -198,6 +198,8 @@ git pull upstream master # this should do the job?!
 - http://www.web2py.com/init/default/examples
 - http://www.gbv.de/dms/tib-ub-hannover/71533753x.pdf
 - Field types: http://www.web2pyref.com/reference/field-type-database-field-types 
+- download different bootstraps for CSS http://bootswatch.com/ 
+- some simple but important DAL examples https://joecodeswell.wordpress.com/category/web2py/
 
 Documentation of the code
 - http://web2py.readthedocs.io/en/latest/dal.html
@@ -209,6 +211,9 @@ web2py course by Massimo (some parts, here part 2)
 - https://www.youtube.com/watch?v=_4to_44DcJU
 
  - part1:
+ 	--
+	--
+ 	-- 1:59:00 second part of app2 (blog_post with comments)
  - part2: 
  	-- up to 48:30 tour through the code (web2py files)
 	-- 48:30 DAL create tables and queries
@@ -229,7 +234,8 @@ web2py course by Massimo (some parts, here part 2)
 		--- 1:37:30 web2py UUID!! (is this important?)
 		--- 1:42:00 loop in selfsubmitting form, count, and stuff + radio_button
 		--- class "well" in a radio-button	
-		--- 1:53:00 represents!		
+		--- 1:53:00 represents!	
+		--- 1:57:00 !!! costomize grids	
 		--- 			
 			
 		--- 

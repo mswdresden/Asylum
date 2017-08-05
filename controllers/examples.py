@@ -58,10 +58,13 @@ def index():
         LI(A('', 'validatorwidget', _href=URL('validatorwidget')), _class='test', _id=0),
         LI(A('', 'fieldplay', _href=URL('fieldplay')), _class='test', _id=0),
         LI(A('', 'query_set_rows', _href=URL('query_set_rows')), _class='test', _id=0),
+        LI(A('', 'girl_cat_queries', _href=URL('girl_cat_queries')), _class='test', _id=0),
+
         LI(A('', 'autoinsert', _href=URL('autoinsert')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        LI(A('', 'custom_validator', _href=URL('custom_validator')), _class='test', _id=0),
+        LI(A('', 'downbutton_manip', _href=URL('downbutton_manip')), _class='test', _id=0),
+
+
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
@@ -839,6 +842,49 @@ def query_set_rows():
     form = SQLFORM.grid(table)
     return locals()
 
+#---------------------
+def girl_cat_queries():
+    print '\n ---------------------- \n girl_cat_queries()'
+
+    #db.examples_girl.truncate()
+    #db.examples_cat.truncate()
+    #return dict()
+
+    # does not work like this: print 'we have girls', db.examples_girl.id.count()
+
+    #if db.examples_girl.id.count() <=0 or 1:
+    #    db.examples_girl.insert(name='Anna')
+    #    db.examples_girl.insert(name='Berta')
+    #
+    #    db.examples_cat.insert(name='Mausi', owner_id=1)
+    #    db.examples_cat.insert(name='Mausi2', owner_id=1)
+    #    db.examples_cat.insert(name='Zorro', owner_id=2)
+    #    session.msw = 1
+
+
+    print '\nshow cats of girl with id=1'
+    for row in db(db.examples_cat.owner_id == 1).select():
+        print row.name
+
+    print '\nloop over girls and show their cats'
+    # IMPORTANTS: because of the link in 'examples_cat' to 'examples_girl', examples_girl now has a
+    # new *attribute* (examples_girl.examples_cat)
+    for girl in db().select(db.examples_girl.ALL):
+        #print girl
+        print 'girls name: ', girl.name
+        for cat in girl.examples_cat.select():
+            print '\tcat:', cat.name
+
+    print 'do a inner joint'
+    rows = db(db.examples_girl.id == db.examples_cat.owner_id).select()
+    for row in rows:
+        #print row
+        print row.examples_girl.name,  ' has cat ', row.examples_cat.name
+
+    return dict()
+
+
+#---------------------
 @auth.requires_login()
 def autoinsert():
     # Adding a value to the table which is computed/compused from other values in the table can
@@ -849,4 +895,52 @@ def autoinsert():
     # invent something in the onvalidate fuction of your form/grid (are these lines true or nonsense?)
 
     form = SQLFORM.grid(db.examples_fieldplay)
+    return locals()
+
+####################
+# Custom Validator #
+####################
+
+def custom_validator():
+
+    id = db.examples_atable.insert(astring='hallo msw')
+    row = db.examples_atable[id]
+    # print '1:', db.examples_atable.formatter(row.astring)
+    #print '2:', row.astring
+
+    form = SQLFORM(db.examples_atable,
+                   #record=1
+                   )
+
+    if form.process().accepted:
+        response.flash = 'cool'
+    elif form.errors:
+        response.flash = 'errors'
+    else: response.flash = 'please fill the form'
+
+    return locals()
+
+################################################
+# Changing the default grid buttons for export #
+################################################
+
+def downbutton_manip():
+
+    # 1. to remove one or more download buttons from the dafault grid,
+    # give the grid contructor a dict like this
+    export_classes = dict(
+                        #csv=False # <= this will be shown
+                        csv_with_hidden_cols=False, tsv=False, html=False,
+                        tsv_with_hidden_cols=False, json=False, xml=False)
+
+    form = SQLFORM.grid(db.examples_dog,
+                        exportclasses = export_classes,
+    )
+
+    # 2. You can move the button alongside to the upper right (besides search) by
+    # putting a script into the view file (see: downbutton_manip.html)
+    # see: http://rootpy.com/Export-in-SQLFORM-grid/
+
+    # 3. how to manipulate the export and the do import, please insert here some examples/explanations
+
     return locals()

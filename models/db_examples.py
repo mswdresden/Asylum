@@ -3,10 +3,9 @@
 ################################################################
 
 # allways start with including everything from gluon
-from gluon import *
-
-# further imports
 import uuid # this is needed for the creation of an uuid
+
+from gluon import *
 
 #######################
 # General Information #
@@ -166,11 +165,6 @@ db.define_table('examples_child',
 
 db.examples_child.pbase_id.requires = IS_IN_DB(db, db.examples_pbase.id,'%(name)s')
 
-#if not db(db.examples_pbase.id).count():
-#    id = uuid.uuid4()
-#    db.examples_pbase.insert(name="Massimo", uuid=id)
-#    db.examples_child.insert(father_id=id, name="Chair")
-
 
 # ------------------
 # skelleton
@@ -247,6 +241,19 @@ db.define_table('examples_fieldtypenquery2',
                 #Field('my_big_id',        type='big-id'),        # None msw: ???
                 #Field('my_big_reference', type='big-reference'), # None msw: ???
                 )
+###############################
+# Looping over girls and cats #
+###############################
+
+db.define_table('examples_girl',
+                Field('name'),
+                format='%(name)s')
+db.define_table('examples_cat',
+                Field('name'),
+                Field('owner_id', 'reference examples_girl'),
+                format='%(name)s')
+
+
 
 ##################################################################
 # Validators and widgets define the behaviour of forms and grids #
@@ -306,3 +313,23 @@ db.define_table('examples_qsr',
 #   open(os.path.join(request.folder, os.path.join('private',
 #'db_colors.csv')), 'r')
 #)
+
+
+####################
+# Custom Validator #
+####################
+
+# Custom validators can be defined in the model file. However, since many validators will be of use also in
+# different models, it probably is 'cleaner' to define all of them in another file. here we
+# use ../models/customvalidators.py (see code of the two new validators there)
+#
+
+# import custom validators
+from customvalidators import IS_ISALPHA_MSW
+from customvalidators import IS_IBAN_CUSTOM
+
+# test them using this table
+db.define_table('examples_atable',
+       Field('astring', 'string', requires=IS_ISALPHA_MSW()),
+       Field('iban', 'string', requires=IS_IBAN_CUSTOM()),
+                )

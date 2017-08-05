@@ -58,6 +58,10 @@ def _():
 
         ],
         ),
+        (T('Asyl'), False, '#', [
+            (T('index'), False, URL('asyl', 'index')),
+            ]
+        ),
         (T('Examples'),False, URL('Asylum','examples','index')),
         (T('Language'), False, URL('Asylum', 'default', 'my_language')),
         ('Wiki', False, URL('Asylum', 'default', 'wiki')),
