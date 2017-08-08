@@ -1,10 +1,9 @@
 {{extend 'layout.html'}}
 {{"""
-Some Info
+Error view for Asyl
 """}}
 <h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
-{{=grid}}
-
+{{=DIV(CENTER(B(I(err_mes))))}}
 
 <!-- show more info for development -->
 {{=BR()*3}}

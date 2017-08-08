@@ -2,12 +2,10 @@
 {{"""
 Some Info
 """}}
-<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
-{{=form}}
-
-{{ if 'examples_standardstring' in globals():}}
-{{=CENTER(B(I(examples_standardstring)))}}<br>
-{{pass}}
+<h2>{{=T('Basic Info')}}:{{=iname}}</h2>
+{{=linklist}}<br>
+{{=form}}<br>
+{{=linklist}}<br>
 
 <!-- show more info for development -->
 {{=BR()*3}}

@@ -48,18 +48,18 @@ def _():
     # useful links to internal and external resources
     # ------------------------------------------------------------------------------------------------------------------
     response.menu = [
-        (T('Asylum'), False, '#', [
-            (T('index'), False, URL('asylum','index')),
-            (T('show_pbase'), False, URL('asylum', 'show_pbase')),
-            (T('create_pbase'), False, URL('asylum', 'create_pbase')),
-            (T('grid1_pbase'), False, URL('asylum', 'grid1_pbase')),
-            (T('grid_healthinsurance'), False, URL('asylum', 'grid_healthinsurance')),
-            (T('grid_housing'), False, URL('asylum', 'grid_housing')),
-
-        ],
-        ),
+        #(T('Asylum'), False, '#', [
+        #    (T('index'), False, URL('asylum','index')),
+        #    (T('show_pbase'), False, URL('asylum', 'show_pbase')),
+        #    (T('create_pbase'), False, URL('asylum', 'create_pbase')),
+        #    (T('grid1_pbase'), False, URL('asylum', 'grid1_pbase')),
+        #    (T('grid_healthinsurance'), False, URL('asylum', 'grid_healthinsurance')),
+        #    (T('grid_housing'), False, URL('asylum', 'grid_housing')),
+        #],
+        #),
         (T('Asyl'), False, '#', [
             (T('index'), False, URL('asyl', 'index')),
+            (T('Asylum People'), False, URL('asyl', 'asyl_pbasegrid')),
             ]
         ),
         (T('Examples'),False, URL('Asylum','examples','index')),

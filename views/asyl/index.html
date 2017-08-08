@@ -4,20 +4,26 @@ Some Info
 """}}
 <h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
 
-<div>
-{{=linklist1}}
+<div class="well">
+{{=T('Create/Edit Asylum data of Persons')}}:<br>
+{{=linklist2}}
 </div>
 
 <div class="well">
-{{=linklist2}}
-<div>
+{{=T('Management tools')}}:<br>
+{{=linklist1}}
+</div>
 
-{{ if 'examples_standardstring' in globals():}}
-{{=CENTER(B(I(examples_standardstring)))}}<br>
-{{pass}}
+
+
+<div class="well">
+{{=T('Development tools')}}:<br>
+{{=linklist3}}<br>
+</div>
+
 
 <!-- show more info for development -->
-{{=BR()*3}}
+{{=BR()*5}}
 {{if request.is_local:}}
 {{=response.toolbar()}}
 {{pass}}

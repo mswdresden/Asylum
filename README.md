@@ -671,3 +671,19 @@ You can use it for developer mode as well for installing libraries and configuri
 #other links (temp)
 importing problems: https://groups.google.com/forum/#!searchin/sahana-eden/import$20data%7Csort:relevance/sahana-eden/mkzawV_O4FA/vy3Km4cXAgAJ
 https://groups.google.com/forum/#!topic/sahana-eden/ikhl2dRqJGU%5B1-25%5D
+
+
+---
+07.08.2017
+- adding a new datatable
+-- add the table in the model (set uuid, name, firstname, internalname and identno)
+   do not forget the reference to the pbase auth.signature and the format.
+-- add the 'if msw_dev == 0:' if in order to make all the internal things readbale=writable=False
+   if not in development mode (edit the table name accordingly)
+-- add a manager link in index -> test it
+-- add controllers: show_<newtable> and view   
+-- add inserting/updating data in oncreate and onupdate
+-- add lambda link in asyl_pbasegrid
+-- add truncate to truncate function
+-- add button to __nav_bottons
+   

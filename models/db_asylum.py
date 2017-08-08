@@ -201,7 +201,7 @@ db.define_table('asylum_edu',
     Field('languages', requires=IS_IN_SET(
         [T('English'),T('French'),T('German'),T('Arabic (standard)'),T('Arabic (local)'),
                               T('Russian'),T('Farsi'), T('Dutch'),T('Italian'), T('Bantu'),T('Chinese'),], multiple=True),
-         label=T('Languages'), comment=T('The Languages spoken (min. at basic level)')),
+         label=T('Languages'), comment=T('The Languages spoken')),
 
     auth.signature,
     format='%(name)s',

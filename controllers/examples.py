@@ -103,6 +103,10 @@ def pythonexamples():
     print c_1
     print c_2
 
+    # simple for loop
+    for x in range(0, 3):
+        print x
+
     # loop and cont at the same time
     my_lst = ['a',9999,'hugo']
     for i, val in enumerate(my_lst):
@@ -154,6 +158,21 @@ def test_view():
     code=CODE("print code",styles={'CODE':'margin: 0;padding: 5px;border: none;'})
     markmin = MARKMIN("``abab``:custom", extra=dict(custom=lambda text: text.replace('a', 'c')))
     textarea = TEXTAREA('hallo du schoener hase', _class="test")
+
+    #input0 = INPUT(_name='input0', _value='a', value='b') # ???
+
+    form = FORM('Your name:', INPUT(_name='name'), INPUT(_type='submit'))
+
+    link0 = A('go to index', _href=URL('index'))
+    link1 = A('what does the callback thing do?', callback=URL('index'), target="t")
+    link2 = A('Button?', _href=URL('index'), _class="btn")
+    link3 = A('Default?', _href=URL('index'), _class="btn btn-default")
+    link4 = A('Primary', _href=URL('index'), _class="btn btn-primary")
+    link5 = A('Success', _href=URL('index'), _class="btn btn-success")
+    link6 = A('Info', _href=URL('index'), _class="btn btn-info")
+    link7 = A('Warning', _href=URL('index'), _class="btn btn-warning")
+    link8 = A('Danger', _href=URL('index'), _class="btn btn-danger")
+    link9 = A('Link', _href=URL('index'), _class="btn btn-link")
 
     return locals()
 # --------------
