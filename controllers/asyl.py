@@ -74,14 +74,10 @@ def index():
 # with am error function defined, you can allways redirect(URL('error'))
 def error():
 
-    #for key, value in request.vars.iteritems():
-    #    print key
-    #    print value
-    #print  request.vars.message
+    tmp = request.vars.message or 'There was an error (but no error message given)'
+    message = T("Error: %s") % (tmp)
 
-    message = T("Error: %s" % (request.vars.message))
     response.flash = message
-
     err_mes = T(message)
     return dict(err_mes=err_mes)
 

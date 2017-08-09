@@ -2,81 +2,14 @@
 {{"""
 <h1>Examples</h1>
 """}}
-<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
-<h4>Plain text</h4>
-<b>Plain text (HTML) is rendered as if you wirte in a standard HTML file</b>
-Hello World,
- this is going to be 
- all in one line.
-
-<h4>Using HTML</h4>
-<b>Just use HTML (HTML syntax is regarded to be 'standard knowledge' in web2py</b>
-<ul>
-	<li><a href="http://www.web2py.com" target="_blank">Link to web2py</a></li>
-	<li><b> bold text</b> ... </li>
-</ul>	
-
-<h4>Dealing with variables</h4>
-<b>Variables are passed from the controller to the view via a string or a dict
-returned. 
-<!--
-<h4></h4>
-<b></b>
--->
+<h2>Examples</h2>
 
 <h4>Go to the examples:</h4>
-<b>Click</b>
-<ul>
-	<li>{{=A(T("This default controller"), _href=URL())}}</li>
-	<li>{{=A(T("Error")                  , _href=URL('error') ) }}</li>
-	<li>{{=A(T("test_view"              ), _href=URL('test_view') ) }}</li>
-	
-	<li>{{=A(T('communication'), _href=(URL('communication')) )}}</li>
-	<li>{{=A(T('form'), _href=(URL('form')) )}}</li>
-	<li>{{=A(T('sqlfrom'), _href=(URL('sqlfrom')) )}}</li>
-	<li>{{=A(T('formfactory'), _href=(URL('formfactory')) )}}</li>
-	<li>{{=A(T('grid'), _href=(URL('grid')) )}}</li>	
-	<li>{{=A(T('pythonexamples'), _href=(URL('pythonexamples')) )}}</li>
-	<li>{{=A(T('widget_examples'), _href=(URL('widget_examples')) )}}</li>
-	<li>{{=A(T('widget_examples_results'), _href=(URL('widget_examples_results')) )}}</li>
-	<li>{{=A(T(''), _href=(URL('')) )}}</li>
-	
-	
-</ul>
-
-<ul>	
-	<li>{{=A('display_form'			 , _href=(URL('display_form/4' 			)) )}}</li>
-	<li>{{=A('grid_person'			 , _href=(URL('grid_person'		  		)) )}}</li>
-	<li>{{=A('manage/<tablename>'    , _href=(URL('examples_manage', args=['examples_dog'])) )}} (examples_dog)</li>
-	<li>{{=A('person_and_dog'		 , _href=(URL('person_and_dog'			)) )}}</li>
-	<li>{{=A('person_and_dog_smart'	 , _href=(URL('person_and_dog_smart'	)) )}}</li>
-	<li>{{=A('person_dog_thing_smart', _href=(URL('person_dog_thing_smart'	)) )}}</li>
-</ul>
-
-New examples:
-<ul>	
-	<li>{{=A('manage examples_mobility ', _href=(URL('examples_manage', args=['examples_mobility'] )) )}}</li>
-	<li>{{=A('manage examples_edu	   ', _href=(URL('examples_manage', args=['examples_edu'	  ] )) )}}</li>
-	<li>{{=A('manage examples_checklist', _href=(URL('examples_manage', args=['examples_checklist'] )) )}}</li>
-	<li>{{=A('manage examples_housing  ', _href=(URL('examples_manage', args=['examples_housing'  ] )) )}}</li>
-	<li>{{=A('manage examples_child    ', _href=(URL('examples_manage', args=['examples_child'    ] )) )}}</li>
-	<li>{{=A('manage examples_human    ', _href=(URL('examples_manage', args=['examples_human'    ] )) )}}</li>
-	
-	<li></li>
-	<li>{{=A('manage examples_pbase	', _href=(URL('examples_manage', args=['examples_pbase'    ] )) )}}</li>
-	<li></li>
-	
-	<li>{{=A('manage child', _href=(URL('examples_manage', args=['child' ])) )}}</li>
-	<li>{{=A('manage car', _href=(URL('examples_manage', args=['car' ])) )}}</li>
-	<li>{{=A('manage job', _href=(URL('examples_manage', args=['job' ])) )}}</li>
-	<li>{{=A('manage parent', _href=(URL('examples_manage', args=['parent' ])) )}}</li>
-	
-	<li>{{=A('link tester', _href=(URL('parentmanager', args=[''    ] )) )}}</li>
-</ul>
 
 <h3>Links from the linklist</h3>
-{{=linklist}}<br>
+{{=linklist2}}<br>
 
+<br><br><br>
 {{ if 'examples_standardstring' in globals():}}
 {{=CENTER(B(I(examples_standardstring)))}}
 {{pass}}

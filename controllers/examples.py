@@ -70,19 +70,70 @@ def index():
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
+
                 )
+
+    linklist2 = UL(
+
+        LI(A('', 'index'			, _href=URL('index' 			   )), _class='test', _id=0),
+        LI(A('', 'error'			    , _href=URL('error' 			   )), _class='test', _id=0),
+        LI(A('', 'pythonexamples'		    , _href=URL('pythonexamples'		   )), _class='test', _id=0),
+        LI(A('', 'my_first_controller'		    , _href=URL('my_first_controller'		   )), _class='test', _id=0),
+        LI(A('', 'communication'		    , _href=URL('communication' 		   )), _class='test', _id=0),
+        LI(A('', 'callhelpers'			    , _href=URL('callhelpers'			   )), _class='test', _id=0),
+        LI(A('', 'test_view'			    , _href=URL('test_view'			   )), _class='test', _id=0),
+        LI(A('', 'test_view_action'		    , _href=URL('test_view_action'		   )), _class='test', _id=0),
+        LI(A('', 'form' 			    , _href=URL('form'  			   )), _class='test', _id=0),
+        LI(A('', 'sqlform_basic'		    , _href=URL('sqlform_basic' 		   )), _class='test', _id=0),
+        LI(A('', 'sqlform_v1'			    , _href=URL('sqlform_v1'			   )), _class='test', _id=0),
+        LI(A('', 'formfactory'			    , _href=URL('formfactory'			   )), _class='test', _id=0),
+        LI(A('', 'widget_examples'		    , _href=URL('widget_examples'		   )), _class='test', _id=0),
+        LI(A('', 'widget_examples_results'	    , _href=URL('widget_examples_results'	   )), _class='test', _id=0),
+        LI(A('', 'display_form' 		    , _href=URL('display_form'  		   )), _class='test', _id=0),
+        LI(A('', 'grid_person'			    , _href=URL('grid_person'			   )), _class='test', _id=0),
+        LI(A('', 'examples_manage'		    , _href=URL('examples_manage'		   )), _class='test', _id=0),
+        LI(A('', 'two_tables'			    , _href=URL('two_tables'			   )), _class='test', _id=0),
+        LI(A('', 'two_smart_tables'		    , _href=URL('two_smart_tables'		   )), _class='test', _id=0),
+        LI(A('', 'powermanage'			    , _href=URL('powermanage'			   )), _class='test', _id=0),
+        LI(A('', 'person_and_dog'		    , _href=URL('person_and_dog'		   )), _class='test', _id=0),
+        LI(A('', 'person_and_dog_smart' 	    , _href=URL('person_and_dog_smart'  	   )), _class='test', _id=0),
+        LI(A('', 'person_dog_thing_smart'	    , _href=URL('person_dog_thing_smart'	   )), _class='test', _id=0),
+        LI(A('', 'examples_pbase'		    , _href=URL('examples_pbase'		   )), _class='test', _id=0),
+        LI(A('', 'display_examples_pbase'   , _href=URL('display_examples_pbase')), _class ='test', _id= 0),
+        LI(A('', 'display_examples_child'	, _href=URL('display_examples_child'	   )), _class='test', _id=0),
+        LI(A('', 'parentmanager'		    , _href=URL('parentmanager' 		   )), _class='test', _id=0),
+        LI(A('', 'trunc_n_fill' 		    , _href=URL('trunc_n_fill'  		   )), _class='test', _id=0),
+        LI(A('', 'smartgrid_pbase'		    , _href=URL('smartgrid_pbase'		   )), _class='test', _id=0),
+        LI(A('', 'showbooleffect'		    , _href=URL('showbooleffect'		   )), _class='test', _id=0),
+        LI(A('', 'show_examples_fieldtypenquery'    , _href=URL('show_examples_fieldtypenquery'    )), _class='test', _id=0),
+        LI(A('', 'populate_examples_fieldtypenquery', _href=URL('populate_examples_fieldtypenquery')), _class='test', _id=0),
+        LI(A('', 'examples_fieldtypenquery_drop'    , _href=URL('examples_fieldtypenquery_drop'    )), _class='test', _id=0),
+        LI(A('', 'examples_request_playing'	    , _href=URL('examples_request_playing'	   )), _class='test', _id=0),
+        LI(A('', 'call_foo'			    , _href=URL('call_foo'			   )), _class='test', _id=0),
+        LI(A('', 'call_more_complex'		    , _href=URL('call_more_complex'		   )), _class='test', _id=0),
+        LI(A('', 'validatorwidget'		    , _href=URL('validatorwidget'		   )), _class='test', _id=0),
+        LI(A('', 'fieldplay'			    , _href=URL('fieldplay'			   )), _class='test', _id=0),
+        LI(A('', 'query_set_rows'		    , _href=URL('query_set_rows'		   )), _class='test', _id=0),
+        LI(A('', 'girl_cat_queries'		    , _href=URL('girl_cat_queries'		   )), _class='test', _id=0),
+        LI(A('', 'autoinsert'			    , _href=URL('autoinsert'			   )), _class='test', _id=0),
+        LI(A('', 'custom_validator'		    , _href=URL('custom_validator'		   )), _class='test', _id=0),
+        LI(A('', 'downbutton_manip'		    , _href=URL('downbutton_manip'		   )), _class='test', _id=0),
+        LI(A('', 'css_test'			    , _href=URL('css_test'			   )), _class='test', _id=0),
+        LI(A('', 'table_test'			    , _href=URL('table_test'			   )), _class='test', _id=0),
+    )
     return locals()
 
 
 # ---------------
 # with am error function defined, you can allways redirect(URL('error'))
 def error():
-    response.flash = "There was an error"
 
-    # msw: is there a way to retrieve here in this function an meaningful error message?
-    err_mes = T('please figure out how to write a meaningful error message from within this function')
+    tmp = request.vars.message or 'There was an error (but no error message given)'
+    message = T("Error: %s") % (tmp)
+
+    response.flash = message
+    err_mes = T(message)
     return dict(err_mes=err_mes)
-
 
 
 ###################
