@@ -63,9 +63,11 @@ def index():
         LI(A('', 'autoinsert', _href=URL('autoinsert')), _class='test', _id=0),
         LI(A('', 'custom_validator', _href=URL('custom_validator')), _class='test', _id=0),
         LI(A('', 'downbutton_manip', _href=URL('downbutton_manip')), _class='test', _id=0),
+        LI(A('', 'css_test', _href=URL('css_test')), _class='test', _id=0),
+        LI(A('', 'table_test', _href=URL('table_test')), _class='test', _id=0),
 
-
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
                 )
@@ -961,5 +963,63 @@ def downbutton_manip():
     # see: http://rootpy.com/Export-in-SQLFORM-grid/
 
     # 3. how to manipulate the export and the do import, please insert here some examples/explanations
+
+    return locals()
+
+#############
+# CSS TESTS #
+#############
+
+def css_test():
+    table = TABLE(TR('a', 'b'), TR('c', 'd'), _border="1px solid black")
+    return locals()
+
+
+##########
+# Tables #
+##########
+
+# ---------------
+def table_test():
+    # start with something simple and set a css-property (inline) as parameter
+    table0 = TABLE(TR('a', 'b'), TR('c', 'd'), _border="1px solid black")
+
+    # fill the date of the table from a list (of lists)
+    table1_data = [['Family Name', 'First Name'],
+                   ['Bertone', 'Bernardo'],
+                   ['Cesar', 'Julius'],
+                   ]
+    table1 = TABLE(TR(*table1_data[0]), TR(*table1_data[1]), TR(*table1_data[2]), _border="1px solid black")
+    table2 = TABLE(TR(*table1_data[0]), TR(*table1_data[1]), TR(*table1_data[2]), _width="100%")
+
+    # add links
+    table1_data = [[B('Family Name'), B(I('First Name'))],
+                   [A('Linker', _href=URL('index')), 'Index'],
+                   ['Cesar', 'Julius'],
+                   ]
+
+    table3 = TABLE(TR(*table1_data[0]), TR(*table1_data[1]), TR(*table1_data[2]),
+                   _width="50%", _border="2px solid black", _height="190px", )# gives ticket: _text-align="center" ??!!
+
+    # do a query and put results in table
+
+    header = ['girl name']
+    girls = []
+    rows = db(db.examples_girl).select()
+    for row in rows:
+        print row
+        print row.name
+        girls.append(row.name)
+
+    table4 = TABLE(
+                    TR(header[0]),
+                    TR(girls[0]),
+                    TR(girls[1]),
+
+                    _width="50%",
+                    _border="2px solid black",
+                    _height="90px",
+                )  # gives ticket: _text-align="center" ??!!
+
 
     return locals()

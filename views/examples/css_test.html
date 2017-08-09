@@ -1,0 +1,158 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>CSS TEST</h2>
+
+<!-- ============== -->
+<hr>
+CSS defines some style in this way:<br>
+
+&lt;style&gt;<br>
+p {<br>
+    color: red;<br>
+    text-align: center;<br>
+} <br>
+&lt;/style&gt;<br>
+<br>
+
+<p> i.e, css is to call any html tag followed with porperties using this syntax:<br> selector { property:value; } 
+CSS selectors are used to "find" (or select) HTML elements based on their element name, id, class, attribute, and more.
+</p>
+
+<!-- ============== -->
+<hr>
+Typically, you like to set some specific style not for a whole page and you like
+more than one style for some HTML element, ... so better use id-selector and ids:
+
+<style>
+#para1 {
+    color: red;
+    text-align: center;
+} 
+</style>
+
+<p id="para1"> this is red and centered </p>
+
+<!-- ============== -->
+<hr>
+You can define a class with a '.' (dot) in front of a name and then use it
+in multiple types of HTML-elements by calling this calls
+
+<style>
+.center {
+    text-align: center;
+    color: red;
+} 
+</style>
+
+
+<h3 class="center"> This is centered and red</h3>
+
+<!-- ============== -->
+<hr>
+<style>
+/* comment msw*/
+.centertest {
+    text-align: center;
+	/* comment msw*/
+    color: red;
+} 
+</style>
+comments within CSS blocks are defined between /* ... */
+
+<!-- ============== -->
+<hr>
+There are three ways to define a style:
+<ol>
+<li> external, via a 'link' in the head section:<br>
+&lt;head&gt;
+&lt;link rel="stylesheet" type="text/css" href="mystyle.css"&gt;
+&lt;/head&gt;
+</li>
+<li> internal, via code in your header block:<br>
+&lt;head&gt;<br>
+&lt;style&gt;<br>
+&nbsp;&nbsp;body {<br>
+&nbsp;&nbsp;&nbsp;&nbsp; background-color: linen;<br>
+&nbsp;&nbsp;}<br>
+&lt;/style&gt;<br>
+&lt;/head&gt;<br>
+</li>
+<li>
+inline, i.e. within a HTML-element:<br>
+&lt;h1 style="color:blue;margin-left:30px;"&gt;This is a heading&lt;/h1&gt;
+</li>
+
+<!-- ============== -->
+<hr>
+'Predefined' colors are: Red, Green, Blue, Orange, Yellow, Cyan, Black<br>
+so you can use them e.g. like:<br>
+ <h4 style="color:red"> This text is red (color names are case insensitive)<h4>
+ <br>
+ Alternatively, you can use RGB notation (style="color:rgb(0,200,55)"):<br>
+ <h4 style="color:rgb(0,200,55)"> This text is dark green (each color in rgb can be in [0,255])<h4>
+ and RGB slider and the sentence below are found here: https://www.w3schools.com/css/css_colors.asp
+<br><br>
+RGB values can also be specified using hexadecimal color values in the form: 
+#RRGGBB, where RR (red), GG (green) and BB (blue) are hexadecimal values 
+between 00 and FF (same as decimal 0-255).
+
+<!-- ============== -->
+<hr>
+Background, read this:<a href="https://www.w3schools.com/css/css_background.asp" target="_blank">https://www.w3schools.com/css/css_background.asp</a>
+
+<!-- ============== -->
+<hr>
+All on borders (a box, probably with rounded edges)): <a href="https://www.w3schools.com/css/css_border.asp" target="_blank">https://www.w3schools.com/css/css_border.asp</a>
+
+<!-- ============== -->
+<hr>
+All on margins: <a href="https://www.w3schools.com/css/css_margin.asp" target="_blank">https://www.w3schools.com/css/css_margin.asp</a>
+
+<!-- ============== -->
+<hr>
+All on padding: <a href="https://www.w3schools.com/css/css_padding.asp" target="_blank">https://www.w3schools.com/css/css_padding.asp</a>
+
+<!-- ============== -->
+<hr>
+The Box model (margin, border, padding, content): <a href="https://www.w3schools.com/css/css_boxmodel.asp" target="_blank">https://www.w3schools.com/css/css_boxmodel.asp</a>
+<!-- ============== -->
+<hr>
+: <a href="" target="_blank"></a>
+<!-- ============== -->
+<hr>
+Bootstrap icons (it's magic!?):<br><br>
+
+<p>Some Bootstrap icons:</p>
+<i class="glyphicon glyphicon-cloud"></i>
+<i class="glyphicon glyphicon-remove"></i>
+<i class="glyphicon glyphicon-user"></i>
+<i class="glyphicon glyphicon-envelope"></i>
+<i class="glyphicon glyphicon-thumbs-up"></i>
+
+
+<p>Styled Bootstrap icons (size and color):</p>
+<i class="glyphicon glyphicon-cloud" style="font-size:24px;"></i>
+<i class="glyphicon glyphicon-cloud" style="font-size:36px;"></i>
+<i class="glyphicon glyphicon-cloud" style="font-size:48px;color:red;"></i>
+<i class="glyphicon glyphicon-cloud" style="font-size:60px;color:lightblue;"></i>
+<!-- ============== -->
+<hr>
+Table, the css commands can be passed (inline) from the controller:<br>
+{{=table}}
+
+<!-- ============== -->
+<hr>
+: <a href="" target="_blank"></a>
+<!-- ============== -->
+<hr>
+: <a href="" target="_blank"></a>
+<!-- ============== -->
+<hr>
+: <a href="" target="_blank"></a>
+<!-- ============== -->
+<hr>
+: <a href="" target="_blank"></a>
+
+

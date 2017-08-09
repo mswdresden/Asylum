@@ -21,7 +21,7 @@ def index():
     if you need a simple wiki simply replace the two lines below with:
     return auth.wiki()
     """
-    return dict(message=T('Welcome to web2py - Asylum Application!'))
+    return dict(message=T('Welcome to the Afropa Databases!'))
 
 # -----------------------------
 def wiki():

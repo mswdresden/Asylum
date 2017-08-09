@@ -5,9 +5,12 @@
 # Customize your APP title, subtitle and menus here
 # ----------------------------------------------------------------------------------------------------------------------
 
-response.logo = A(B('web', SPAN(2), 'py'), XML('&trade;&nbsp;'),
-                  _class="navbar-brand", _href="http://www.web2py.com/",
-                  _id="web2py-logo")
+#response.logo = A(B('web', SPAN(2), 'py'), XML('&trade;&nbsp;'),
+#                  _class="navbar-brand", _href="http://www.web2py.com/",
+#                  _id="web2py-logo")
+
+response.logo = A(IMG(_src=URL('static', 'images/afropaLogo.png'), _height="60"), _href='http://www.afropa.org/')
+
 response.title = request.application.replace('_', ' ').title()
 response.subtitle = ''
 
@@ -48,17 +51,10 @@ def _():
     # useful links to internal and external resources
     # ------------------------------------------------------------------------------------------------------------------
     response.menu = [
-        #(T('Asylum'), False, '#', [
-        #    (T('index'), False, URL('asylum','index')),
-        #    (T('show_pbase'), False, URL('asylum', 'show_pbase')),
-        #    (T('create_pbase'), False, URL('asylum', 'create_pbase')),
-        #    (T('grid1_pbase'), False, URL('asylum', 'grid1_pbase')),
-        #    (T('grid_healthinsurance'), False, URL('asylum', 'grid_healthinsurance')),
-        #    (T('grid_housing'), False, URL('asylum', 'grid_housing')),
-        #],
-        #),
-        (T('Asyl'), False, '#', [
-            (T('index'), False, URL('asyl', 'index')),
+
+        (T('Start'), False, URL('Asylum','default', 'index')),
+        (T('Asyl'), False, URL('asyl', 'index'), [
+            (T('Index'), False, URL('asyl', 'index')),
             (T('Asylum People'), False, URL('asyl', 'asyl_pbasegrid')),
             ]
         ),

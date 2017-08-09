@@ -1,0 +1,30 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+Start with something simple and set a css-property (inline) as parameter<br>
+{{=table0}}<br>
+
+<hr>
+fill the date of the table from a list (of lists) and play with style:<br>
+{{=table1}}<br>
+{{=table2}}<br>
+
+<hr> 
+Add a link:<br>
+{{=table3}}<br>
+
+<hr> 
+Dynamically fill a table:<br>
+{{=table4}}
+
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
+
+<!-- show more info for development -->
+{{=BR()*3}}
+{{if request.is_local:}}
+{{=response.toolbar()}}
+{{pass}}
