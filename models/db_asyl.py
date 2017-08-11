@@ -15,7 +15,7 @@ msw_dev = 0
 # define helping tables                                            #
 ####################################################################
 
-# simple lists
+# simple lists (no databese needed, however, admin must edit this file to change things)
 asyl_citizenship = [T('Germany'),T('EU'),T('Albania'),T('Turkey'),T('Syria'),T('Irak'),
     T('Iran'),T('GUS'),T('Afganistan'),T('Lybia'),T('Africa (other)'),T('Europe (other)'),T('Asia (other'),
     T('Middel East'),T('America'),T('other')]
