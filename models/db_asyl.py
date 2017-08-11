@@ -16,15 +16,15 @@ msw_dev = 0
 ####################################################################
 
 # simple lists
-asylum_citizenship = [T('Germany'),T('EU'),T('Albania'),T('Turkey'),T('Syria'),T('Irak'),
+asyl_citizenship = [T('Germany'),T('EU'),T('Albania'),T('Turkey'),T('Syria'),T('Irak'),
     T('Iran'),T('GUS'),T('Afganistan'),T('Lybia'),T('Africa (other)'),T('Europe (other)'),T('Asia (other'),
     T('Middel East'),T('America'),T('other')]
 
-asylum_familyreunion = [
+asyl_familyreunion = [
         T('possibility 1'),T('possibility 2'),T('possibility 3'),T('possibility 4'),T('possibility 5'),
 ]
 
-asylum_ynu = [T('Yes'),T('No'),T('unknown')]
+asyl_ynu = [T('Yes'),T('No'),T('unknown')]
 
 poss_languages = [ (0, T('English')),
                     ( 1,T('French')),
@@ -92,12 +92,12 @@ db.define_table('asyl_pbase',
                 Field('residentstatus',type='string', length=512,
                       label=T('Residental Status'), comment=T('Current Status (you can give comments)')),
                 Field('healthinsurance',type='string', length=512,
-                      requires=IS_IN_DB(db,'asylum_healthinsurance.name', '%(name)s'),
+                      requires=IS_IN_DB(db,'asyl_healthinsurance.name', '%(name)s'),
                       label=T('Health Insurance'), comment=T('')),
                 Field('bamfid', type='string', length=15, label=T('BAMF ID'), comment=T('The BAMF identification number')),
                 Field('bankiban',type='string', requires=IS_EMPTY_OR(IS_IBAN_CUSTOM()),
                       label=T('IBAN'), comment=T('IBAN Number: e.g. DE29100500001061045672')),  # check for IBAN
-                Field('familyreunion', requires=IS_IN_SET(asylum_familyreunion),
+                Field('familyreunion', requires=IS_IN_SET(asyl_familyreunion),
                       label=T('Staus of familyreunion'), comment=T('Staus of familyreunion')),
                 Field('zab',type='integer', requires=IS_INT_IN_RANGE(0,999999)),
 
@@ -181,7 +181,7 @@ db.define_table('asyl_address',
     Field('zip',  type='integer', requires=IS_NOT_EMPTY(), label=T('ZIP'), comment=T('ZIP of the appartment')),
     Field('city', length=100, requires=IS_NOT_EMPTY(), label=T('City'), comment=T('Name of City')),
     Field('mobile', type='integer', label=T('Mobile'), comment=T('Mobile Number (this is an int!)')),
-    Field('citizenship', requires=IS_IN_SET(asylum_citizenship),
+    Field('citizenship', requires=IS_IN_SET(asyl_citizenship),
           label=T('Citizenship'), comment=T('Citizenship of this person')),
 
     Field('pbase_id','reference asyl_pbase', requires=IS_IN_DB(db,db.asyl_pbase.id,'%(name)s',)),
@@ -345,16 +345,16 @@ db.define_table('asyl_child2',
     Field('childschoolreg', type='boolean', default=False,
           label=T('Schoolregistration'), comment=T('Schoolregistration')),
 
-    Field('childkindergarden', requires=IS_IN_SET(asylum_ynu), default='unknown',
+    Field('childkindergarden', requires=IS_IN_SET(asyl_ynu), default='unknown',
           label=T('Kindergarden'), comment=T('Kindergarden')),
 
     Field('childfeefreekg', type='boolean', default=False,
           label=T('Kindergarden without payment'), comment=T('Kindergarden without payment')),
 
-    Field('childfeefreemeal', requires=IS_IN_SET(asylum_ynu), default='unknown',
+    Field('childfeefreemeal', requires=IS_IN_SET(asyl_ynu), default='unknown',
           label=T('Food without payment'), comment=T('Food without payment')),
 
-    Field('childbildungsagentur', requires=IS_IN_SET(asylum_ynu), default='unknown',
+    Field('childbildungsagentur', requires=IS_IN_SET(asyl_ynu), default='unknown',
           label=T('Bildungsagentur'), comment=T('Bildungsagentur')),
 
 
