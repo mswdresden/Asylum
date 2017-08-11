@@ -608,18 +608,15 @@ def show_examples_checklist():
     return dict(pbase_id=pbase_id,rows=rows, form=form, iname=iname)
 
 # ---------------
-# ---------------
-#@auth.requires_login()
-#def asyl_truncate():
-
 @auth.requires_login()
 def asyl_truncate():
     response.flash = 'THIS FUNCTION IS ONLY FOR DEVELOPMENT - REMOVE IN PRODUCTION!'
 
-    #form = FORM.confirm('Do you really want to truncate all asyl tables?',{'Back':URL('index')})
+    ksure = True # ONLY FOR DEVELOPMENT!
 
-    #if form.accepted or ksure==True or True:
-    if True:
+    form = FORM.confirm('Do you really want to truncate all asyl tables?',{'Back':URL('index')})
+
+    if form.accepted or ksure==True:
         #response.flash = 'web2py confirmation form accepted'
         #print 'truncate'
         db.asyl_pbase.truncate()
@@ -630,7 +627,6 @@ def asyl_truncate():
         db.asyl_mobility.truncate()
         db.asyl_child2.truncate()
 
-    #return dict(form=form)
     return locals()
 
 # -------------------
