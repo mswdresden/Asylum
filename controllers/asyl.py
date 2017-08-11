@@ -113,7 +113,7 @@ def export_import():
         if style=='export' or style=='import':
             file_name = str('./applications/Asylum/private/CSV/'+table_name+'.csv')
             if style == 'export':
-                open(file_name, 'wb').write(str(db(db['asyl_accommodation'].id).select()))
+                open(file_name, 'wb').write(str(db(db[table_name].id).select()))
                 response.flash = 'form accepted and data exported to file %s' % (file_name)
 
             elif style == 'import':
