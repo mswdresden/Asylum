@@ -67,7 +67,6 @@ def index():
         LI(A('', 'table_test', _href=URL('table_test')), _class='test', _id=0),
 
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
-        # LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
 
@@ -120,6 +119,7 @@ def index():
         LI(A('', 'downbutton_manip'		    , _href=URL('downbutton_manip'		   )), _class='test', _id=0),
         LI(A('', 'css_test'			    , _href=URL('css_test'			   )), _class='test', _id=0),
         LI(A('', 'table_test'			    , _href=URL('table_test'			   )), _class='test', _id=0),
+        LI(A('', 'examples_export_import', _href=URL('examples_export_import')), _class='test', _id=0),
     )
     return locals()
 
@@ -1072,5 +1072,69 @@ def table_test():
                     _height="90px",
                 )  # gives ticket: _text-align="center" ??!!
 
+
+    return locals()
+
+#####################
+# Export and import #
+#####################
+
+# ---------------
+@auth.requires_login()
+def examples_export_import():
+    # you can export and import easily, however, some things are to be kept in mind
+    #  - if the table does not have a uuid, all imported date will be *added*
+    #  - if rows in an imported table are the same in the sense that on two machines the same
+    #    entries where introduced manually, then of course all entries still have different uuid's
+    #    (i.e. the data will be added and you have two 'John Smith'
+    #  - if you import/export all, then really all data is menat (including user and auth data)
+    #  - you can easily drop all data by removing all files in databases (rm databases/*). then, however,
+    #    also all user/auth data is gone and you are unable to login! simply create a new user with appadmin.
+    # this is only an example, please improve for better handling of the file/path-names and stuff like that.
+
+
+    form = SQLFORM.factory(
+        Field('table_name', requires=IS_NOT_EMPTY(),
+              comment=T('ex/im: tablename, e.g. asyl_accommodation; ex/im-ALL: filename (in .../private/CSV/)')),
+        Field('ex_or_im', requires=IS_IN_SET(['export', 'import', 'export-ALL', 'import-ALL']), label='Export or Import',
+                widget = lambda field,value: SQLFORM.widgets.radio.widget(field,value, style='table')),
+
+        #Field('export_file', 'upload'))
+        #Field('query)
+        )
+
+
+    if form.process().accepted:
+        table_name= form.vars.table_name
+        style = form.vars.ex_or_im
+
+        if style=='export' or style=='import':
+            file_name = str('./applications/Asylum/private/CSV/'+table_name+'.csv')
+            if style == 'export':
+                open(file_name, 'wb').write(str(db(db[table_name].id).select()))
+                response.flash = 'form accepted and data exported to file %s' % (file_name)
+
+            elif style == 'import':
+                db[table_name].import_from_csv_file(open(file_name, 'r'))
+                response.flash = 'data imported form file %s' % (file_name)
+            else:
+                response.flash = 'verystrange in export/import'
+
+        elif style == 'export-ALL' or style == 'import-ALL':
+            file_name = str('./applications/Asylum/private/CSV/' + table_name)
+            if style == 'export-ALL':
+                db.export_to_csv_file(open(file_name, 'wb'))
+
+            elif style == 'import-ALL':
+                db.import_from_csv_file(open(file_name, 'rb'))
+            else:
+                response.flash = 'verystrange in export/import ALL'
+        else:
+            response.flash = 'verystrange in export/import (big if)'
+
+    elif form.errors:
+        response.flash = 'form has errors'
+    else:
+        response.flash = 'form shown for the fist time'
 
     return locals()
