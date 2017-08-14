@@ -3,11 +3,15 @@
 Some Info
 """}}
 <h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
-{{=my_text}}<br>
-
+{{=my_text}}
 {{=form}}
 
-<br><br>
 {{ if 'examples_standardstring' in globals():}}
 {{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
+
+<!-- show more info for development -->
+{{=BR()*3}}
+{{if request.is_local:}}
+{{=response.toolbar()}}
 {{pass}}

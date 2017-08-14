@@ -1,0 +1,27 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+{{=my_text}}<br><br>
+{{=rows}}
+{{#=SQLTABLE(rows,
+#			headers='fieldname:capitalize',
+#            truncate=100,
+#            upload=URL('download'),
+#			_width="50%",
+#			_border="2px solid black",
+#            _height="90px", 
+#			#_text_align="center", # does not work, with '_text-align' gives ticket
+#                ) 
+}}
+{{=table}}
+{{=form}}
+{{=smart}}
+
+
+
+<br><br>
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}

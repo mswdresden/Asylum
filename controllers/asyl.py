@@ -612,7 +612,7 @@ def show_examples_checklist():
 def asyl_truncate():
     response.flash = 'THIS FUNCTION IS ONLY FOR DEVELOPMENT - REMOVE IN PRODUCTION!'
 
-    ksure = True # ONLY FOR DEVELOPMENT!
+    ksure = False # ONLY FOR DEVELOPMENT!
 
     form = FORM.confirm('Do you really want to truncate all asyl tables?',{'Back':URL('index')})
 

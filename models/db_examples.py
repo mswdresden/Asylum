@@ -222,7 +222,7 @@ db.define_table('examples_booltest',
 db.define_table('examples_fieldtypenquery2',
                 Field('my_string',        type = 'string', requires = IS_NOT_EMPTY()), #IS_LENGTH(length) default length is 512
                 Field('my_text',          type = 'text'),        # IS_LENGTH(65536)
-                Field('my_blob',          type = 'blob'),        # None
+                #Field('my_blob',          type = 'blob'),        # What ist this?
                 Field('my_boolean',       type='boolean'),       # None
                 Field('my_intnum',        type='integer'),       # IS_INT_IN_RANGE(-1e100, 1e100)
                 Field('my_double',        type='double'),        # IS_FLOAT_IN_RANGE(-1e100, 1e100)
@@ -247,11 +247,16 @@ db.define_table('examples_fieldtypenquery2',
 
 db.define_table('examples_girl',
                 Field('name'),
-                format='%(name)s')
+                Field('birth', type='date'),
+                Field('school', requires=IS_IN_SET(['First School','Second School','Third School'])),
+                format='%(name)s'),
+
 db.define_table('examples_cat',
                 Field('name'),
                 Field('owner_id', 'reference examples_girl'),
-                format='%(name)s')
+                Field('doctordue', type='date'),
+                Field('color'),
+                format='%(name)s'),
 
 
 
@@ -292,27 +297,12 @@ db.examples_fieldplay._format = '%(firstname)s/%(id)s'
 # little more complex: Query, Set, Rows
 db.define_table('examples_qsr',
                 Field('name'),
-                Field('job'),
+                #Field('job', format="%(name)s's job is %(job)s"),
+                Field('job', represent = lambda job, row: str(row.name+"'s job: "+job.upper())), # represents: how to show later
+                Field('birth', type='date'),
+                Field('bike', type='boolean'),
                 )
-
-
-#####################
-# Import/Export (1) #
-#####################
-
-# the book (chapter DAL)
-
-# and maybe: https://groups.google.com/forum/#!topic/web2py/b-mW4VsajR4
-#1.- Define the tables that are being pre-populate.
-#2.- Insert all the data with appadmin.
-#3.- Using the appadmin export the data to a .CSV (db_colors.csv) file
-#and put it in the private folder of your app.
-#4.- Do the same thing you are doing except for:
-#
-#db.color.import_from_csv_file(
-#   open(os.path.join(request.folder, os.path.join('private',
-#'db_colors.csv')), 'r')
-#)
+#db.examples_qsr.name.represent = lambda name, row: name.capitalize()
 
 
 ####################
@@ -333,3 +323,15 @@ db.define_table('examples_atable',
        Field('astring', 'string', requires=IS_ISALPHA_MSW()),
        Field('iban', 'string', requires=IS_IBAN_CUSTOM()),
                 )
+#########################
+#  DAL examples massimo #
+#########################
+
+db.define_table('person',
+                Field('name'),
+                Field('phone')
+                )
+
+db.define_table('dog',
+                Field('name'),
+                Field('dog_owner', 'reference person'))

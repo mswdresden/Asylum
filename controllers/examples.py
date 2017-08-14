@@ -30,50 +30,6 @@ def index():
 
     linklist = UL(
 
-        LI(A('', 'my_first_controller', _href=URL('my_first_controller')), _class='test', _id=0),
-        LI(A('', 'callhelpers', _href=URL('callhelpers')), _class='test', _id=0),
-        LI(A('', 'test_view', _href=URL('test_view')), _class='test', _id=0),
-        LI(A('', 'pythonexamples', _href=URL('pythonexamples')), _class='test', _id=0),
-        LI('Forms:'),
-        LI(A('', 'form', _href=URL('form')), _class='test', _id=0),
-        LI(A('', 'sqlform', _href=URL('sqlform')), _class='test', _id=0),
-        # LI(A('', '', _href=URL('')), _class='test', _id=0),
-        LI(A('', 'sqlform_basic', _href=URL('sqlform_basic')), _class='well', _id=0),
-        LI(A('', 'sqlform_v1', _href=URL('sqlform_v1')), _class='well', _id=0),
-
-        LI(A('', 'formfactory', _href=URL('formfactory')), _class='test', _id=0),
-        LI(),
-        LI(A('Truncate tables for smartgrid test:', 'trunc_n_fill?trunc=True', _href=URL('trunc_n_fill?', vars={'trunc':'True'})), _class='test', _id=0),
-        LI(A('Fill tables for smartgrid test:', 'trunc_n_fill?trunc=False', _href=URL('trunc_n_fill', vars={'trunc': 'False'})), _class='test', _id=0),
-        LI(A('Show smartgrid', 'smartgrid_pbase', _href=URL('smartgrid_pbase')), _class='test', _id=0),
-
-        LI(),
-        LI(A('', 'showbooleffect', _href=URL('showbooleffect')), _class='test', _id=0),
-        LI(A('', 'show_examples_fieldtypenquery', _href=URL('show_examples_fieldtypenquery')), _class='test', _id=0),
-        LI(A('', 'populate_examples_fieldtypenquery', _href=URL('populate_examples_fieldtypenquery')), _class='test', _id=0),
-        LI(A('DOES NOT WORK:', 'examples_fieldtypenquery_drop', _href=URL('examples_fieldtypenquery_drop')), _class='test', _id=0),
-        LI(A('', 'examples_request_playing', _href=URL('examples_request_playing')), _class='test', _id=0),
-        LI(A('Calling a function from a module:', 'call_foo', _href=URL('call_foo')), _class='test', _id=0),
-        LI(A('Calling a function from a module:', 'call_more_complex', _href=URL('call_more_complex')), _class='test', _id=0),
-        LI(A('', 'validatorwidget', _href=URL('validatorwidget')), _class='test', _id=0),
-        LI(A('', 'fieldplay', _href=URL('fieldplay')), _class='test', _id=0),
-        LI(A('', 'query_set_rows', _href=URL('query_set_rows')), _class='test', _id=0),
-        LI(A('', 'girl_cat_queries', _href=URL('girl_cat_queries')), _class='test', _id=0),
-
-        LI(A('', 'autoinsert', _href=URL('autoinsert')), _class='test', _id=0),
-        LI(A('', 'custom_validator', _href=URL('custom_validator')), _class='test', _id=0),
-        LI(A('', 'downbutton_manip', _href=URL('downbutton_manip')), _class='test', _id=0),
-        LI(A('', 'css_test', _href=URL('css_test')), _class='test', _id=0),
-        LI(A('', 'table_test', _href=URL('table_test')), _class='test', _id=0),
-
-        # LI(A('', '', _href=URL('')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
-
-                )
-
-    linklist2 = UL(
-
         LI(A('', 'index'			, _href=URL('index' 			   )), _class='test', _id=0),
         LI(A('', 'error'			    , _href=URL('error' 			   )), _class='test', _id=0),
         LI(A('', 'pythonexamples'		    , _href=URL('pythonexamples'		   )), _class='test', _id=0),
@@ -104,22 +60,26 @@ def index():
         LI(A('', 'trunc_n_fill' 		    , _href=URL('trunc_n_fill'  		   )), _class='test', _id=0),
         LI(A('', 'smartgrid_pbase'		    , _href=URL('smartgrid_pbase'		   )), _class='test', _id=0),
         LI(A('', 'showbooleffect'		    , _href=URL('showbooleffect'		   )), _class='test', _id=0),
+        LI('Simple Form, prepopulating a list, dropping a list (does not work) and simple queries:'),
         LI(A('', 'show_examples_fieldtypenquery'    , _href=URL('show_examples_fieldtypenquery'    )), _class='test', _id=0),
         LI(A('', 'populate_examples_fieldtypenquery', _href=URL('populate_examples_fieldtypenquery')), _class='test', _id=0),
         LI(A('', 'examples_fieldtypenquery_drop'    , _href=URL('examples_fieldtypenquery_drop'    )), _class='test', _id=0),
+        LI('Playing with args and vars:'),
         LI(A('', 'examples_request_playing'	    , _href=URL('examples_request_playing'	   )), _class='test', _id=0),
         LI(A('', 'call_foo'			    , _href=URL('call_foo'			   )), _class='test', _id=0),
         LI(A('', 'call_more_complex'		    , _href=URL('call_more_complex'		   )), _class='test', _id=0),
         LI(A('', 'validatorwidget'		    , _href=URL('validatorwidget'		   )), _class='test', _id=0),
+        LI('Playing with tables and field'),
         LI(A('', 'fieldplay'			    , _href=URL('fieldplay'			   )), _class='test', _id=0),
         LI(A('', 'query_set_rows'		    , _href=URL('query_set_rows'		   )), _class='test', _id=0),
+        LI(A('', 'query_set_rows2'	    	, _href=URL('query_set_rows2'		   )), _class='test', _id=0),
         LI(A('', 'girl_cat_queries'		    , _href=URL('girl_cat_queries'		   )), _class='test', _id=0),
         LI(A('', 'autoinsert'			    , _href=URL('autoinsert'			   )), _class='test', _id=0),
         LI(A('', 'custom_validator'		    , _href=URL('custom_validator'		   )), _class='test', _id=0),
         LI(A('', 'downbutton_manip'		    , _href=URL('downbutton_manip'		   )), _class='test', _id=0),
-        LI(A('', 'css_test'			    , _href=URL('css_test'			   )), _class='test', _id=0),
+        LI(A('', 'css_test'			        , _href=URL('css_test'			   )), _class='test', _id=0),
         LI(A('', 'table_test'			    , _href=URL('table_test'			   )), _class='test', _id=0),
-        LI(A('', 'examples_export_import', _href=URL('examples_export_import')), _class='test', _id=0),
+        LI(A('', 'examples_export_import'   , _href=URL('examples_export_import')), _class='test', _id=0),
     )
     return locals()
 
@@ -690,11 +650,26 @@ def showbooleffect():
 # field types, drop/prepopulate and simple queries
 #
 def show_examples_fieldtypenquery():
+    my_text = MARKMIN("Example of the existing field types look into db.examples_fieldtypequery [[NEWLINE]]\
+                      - here: just show the data in a default grid [[NEWLINE]]\
+                        however: you most probably like to redirect to such a page after different 'actions' (other functions)[[NEWLINE]]\
+                        (see redirect statements in functions below)[[NEWLINE]]\
+                        [[NEWLINE]]\
+                      - You can also do a (simple) interactive query[[NEWLINE]]\
+                        click on search and figure out how to add different constraints to the query[[NEWLINE]]\
+                        [[NEWLINE]]\
+                        "
+                      )
 
     form = SQLFORM.grid(db.examples_fieldtypenquery2)
     return locals()
 
 def populate_examples_fieldtypenquery():
+    my_text = MARKMIN("Example of **prepopulating** a database with random data: [[NEWLINE]]\
+                          - how to ask via a form how many entries you like [[NEWLINE]]\
+                          - how to propopulate the datebase  [[NEWLINE]]\
+                          - how to add some buttons (just an exercise, not really needed)"
+                      )
 
     # ask for the number of new entries via a simple FORM
     form = FORM('How many entries should I create:',
@@ -718,9 +693,12 @@ def populate_examples_fieldtypenquery():
     form.add_button('Index', URL('index'))
     form.add_button('web2py', 'http://www.web2py.com')
 
-    return dict(form=form)
+    return locals()
 
 def examples_fieldtypenquery_drop():
+    my_text = MARKMIN("Example of dropping a table: **does not work this way! read comment in function\
+                       and investigate!**")
+
     # something strange with 'drop'. i can drop the table, however the data seems to still be there. this could be
     # due to the comment below. removing files like "examples_fieldtypenquery.table does not seem to have an effect:
     # the data is still in the browser (cache?). running the fuction again gives a very bad ticket and sais:
@@ -737,16 +715,19 @@ def examples_fieldtypenquery_drop():
     # navigate the file system to the databases directory of your app, and delete the file associated
     # with the dropped table.
 
-    import os
-    cwd = os.getcwd() # get current working directory
-    print cwd
+    # Workaround: reamove all table data using appadmin
+
+    #import os
+    #cwd = os.getcwd() # get current working directory
+    #print cwd
     #db_filename =
 
     #os.remove(db_filename)
+    return locals()
 
-#
-# request.args and request.vars
-#
+#################################
+# request.args and request.vars #
+#################################
 
 # - request.args is a list, args follow after main path a/c/f/arg0/arg1/arg0
 # - request.vars is a dictionary. they follow after a '?' (questionmark), like ...?var0=9
@@ -793,9 +774,10 @@ def examples_request_playing():
 
     return locals()
 
-#
-# writing your own modules
-#
+
+############################
+# writing your own modules #
+############################
 
 # place a file in ../modules/<examples_module>.py
 #    - import gluon stuff: from gluon import *
@@ -823,34 +805,38 @@ def validatorwidget():
 
     return dict(form=form)
 
+
 ##################################
 # Playing with tables and field  #
 ##################################
 
 @auth.requires_login() # every fuction with grids should require (at least) login
 def fieldplay():
+    my_text = MARKMIN('Look at the code and the output on the web2py console for this example!')
+
+    print "\n\n ---------\n fieldplay: "
     print 'you can access/change table an field things'
     print 'list all tables, db.tables:';  print db.tables
     print 'list all fields of a table, db.examples_fieldplay.fields:'; print db.examples_fieldplay.fields
 
-    print 'access the field attributes'
+    print '\naccess the field attributes'
     print 'db.examples_fieldplay.firstname.unique = ', db.examples_fieldplay.firstname.unique
     print 'db.examples_fieldplay.secondname.default = ' ,db.examples_fieldplay.firstname.unique
 
-    print 'access the info of the parent'
+    print '\naccess the info of the parent (_table, _tablename, _db):'
     print '_table:', db.examples_fieldplay.firstname._table
     print '_tablename:', db.examples_fieldplay.firstname._tablename
-    print '_db:', db.examples_fieldplay.firstname._db
+    print '_db: too long, uncomment to see result' #, db.examples_fieldplay.firstname._db
 
-    print 'you can use the validator of this field programatically'
+    print '\nyou can use the validator of this field programatically'
     print 'John in firstname:', db.examples_fieldplay.firstname.validate('John')
     print 'void in firstname:', db.examples_fieldplay.firstname.validate('')
 
 
-    print 'You can truncate the table, i.e., delete all records and reset the counter of the id'
+    print '\nYou can truncate the table, i.e., delete all records and reset the counter of the id'
     print db.examples_fieldplay.truncate() # in a modules you need also 'commit' (see book, chapter DAL)
 
-    print 'insert a new record'
+    print '\ninsert a new record'
     print db.examples_fieldplay.insert(firstname='Dagobert')
     print db.examples_fieldplay.insert(secondname='Duck')
 
@@ -859,79 +845,143 @@ def fieldplay():
     #print db.examples_fieldplay.update(firstname='Dagobert Dogmata')
 
     #
+    print "\nand finally, you can show the database in a grid"
     form = SQLFORM.grid(db.examples_fieldplay,)
     return locals()
 
+# --------------
 @auth.requires_login()
 def query_set_rows():
+    my_text = MARKMIN('Look at the code and the output on the web2py console for this example!')
+
+    print "\n\n -------------- \n query_set_rows"
     # store table in an variable
     table = db.examples_qsr
 
-    # you can store fields in variables
-    name = db.examples_qsr # long way
+    print "\nyou can store fields in variables (the fields, NOT their values!)"
+    name = db.examples_qsr.name # long way
     job  = table.job       # using the above created variable 'table'
+    print 'name=', name
+    print 'job=', job
 
-    # truncate ...
+    print "\nyou can truncate the data of a table (also resets the id-counter) ..."
     table.truncate()
 
-    # ... and fill with some data
+    print "\n ... and fill with some data again"
     table.insert(name='Peter', job='Cleaning Woman')
     table.insert(name='Paul', job='Taxidriver')
     table.insert(name='Mary', job='Doctor')
+    table.insert(name='Jane', job='Manager')
 
-    # you can define a query
+    print "\n you can define a query: q = job == 'Doctor'"
     q = job == 'Doctor'
 
-    # calling a db with a query creates (or better defines) a set of data ...
+    print "\ncalling a db with a query creates (or better defines) a set of data: s = db(q)"
     s = db(q)
-    #s = db(job == 'Doctor')
+    #s = db(job == 'Doctor') # this is in one line
 
-    # ... and select interacts with the pysical database and returns the result as a set of rows
+    print "\n ... and select interacts with the pysical database and returns the result as a set of rows:\nrows = s.select()"
     rows = s.select()
     # you can also do all of this in one line
     #rows = db(db.examples_qsr.job == 'Doctor').select()
 
-    print 'you can loop'
+    print '\n you can loop and manually print the data you like of the rows (here: id ad name) ...'
     for row in rows:
-        print
-        row.id, row.name
+        print "row.id=%s, row.name=%s" % (row.id, row.name)
 
-    print 'select only some data (e.g. only column job)'
+    print '\n or select only some data (e.g. only column job)'
     rows = db(db.examples_qsr.job == 'Doctor').select(job)
     for row in rows:
-        print "job:",  row.job
-        # print 'name:', row.name # => raise AttributeError
+        print "row.job:",  row.job
+        print 'row.name => would raise an AttributeError'
+        print 'row:', row
 
-    print 'The table attribute ALL allows you to specify all fields:'
-    for row in db().select(db.examples_qsr.ALL): print row
+    print '\n the table attribute ALL allows you to specify all fields (printing the whole row):'
+    for row in db().select(db.examples_qsr.ALL):
+        print row
 
-    print 'updating a record'
+    print "\n and you can update a record ('Paul' gets 'web2py programmer' here)"
     for row in db(table.id > 0).select():
         if row.name=='Paul':
             row.update_record(job='web2py programmer')
 
-    # show the table in a grid
+    print "\n as allways, you can show the whole table in a grid"
     form = SQLFORM.grid(table)
+
+    return locals()
+
+# -------------
+# msw: taken from the cookbook (p. 56) - what does this code do exactly?
+def download(): return response.download(request, db)
+
+# --------------
+@auth.requires_login()
+def query_set_rows2():
+    my_text = MARKMIN('Some more on queries, look at the code and the output on the web2py console for this example!')
+
+    print "\n\n -------------- \n query_set_rows2"
+
+    # store table in an variable
+    table = db.examples_qsr
+
+    print "\nyou can truncate the data of a table (also resets the id-counter) ..."
+    db.examples_qsr.truncate()
+
+    print "\n ... and fill with some data again"
+    table.insert(name='Peter', job='Cleaning Woman', birth='1967-01-01', bike=False)
+    table.insert(name='Paul', job='Taxidriver', birth='1977-01-01', bike=False)
+    table.insert(name='Mary', job='Doctor', birth='1987-01-01', bike=True)
+    table.insert(name='Jane', job='Manager', birth='1997-01-01', bike=True)
+
+    print "use the different example-queries in the code (and add more complex ones):"
+    #q = (table.name == 'Peter') | (table.name == 'Paul') # peter and paul
+    #q = (table.name >='N') # name start with letter 'bigger' 'n'
+    q = (table.birth > '1990-01-01')
+
+    s = db(q)
+    rows = s.select()
+
+
+    print "\n you can print the query to console:\n", q
+    print "and loop over the rows and see what has been selected (use rows.render to see the 'represents' formatting " \
+          "of the Field"
+    for row in rows.render():
+        print row
+
+
+    "\n as allways, you can show the whole table in a grid, with the 'fields' parameter you can select the fields shown"
+    form = SQLFORM.grid(q,
+                        #fields=[table.name,table.job] # show only some fields
+                        #fields=[db.examples_qsr.name,db.examples_qsr.job],
+                        )
+
     return locals()
 
 #---------------------
 def girl_cat_queries():
+
+
+    def __nof_cats(owner_id):
+        q = db.examples_girl.id = db.examples_cat.owner_id
+
     print '\n ---------------------- \n girl_cat_queries()'
+    my_text = MARKMIN('Some even more on queries, now including two tables.  [[NEWLINE]]\
+        look at the code and the output on the web2py console for this example!')
 
-    #db.examples_girl.truncate()
-    #db.examples_cat.truncate()
-    #return dict()
+    # first truncate all data ...
+    db.examples_girl.truncate()
+    db.examples_cat.truncate()
 
-    # does not work like this: print 'we have girls', db.examples_girl.id.count()
+    # and refill to allways have a defined start
+    db.examples_girl.insert(name='April', birth='2009-02-03', school='First School')
+    db.examples_girl.insert(name='May'  , birth='2010-05-03', school='Second School')
+    db.examples_girl.insert(name='June' , birth='2010-05-27', school='Third School')
 
-    #if db.examples_girl.id.count() <=0 or 1:
-    #    db.examples_girl.insert(name='Anna')
-    #    db.examples_girl.insert(name='Berta')
-    #
-    #    db.examples_cat.insert(name='Mausi', owner_id=1)
-    #    db.examples_cat.insert(name='Mausi2', owner_id=1)
-    #    db.examples_cat.insert(name='Zorro', owner_id=2)
-    #    session.msw = 1
+    db.examples_cat.insert(name='Fluffi', owner_id = '1', doctordue ='2017-05-20', color = 'red')
+    db.examples_cat.insert(name='Goldy', owner_id = '1', doctordue ='2017-05-26', color = 'black')
+    db.examples_cat.insert(name='Glory' , owner_id = '2', doctordue ='2017-12-12', color = 'white')
+    db.examples_cat.insert(name='Molly' , owner_id = '2', doctordue ='2017-09-11', color = 'white')
+    db.examples_cat.insert(name='Berta' , owner_id = '3', doctordue ='2018-03-13', color = 'striped')
 
 
     print '\nshow cats of girl with id=1'
@@ -939,8 +989,8 @@ def girl_cat_queries():
         print row.name
 
     print '\nloop over girls and show their cats'
-    # IMPORTANTS: because of the link in 'examples_cat' to 'examples_girl', examples_girl now has a
-    # new *attribute* (examples_girl.examples_cat)
+    print "IMPORTANTS: because of the link in 'examples_cat' to 'examples_girl', examples_girl now has a"
+    print "new *attribute* (examples_girl.examples_cat)"
     for girl in db().select(db.examples_girl.ALL):
         #print girl
         print 'girls name: ', girl.name
@@ -948,12 +998,44 @@ def girl_cat_queries():
             print '\tcat:', cat.name
 
     print 'do a inner joint'
-    rows = db(db.examples_girl.id == db.examples_cat.owner_id).select()
+    q = db.examples_girl.id == db.examples_cat.owner_id
+    s = [db.examples_girl.name, db.examples_cat.id, db.examples_cat.name, db.examples_cat.doctordue]
+    rows = db(q).select(db.examples_girl.name, db.examples_cat.name, db.examples_cat.doctordue, groupby=db.examples_girl.name)
+    #rows = db(q).select(*s)
+
     for row in rows:
         #print row
         print row.examples_girl.name,  ' has cat ', row.examples_cat.name
 
-    return dict()
+    table = SQLTABLE(rows,
+			headers='fieldname:capitalize',
+            truncate=100,
+            upload=URL('download'),
+			_width="50%",
+			_border="2px solid black",
+            _height="90px",
+			#_text_align="center", # does not work, with '_text-align' gives ticket
+                )
+
+    #form = SQLFORM.grid(q,
+    #                    fields=[db.examples_girl.name,db.examples_girl.school, db.examples_cat.name,],)
+    #form = SQLFORM.grid(table) DOES NOT WORK AT ALL (seems obvious)
+    #form = SQLFORM(rows)
+
+    gridq = q
+    #gridq = ((db.examples_girl.id == db.examples_cat.owner_id) & (db.examples_girl.birth >= '2010-05-03'))
+    #gridq = (db.examples_girl.id == db.examples_cat.owner_id) & (db.examples_girl.birth >= '2010-05-03')
+
+
+    #db(query).count()
+
+    form = SQLFORM.grid(gridq,
+                        fields=s,
+                        )
+
+    smart = SQLFORM.smartgrid(db.examples_girl, linked_tables=['examples_cat'], fields=s,)
+
+    return locals()
 
 
 #---------------------
@@ -1023,6 +1105,9 @@ def downbutton_manip():
 
 def css_test():
     table = TABLE(TR('a', 'b'), TR('c', 'd'), _border="1px solid black")
+
+    #form = SQLFORM.grid(table) DOES NOT WORK
+
     return locals()
 
 
@@ -1136,5 +1221,242 @@ def examples_export_import():
         response.flash = 'form has errors'
     else:
         response.flash = 'form shown for the fist time'
+
+    return locals()
+
+
+
+########################
+# DAL examples massimo #
+########################
+
+# https://www.youtube.com/watch?v=_4to_44DcJU (0:48:xx)
+
+def examples_massimo():
+    # 0:53:00
+    print db._uri # show uri
+    print db._adapter # gloun contains an adapter (never used by user, but important to know)
+
+    # 0:55:00
+    print "you can refer to a field (type field) and to a person"
+    print db.person
+    print db.person.name
+
+    # this is needed in order to make this example working (truncate the existing table)
+    db.person.truncate()
+
+    # 0:55:45
+    db.person.insert(name='Max', phone='111')
+    db.person.insert(name='Tim', phone='112')
+    db.person.insert(name='John', phone = '113')
+
+    print "\n get person with id == 1 or get first person?"
+    row = db.person(1) # get person with id==1 or get first person?
+    print row
+
+    print "\n you can use bracket notation or the simple one to access data"
+    print row['name']
+    print row['phone']
+    print row.name
+    print row.phone
+
+    print "\n what happens, if things do not exist"
+    print db.person(9)
+    print db.person[9]
+
+    print "\you can search ..."
+    print db.person(name='Max')
+    print db.person(name = 'max') # case sensitive!!
+    print db.person(phone = '112', name='Tim')
+
+    # 00:58:05
+    print "\n more complex queries"
+    rows = db((db.person.name=='Max') | (db.person.name=='Tim')).select()
+    print "\n print row by index:"
+    print rows[0]
+    print rows[1]
+
+    print "\n first and length on rows:"
+    print rows.first()
+    print len(rows)
+
+    print "\n select in string by gt, le, ..."
+    rows = db((db.person.name >= 'Max') & (db.person.name <= 'Tim')).select()
+    print rows
+
+    rows = db((db.person.name > 'B') & (db.person.name <= 'X')).select()
+    print rows
+
+    rows = db(~(db.person.name <= 'M')).select()
+    print  rows
+
+    rows = db( db.person.name.startswith('j') ).select()
+    print  rows
+
+    rows = db(db.person.name.contains('m')).select()
+    print rows
+
+    rows = db(db.person.name.belongs('Max','Tim')).select()
+    print rows
+
+    # subset (seems to be case sensistive)
+    rows = db(db.person.name[0:1].belongs('M', 'T')).select()
+    print rows
+
+    # 01:02:29
+    print "\nsubset (third character is a 'x' or a 'h')"
+    rows = db(db.person.name[2:3].belongs('x', 'h')).select()
+    print rows
+
+
+    print "\n you can allways see the last sql command (which may vary for backends)"
+    print db._lastsql
+
+    # 01:03:40
+    print "\n using select to define the rows wanted"
+    rows = db(db.person).select(db.person.name,db.person.phone)
+    print  rows
+
+    print "\n let's insert two more Max's persons with different phones"
+    db.person.insert(name='Max', phone='211')
+    db.person.insert(name='Max', phone='311')
+    rows = db(db.person.name).select()
+    print  rows
+
+    print "\n we can group, e.g. by name"
+    rows = db(db.person.name).select(db.person.name, groupby=db.person.name)
+    print  rows
+
+    print "\n we can group and count, e.g. by name"
+    rows = db(db.person.name).select(db.person.name, db.person.id.count(), groupby=db.person.name)
+    print rows
+
+    print "\nlet's create another table 'dog'"
+    db.dog.truncate()
+    db.dog.insert(name='Skipper', dog_owner=1)
+    db.dog.insert(name='Snoopy', dog_owner=1)
+    db.dog.insert(name='Wolf', dog_owner=2)
+
+    rows = db(db.dog).select()
+    print rows
+
+    print rows.first() # first row
+    print rows.first().id # id of first row
+    print rows.first().dog_owner # id of owner of this dog
+    print rows.first().dog_owner.name # the name of the owner of this dog
+    print rows.first().dog_owner.phone # everything else of the owner of this dog (here phone)
+
+    ## 01:08:10
+    print "\nretrieve info from db"
+    print dir(db)
+
+    # 01:08:21
+    print "\n_timings somehow keeps track of how log queries took:"
+    print db._timings[0]
+    print db._timings[0][0]
+    print db._timings[-1][0]
+    print db._timings[-1][1]
+
+    # 01:09:10
+    print "\nback to example, which tables do we have?"
+    print db.tables
+
+    print "\nwhich fields does a table have"
+    print db.person.fields
+    print db.dog.fields
+
+    print "\nwhat is the name, type and tablename of a field"
+    print  db.dog.dog_owner.name
+    print  db.dog.dog_owner.type
+    print  db.dog.dog_owner.tablename
+
+    print "\ndir(...) seems to give a summary of things of an object ..."
+    print dir(db.dog.dog_owner)
+
+    print "\n ... and e.g. you find the function 'count', so let's count"
+    # form db, select table db.person, you are looking only for the person.id ... which is counted and the result is
+    # stored in row
+    # (where db(...) is NOT a function call to db, but rather a function called on
+    # db with parameters ',,,' - IS THIS CORRECT???)
+    row = db(db.person).select(db.person.id.count())
+    print row
+
+    print "\nlet's count how many dog each owner has"
+    print db(db.dog).select(db.dog.dog_owner, db.dog.id.count(), groupby=db.dog.dog_owner)
+
+    print "\n put results in rows and loop to do more things"
+    rows = db(db.dog).select(db.dog.dog_owner, db.dog.id.count(), groupby=db.dog.dog_owner)
+    for row in rows:
+        #print row.dog.dog_owner.name, row[db.dog.id.count()]
+        print row
+
+    print "\n let's go to a joint, and first join everything"
+    query = (db.dog.dog_owner == db.person.id)
+    rows = db(query).select()
+    print rows
+
+    print "\n now let's only show some data (columns)"
+    query = (db.dog.dog_owner == db.person.id)
+    rows = db(query).select(db.person.name, db.dog.name)
+    print rows
+
+    rows = db(query).select(db.person.name, db.dog.id.count(), groupby=db.person.id)
+    print rows
+    #for row in rows:
+    #    print row
+
+    print "\n in case of a joint, you have to specify the table name, as field names can be ambigous. as seen before, " \
+          "_extra elements like 'count' are accessed with square-backets"
+    print rows[0]
+    print rows[0].person.name
+    print rows[0][db.dog.id.count()]
+
+    print "\n what can you do with 'select'"
+    print "ordered in alphabetical order"
+    rows = db(db.person).select(orderby=db.person.name)
+    print rows
+
+    print "\nordered in alphabetical order and in reversed id order(in case name is the same)"
+    rows = db(db.person).select(orderby=db.person.name|~db.person.id)
+    print  rows
+
+    print "\nordered by the second character of the name an then with reversed id order (in case character is the same)"
+    rows = db(db.person).select(orderby=db.person.name[1:2] | ~db.person.id)
+    print  rows
+
+    print "\n limitby seems to just take the id in the range given (>fistnum and <= lastnum??)"
+    #rows = db(db.person).select(limitby=(0, 9999))
+    rows = db(db.person).select(limitby=(0,2))
+    #rows = db(db.person).select(limitby=(2,4))
+    print rows
+
+    print "\n what we have learned about select in one line"
+    rows = db(query).select(db.person.name, db.dog.name,
+                            orderby=db.person.name,
+                            groupby=db.person.name,
+                            limitby=(0,2))
+    print rows
+
+    # 01:25;10
+    print "\n outer joint"
+    rows = db(db.person).select(db.person.name, db.dog.name, left=db.dog.on(db.person.id==db.dog.dog_owner))
+    print rows
+
+    print "\n you can left-join multiple tables via a list(?) of join statements, ... "
+    print "tutorial jumps to next topic - 01:27:05"
+    #
+
+
+
+
+    ## 01:0:
+    # print "\n"
+    # rows = db(db.person.name[2:3].belongs('x', 'h')).select()
+    # print  rows
+
+    ## 01:0:
+    # print "\n"
+    # rows = db(db.person.name[2:3].belongs('x', 'h')).select()
+    # print  rows
 
     return locals()
