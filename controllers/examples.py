@@ -80,6 +80,12 @@ def index():
         LI(A('', 'css_test'			        , _href=URL('css_test'			   )), _class='test', _id=0),
         LI(A('', 'table_test'			    , _href=URL('table_test'			   )), _class='test', _id=0),
         LI(A('', 'examples_export_import'   , _href=URL('examples_export_import')), _class='test', _id=0),
+        LI(A('', 'examples_massimo'         , _href=URL('examples_massimo')), _class='test', _id=0),
+
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        #LI(A('', '', _href=URL('')), _class='test', _id=0),
     )
     return locals()
 
@@ -125,6 +131,19 @@ def pythonexamples():
     for i, val in enumerate(my_lst):
         print 'number %d, value %s' % (i, val)
 
+    # loop over a dict
+    dic = dict(a=1,b=12,c="hallo")
+    for key, value in dic.iteritems():
+        print "the key is %s and the values is %s" % (key, value)
+        #print key, value
+
+    # reverse a list
+    lst = [1,2,3,4,5]
+    lst.append("dog")
+    reverse_lst = lst[::-1]
+
+    print lst
+    print reverse_lst
     return locals()
 
 ##############################################
@@ -1442,9 +1461,17 @@ def examples_massimo():
     rows = db(db.person).select(db.person.name, db.dog.name, left=db.dog.on(db.person.id==db.dog.dog_owner))
     print rows
 
+    #rows = db().select(db.person.ALL, db.thing.ALL,
+    #                   left=db.thing.on(db.person.id == db.thing.owner_id))
+
     print "\n you can left-join multiple tables via a list(?) of join statements, ... "
     print "tutorial jumps to next topic - 01:27:05"
     #
+
+    #form = SQLFORM.grid(rows)
+    form = SQLFORM.smartgrid(db.person, linked_tables=['dog'],)
+
+    return locals()
 
 
 

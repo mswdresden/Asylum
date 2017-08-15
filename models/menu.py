@@ -53,11 +53,13 @@ def _():
     response.menu = [
 
         (T('Start'), False, URL('Asylum','default', 'index')),
-        (T('Asyl'), False, URL('asyl', 'index'), [
-            (T('Index'), False, URL('asyl', 'index')),
-            (T('Asylum People'), False, URL('asyl', 'asyl_pbasegrid')),
+
+        (T('Asyl'), False, '#', [
+            (T('Index'), False, URL('asylum', 'index')),
+            (T('Asylum People'), False, URL('asylum', 'asyl_pbasegrid')),
             ]
         ),
+
         (T('Examples'),False, URL('Asylum','examples','index')),
         (T('Language'), False, URL('Asylum', 'default', 'my_language')),
         ('Wiki', False, URL('Asylum', 'default', 'wiki')),
