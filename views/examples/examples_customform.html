@@ -1,0 +1,16 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+
+{{=form.custom.begin}}
+Name: <div class="well">{{=form.custom.widget.name}}</div>
+Phone: <div width="50%">{{=form.custom.widget.phone}}</div>
+{{=form.custom.submit}}
+<!-- <input type="hidden" value="id_value" name="id"> -->
+{{=form.custom.end}}
+<br><br>
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}

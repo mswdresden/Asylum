@@ -495,129 +495,174 @@ def asylum_smartgrid():
             )
 
     return locals()
-# --------------------
-@auth.requires_login()
-def mswtest():
-    form_select_shown = SQLFORM.factory(
-        Field('showpbase',  type='list:string', requires=IS_IN_SET(['name', 'birthday', 'healthinsurance', 'zab'], multiple=True),
-                widget = lambda field,value: SQLFORM.widgets.checkboxes.widget(field,value),
-                #widget=lambda field, value: SQLFORM.widgets.multiple.widget(field, value, style='table'),
-                label='Select PBase Items')
-    )
-    if form_select_shown.process().accepted:
-        response.flash = 'form accepted! form.vars.name is %s' % form_select_shown.vars.name
-        print form_select_shown.vars.showpbase[0]
-
-    elif form_select_shown.errors:
-        response.flash = 'form has errors'
-    else:
-        response.flash = 'please fill the form'
-
-    return dict(form_select_shown=form_select_shown)
 
 # --------------------
 @auth.requires_login()
 def asylum_querygrid():
 
-    pbase_show = collections.OrderedDict()
-    pbase_show['name'] = True
-    pbase_show['firstname'] = False
-    pbase_show['identno'] = False
+    # ----
+    def _fill_show_odict(table, olist, lst):
+        # params: db.table ordered_list list
+        print '_fill_show_odict for table name= ', table.name.tablename
 
-    pbase_show['birthday'] = False
-    pbase_show['arrivaldate'] = False
-    pbase_show['citizenship'] = False
-    pbase_show['residentstatus'] = False
-    pbase_show['healthinsurance'] = False
-    pbase_show['bamfid'] = False
-    pbase_show['bankiban'] = False
-    pbase_show['familyreunion'] = False
-    pbase_show['zab'] = True
+        manager = False
+        fields_tmp = table.fields()
 
-    form_select_shown = SQLFORM.factory(
-        Field('showpbase', requires = IS_IN_SET(['name','birthday','healthinsurance','zab'], multiple=True),
-              widget = lambda field,value: SQLFORM.widgets.checkboxes.widget(field,value, style='table'),
-              default=['name' if pbase_show['name'] else None, 'birthday' if pbase_show['birthday'] else None,
-                       'healthinsurance' if pbase_show['healthinsurance'] else None,'zab' if pbase_show['zab'] else None],
-              #widget=lambda field, value: SQLFORM.widgets.multiple.widget(field, value, style='table'),
-              label='Select PBase Items')
-    )
-    if form_select_shown.process(keepvalues=False).accepted:
-        response.flash = 'form accepted! form.vars.name is %s' % form_select_shown.vars.showpbase
-        print form_select_shown.vars.showpbase
-        pbase_arr = form_select_shown.vars.showpbase
+        for n in fields_tmp:
+            print n
+            fill = False
+            if manager == True:
+                    fill = True
+            elif table.name.tablename == 'asylum_pbase':
+                print 'pbase checking'
+                print table
+                print table.name
 
-        if 'name' in pbase_arr: pbase_show['name']           = True
-        else:    pbase_show['name']           = False
-
-        if 'birthday' in pbase_arr: pbase_show['birthday']           = True
-        else:pbase_show['birthday']           = False
-
-        if 'healthinsurance' in pbase_arr: pbase_show['healthinsurance']           = True
-        else:pbase_show['healthinsurance']           = False
-
-        if 'zab' in pbase_arr: pbase_show['zab']           = True
-        else:pbase_show['zab']           = False
-
-    elif form_select_shown.errors:
-        response.flash = 'form has errors'
-    else:
-        response.flash = 'please fill the form'
+                if ((n != 'id') & (n != 'uuid') & (n != 'internalname') & (n != 'is_active') &
+                        (n != 'created_on') & (n != 'created_by') & (n != 'modified_on') & (n != 'modified_by')):
+                    fill = True
+            else:
+                #print 'other checking'
+                if ((n != 'id') & (n != 'uuid') & (n != 'name') & (n != 'firstname') & (n != 'identno') & \
+                        (n != 'internalname') & (n != 'pbase_id') & (n != 'is_active') & (n != 'created_on') & \
+                        (n != 'created_by') & (n != 'modified_on') & (n != 'modified_by')):
+                    fill = True
+            if fill == True:
+                #print 'fill is True'
+                olist[n] = False # default to false
+                #lst.append(T('%s') % n)    # does not work
+                lst.append(T('%s'% n) )  # works
+    # ----
+    def _fill_widget_default_list(dic, lst):
+        for k, v in dic.iteritems():
+            if v==True:
+                lst.append(k)
+            else:
+                lst.append(None)
 
 
-    #query = (db.asylum_pbase.id==db.asylum_checklist.pbase_id) & (db.asylum_checklist.pbase_id==db.asylum_socialwellfare.pbase_id) \
-    #        & (db.asylum_mobility.pbase_id == db.asylum_mobility.pbase_id)
-    query = (db.asylum_pbase.id==db.asylum_checklist.pbase_id) & (db.asylum_pbase.id==db.asylum_socialwellfare.pbase_id) \
-            & (db.asylum_pbase.id== db.asylum_mobility.pbase_id)  #& (db.asylum_pbase.id<5)
+    # Pbase
+    pbase_show = collections.OrderedDict() # ordered dict of fields to show
+    pbase_show_lst = [] # list containing all fields to show
+    pbase_widget_default = [] # list containing value ore None for the default setting of the checkboxes
+    _fill_show_odict(db.asylum_pbase, pbase_show, pbase_show_lst)
+    _fill_widget_default_list(pbase_show, pbase_widget_default)
 
+    # Checklist
+    checklist_show = collections.OrderedDict()
+    checklist_show_lst = []
+    checklist_widget_default = []
+    _fill_show_odict(db.asylum_checklist, checklist_show, checklist_show_lst)
+    _fill_widget_default_list(checklist_show,checklist_widget_default)
 
-    #query = db.asylum_checklist.pbase_id == db.asylum_pbase.id
-    #query = (db.asylum_pbase.id>0)
-    #db.asylum_pbase.name.readable = True
-    #db.asylum_pbase.birthday.readable = False
-    #db.asylum_pbase.arrivaldate.readable = False
-    #db.asylum_pbase.citizenship.readable = False
-    #db.asylum_pbase.residentstatus.readable = False
-    #db.asylum_pbase.healthinsurance.readable = False
-    #db.asylum_pbase.bamfid.readable = False
-    #db.asylum_pbase.bankiban.readable = False
-    #db.asylum_pbase.familyreunion.readable = False
-    #db.asylum_pbase.zab.readable = True
+    # Address
+    address_show = collections.OrderedDict()
+    address_show_lst = []
+    address_widget_default = []
+    _fill_show_odict(db.asylum_address, address_show, address_show_lst)
+    _fill_widget_default_list(address_show,address_widget_default)
 
+    # Edu
+    edu_show = collections.OrderedDict()
+    edu_show_lst = []
+    edu_widget_default = []
+    _fill_show_odict(db.asylum_edu, edu_show, edu_show_lst)
+    _fill_widget_default_list(edu_show, edu_widget_default)
 
+    # asylum_socialwellfare
+    socialwellfare_show = collections.OrderedDict()
+    socialwellfare_show_lst = []
+    socialwellfare_widget_default = []
+    _fill_show_odict(db.asylum_socialwellfare, socialwellfare_show, socialwellfare_show_lst)
+    _fill_widget_default_list(socialwellfare_show, socialwellfare_widget_default)
 
-
-    checklist_show= collections.OrderedDict()
-    checklist_show['moveindate']     = False
-    checklist_show['dezi']           = True
-    checklist_show['mailbox_labeled']= False
-    checklist_show['appkey']         = False
-    checklist_show['mailkey']        = True
-    checklist_show['bail']           = False
-    checklist_show['heatingok']      = False
-    checklist_show['bamfaddress']    = False
-
-    #mobility_show = dict(dvbaboticket=True,dvbexpires=True)
+    # asylum_mobility
     mobility_show = collections.OrderedDict()
-    mobility_show['dvbaboticket'] = True
-    mobility_show['dvbexpires'] = True
+    mobility_show_lst = []
+    mobility_widget_default = []
+    _fill_show_odict(db.asylum_mobility, mobility_show, mobility_show_lst)
+    _fill_widget_default_list(mobility_show, mobility_widget_default)
 
-    #master_show   = collections.OrderedDict()
-    #master_show['asylum_pbase']     = pbase_show
-    #master_show['asylum_mobility']  = mobility_show,
-    #master_show['asylum_checklist'] = checklist_show,
-    master_show = dict(asylum_pbase=pbase_show, asylum_checklist=checklist_show, asylum_mobility=mobility_show)
+    form_fields = [Field("hallo"), Field("ball")]
+    form_test = SQLFORM.factory(*form_fields)
 
 
-    print '\n',pbase_show
-    print '\n',checklist_show
-    print '\n',mobility_show
-    print '\n',master_show
+    fname_lst = ['showpbase', 'showchecklist', 'showaddress', 'showedu', 'showsocialwellfare', 'showmobility']
+    form2_select_shown = SQLFORM.factory(
+        Field(fname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
+            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst), _class='well', _width = '100%'),
+            default= pbase_widget_default,
+            label=T('Select PBase Items')),
+        Field(fname_lst[1], requires = IS_IN_SET(checklist_show_lst, multiple=True),
+            widget = lambda field,value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(checklist_show_lst), _class='well',_width = '100%'),
+            default=checklist_widget_default,
+            label=T('Checklist')),
+        Field(fname_lst[2], requires=IS_IN_SET(address_show_lst, multiple=True),
+            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(address_show_lst),
+                _class='well',_width = '100%'),
+                default=address_widget_default,
+                label=T('Address')),
+        Field(fname_lst[3], requires=IS_IN_SET(edu_show_lst, multiple=True),
+              widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(edu_show_lst),
+                                                                            _class='well', _width='100%'),
+              default=edu_widget_default,
+              label=T('Edu')),
+        Field(fname_lst[4], requires=IS_IN_SET(socialwellfare_show_lst, multiple=True),
+              widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(socialwellfare_show_lst),
+                                                                            _class='well', _width='100%'),
+              default=socialwellfare_widget_default,
+              label=T('Socialwellfare')),
+        Field(fname_lst[5], requires=IS_IN_SET(mobility_show_lst, multiple=True),
+              widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(mobility_show_lst),
+                                                                            _class='well', _width='100%'),
+              default=mobility_widget_default,
+              label=T('Mobility')),
+    )
 
-    print 'putting together the fields'
+
+    form2_select_shown['_style']='border:1px solid black'
+    #form2_select_shown['_class'] = 'well'
+
+    if form2_select_shown.process(keepvalues=True, formname='form_two').accepted:
+        for tab in fname_lst:
+            fields_arr = form2_select_shown.vars[tab]
+            for field in fields_arr:
+                print "\t field: ", field
+                pbase_show[field] = True
+                if tab =='showpbase':
+                    pbase_show[field] = True
+                if tab == 'showchecklist':
+                    checklist_show[field] = True
+                if tab == 'showaddress':
+                    address_show[field] = True
+                if tab == 'showedu':
+                    edu_show[field] = True
+                if tab == 'showsocialwellfare':
+                    socialwellfare_show[field] = True
+                if tab == 'showmobility':
+                    mobility_show[field] = True
+
+    elif form2_select_shown.errors:
+        response.flash = 'form2 has errors'
+
+    # the query of everything
+    query = (db.asylum_pbase.id == db.asylum_checklist.pbase_id) \
+            & (db.asylum_pbase.id == db.asylum_address.pbase_id) \
+            & (db.asylum_pbase.id == db.asylum_edu.pbase_id) \
+            & (db.asylum_pbase.id == db.asylum_socialwellfare.pbase_id) \
+            & (db.asylum_pbase.id == db.asylum_mobility.pbase_id) \
+            #& (db.asylum_pbase.id<5)
+
+    #print 'putting together the fields, this is done for every call to the URL, so what is not set here is not displayed'
     fields = []
+    #fields.append(db.asylum_pbase.name)
 
-    if pbase_show['name']==True: fields.append(db.asylum_pbase.name)
+    # ---
+    # uuid and stuff missing for manager stuff
+    #if pbase_show['name']==True: fields.append(db.asylum_pbase.name)
+    #name is always shown
+    fields.append(db.asylum_pbase.name)
+
     if pbase_show['firstname']==True: fields.append(db.asylum_pbase.firstname)
     if pbase_show['identno']==True: fields.append(db.asylum_pbase.identno)
     if pbase_show['birthday']==True: fields.append(db.asylum_pbase.birthday)
@@ -630,6 +675,8 @@ def asylum_querygrid():
     if pbase_show['familyreunion']==True: fields.append(db.asylum_pbase.familyreunion)
     if pbase_show['zab']==True: fields.append(db.asylum_pbase.zab)
 
+    # ---
+    # uuid and stuff missing for manager stuff (but first think of an intelligent logic)
     if checklist_show['moveindate'] == True: fields.append(db.asylum_checklist.moveindate)
     if checklist_show['dezi'] == True: fields.append(db.asylum_checklist.dezi  			)
     if checklist_show['mailbox_labeled' ] ==True: fields.append(db.asylum_checklist.mailbox_labeled)
@@ -639,47 +686,63 @@ def asylum_querygrid():
     if checklist_show['heatingok'] == True	 : fields.append(db.asylum_checklist.heatingok  	)
     if checklist_show['bamfaddress'] == True    : fields.append(db.asylum_checklist.bamfaddress    )
 
-    if mobility_show['dvbaboticket'] == True    : fields.append(db.asylum_mobility.dvbaboticket    )
-    if mobility_show['dvbexpires'] == True: fields.append(db.asylum_mobility.dvbexpires)
+    # ---
+    #if address_show['uuid']                  == True:   fields.append(db.asylum_address.uuid)
+    #if address_show['name']                  == True: fields.append(db.asylum_address.name)
+    #if address_show['firstname']             == True: fields.append(db.asylum_address.firstname)
+    #if address_show['identno']               == True: fields.append(db.asylum_address.identno)
+    #if address_show['internalname']          == True: fields.append(db.asylum_address.internalname)
 
-    fields.append(db.asylum_socialwellfare.wbsapplication)
+    if address_show['showstanndard']         == True: fields.append(db.asylum_address.showstanndard)
+    if address_show['standardaccommodation'] == True: fields.append(db.asylum_address.standardaccommodation)
+    if address_show['street']                == True: fields.append(db.asylum_address.street)
+    if address_show['housenumber']           == True: fields.append(db.asylum_address.housenumber)
+    if address_show['numberadd']             == True: fields.append(db.asylum_address.numberadd)
+    if address_show['zip']                   == True: fields.append(db.asylum_address.zip)
+    if address_show['city']                  == True: fields.append(db.asylum_address.city)
+    if address_show['mobile']                == True: fields.append(db.asylum_address.mobile)
+    if address_show['email']                 == True: fields.append(db.asylum_address.email)
 
+    #if address_show['pbase_id']              == True: fields.append(db.asylum_address.pbase_id)
 
-    #if _show[''] == True: fields.append(db.asylum_mobility.)
+    # ---
+    #if edu_show['uuid']                  == True:   fields.append(db.asylum_edu.uuid)
+    #if edu_show['name']                  == True: fields.append(db.asylum_edu.name)
+    #if edu_show['firstname']             == True: fields.append(db.asylum_edu.firstname)
+    #if edu_show['identno']               == True: fields.append(db.asylum_edu.identno)
+    #if edu_show['internalname']          == True: fields.append(db.asylum_edu.internalname)
 
-    #    print tablekey
-    #    for key, value in dictvalue.iteritems():
-    #
-    #        print "the table is %s  field is %s and the values is %s" % (tablekey, key, value)
-    #        if value:
-    #            if tablekey == 'asylum_checklist':
-    #                print 'found checklist flag'
-    #               #if key == 'moveindate': fields.append(db.asylum_checklist.moveindate)
-    #                #if key == 'dezi' 		: fields.append(db.asylum_checklist.dezi		      )
-    #                #if key == 'mailbox_labeled': fields.append(db.asylum_checklist.mailbox_labeled)
-    #                #if key == 'appkey'		   : fields.append(db.asylum_checklist.appkey  	      )
-    #                #if key == 'mailkey'  	   : fields.append(db.asylum_checklist.mailkey 	      )
-    #                #if key == 'bail' 		   : fields.append(db.asylum_checklist.bail		      )
-    #                #if key == 'heatingok'	   : fields.append(db.asylum_checklist.heatingok	  )
-    #                #if key == 'bamfaddress'    : fields.append(db.asylum_checklist.bamfaddress    )
-    #            if tablekey == 'asylum_pbase':
-    #                print 'found pbase flag'
-    #                #if key == 'name': fields.append(db.asylum_pbase.name)
-    #                #if key == 'firstname': fields.append(db.asylum_pbase.firstname)
-    #                #if key == 'identno': fields.append(db.asylum_pbase.identno)
-    #                #if key == 'birthday': fields.append(db.asylum_pbase.birthday)
-    #                #if key == 'arrivaldate': fields.append(db.asylum_pbase.arrivaldate)
-    #                #if key == 'citizenship': fields.append(db.asylum_pbase.citizenship)
-    #                #if key == 'residentstatus': fields.append(db.asylum_pbase.residentstatus)
-    #                #if key == 'healthinsurance': fields.append(db.asylum_pbase.healthinsurance)
-    #                #if key == 'bamfid': fields.append(db.asylum_pbase.bamfid)
-    #                #if key == 'bankiban': fields.append(db.asylum_pbase.bankiban)
-    #                #if key == 'familyreunion': fields.append(db.asylum_pbase.familyreunion)
-    #                #if key == 'zab': fields.append(db.asylum_pbase.zab)
-    #            if tablekey == 'asylum_mobility':
-    #                print 'found mobility flag'
-    #                #if key == 'dvbaboticket': fields.append(db.asylum_mobility.dvbaboticket)
-    #                #if key == 'dvbexpires': fields.append(db.asylum_mobility.dvbexpires)
+    if edu_show['bildungsagentur']        == True: fields.append(db.asylum_edu.bildungsagentur)
+    if edu_show['profession']             == True: fields.append(db.asylum_edu.profession)
+    if edu_show['germanlang']             == True: fields.append(db.asylum_edu.germanlang)
+    if edu_show['education']              == True: fields.append(db.asylum_edu.education)
+    if edu_show['certificates']           == True: fields.append(db.asylum_edu.certificates)
+    if edu_show['languages']              == True: fields.append(db.asylum_edu.languages)
+    #if edu_show['pbase_id']               == True: fields.append(db.asylum_edu.pbase_id)
+
+    # socialwellfare
+    # if _show['uuid']                  == True:   fields.append(db.asylum_socialwellfare.uuid)
+    # if _show['name']                  == True: fields.append(db.asylum_socialwellfare.name)
+    # if _show['firstname']             == True: fields.append(db.asylum_socialwellfare.firstname)
+    # if _show['identno']               == True: fields.append(db.asylum_socialwellfare.identno)
+    # if _show['internalname']          == True: fields.append(db.asylum_socialwellfare.internalname)
+
+    if socialwellfare_show['wbsapplication'] == True: fields.append(db.asylum_socialwellfare.wbsapplication)
+    if socialwellfare_show['wbsdate'] == True: fields.append(db.asylum_socialwellfare.wbsdate)
+    if socialwellfare_show['chonicillness'] == True: fields.append(db.asylum_socialwellfare.chonicillness)
+    if socialwellfare_show['aufenthaltsgestattung'] == True: fields.append(db.asylum_socialwellfare.aufenthaltsgestattung)
+    if socialwellfare_show['passdeduction'] == True: fields.append(db.asylum_socialwellfare.passdeduction)
+    #if edu_show['pbase_id']               == True: fields.append(db.asylum_socialwellfare.pbase_id)
+
+    # ---
+    #if mobility_show['uuid']                  == True: fields.append(db.asylum_mobility.uuid)
+    #if mobility_show['name']                  == True: fields.append(db.asylum_mobility.name)
+    #if mobility_show['firstname']             == True: fields.append(db.asylum_mobility.firstname)
+    #if mobility_show['identno']               == True: fields.append(db.asylum_mobility.identno)
+    #if mobility_show['internalname']          == True: fields.append(db.asylum_mobility.internalname)
+
+    if mobility_show['dvbaboticket']        == True: fields.append(db.asylum_mobility.dvbaboticket)
+    if mobility_show['dvbexpires']             == True: fields.append(db.asylum_mobility.dvbexpires)
 
     form = SQLFORM.grid(query,
                         fields=fields,
@@ -687,7 +750,7 @@ def asylum_querygrid():
                         deletable=False,
                         editable=False,
                         details=False,
-                        paginate=20,
+                        paginate=5,
                         )
 
 

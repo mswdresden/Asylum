@@ -81,8 +81,8 @@ def index():
         LI(A('', 'table_test'			    , _href=URL('table_test'			   )), _class='test', _id=0),
         LI(A('', 'examples_export_import'   , _href=URL('examples_export_import')), _class='test', _id=0),
         LI(A('', 'examples_massimo'         , _href=URL('examples_massimo')), _class='test', _id=0),
-
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        LI(A('', 'examples_customform'      , _href=URL('examples_customform')), _class='test', _id=0),
+        LI(A('', 'examples_customformfactory', _href=URL('examples_customformfactory')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
@@ -125,6 +125,21 @@ def pythonexamples():
     # simple for loop
     for x in range(0, 3):
         print x
+
+    # a list can store watchalike
+    lst = ["is", 1, "nice", "but strange", " ... thing", "delme", "delme", "delme"]
+
+    # insert something at the beginning and remove an (one) specific entry
+    lst.insert(0,"Love")
+    lst.remove("but strange")
+
+    # remove all entries of an value
+    lst = [x for x in lst if x!="delme"]
+
+    print "\nlooping a list is easy"
+    for l in lst:
+        print l
+
 
     # loop and cont at the same time
     my_lst = ['a',9999,'hugo']
@@ -219,8 +234,22 @@ def test_view_action():
 # --------------
 def form():
     #example of a form
-    form = "Please implement code for form"
-    return dict(form=form)
+    print " --------- \n form: PLEASE CREATE EXAMPLE CODE"
+    response.flash = "PLEASE CREATE EXAMPLE CODE"
+
+    #form = SQLFORM(<table>, record=None,
+    #    deletable=False, linkto=None,
+    #    upload=None, fields=None, labels=None,
+    #    col3={}, submit_button='Submit',
+    #    delete_label='Check to delete:',
+    #    showid=True, readonly=False,
+    #    comments=True, keepopts=[],
+    #    ignore_rw=False, record_id=None,
+    #    formstyle='table3cols',
+    #    buttons=['submit'], separator=': ',
+    #    **attributes)
+
+    return dict()
 
 # --------------
 def sqlform_basic():
@@ -1487,3 +1516,27 @@ def examples_massimo():
     # print  rows
 
     return locals()
+
+################
+# Custom Forms #
+################
+def examples_customform():
+    form = SQLFORM(db.person)
+    form.process()
+    return dict(form=form)
+
+def examples_customformfactory():
+    form = SQLFORM.factory(
+        Field("name"),
+        Field("aset", requires=IS_IN_SET(["dog", "cat", "mouse"])),
+        Field("onetwothree", requires=IS_IN_SET(["one", "two", "three"], multiple=True),
+            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=3, _width = '50%'), #_class='well', _width = '100%'),
+        ),
+        Field("fourfivesix", requires=IS_IN_SET(["four", "five", "six"], multiple=True),
+              widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=3, _width='50%'),
+              # _class='well', _width = '100%'),
+              ),
+
+    )
+    form.process()
+    return dict(form=form)

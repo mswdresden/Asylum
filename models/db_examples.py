@@ -335,3 +335,4 @@ db.define_table('person',
 db.define_table('dog',
                 Field('name'),
                 Field('dog_owner', 'reference person'))
+
