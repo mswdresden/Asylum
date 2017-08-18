@@ -1,0 +1,36 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+<!--
+{{form2_select_shown.custom.begin}}
+<div>{{=SPAN(B(T("Basic Data")), form2_select_shown.custom.widget.showpbase)}}</div>
+<div>{{=SPAN(B(T("Checklist")), form2_select_shown.custom.widget.showchecklist)}}</div>
+<div>{{=SPAN(B(T("Address")), form2_select_shown.custom.widget.showaddress)}}</div>
+<div>{{=SPAN(B(T("Education")), form2_select_shown.custom.widget.showedu)}}</div>
+<div>{{=SPAN(B(T("SocialWellfare")), form2_select_shown.custom.widget.showsocialwellfare)}}</div>
+<div>{{=SPAN(B(T("Mobility")), form2_select_shown.custom.widget.showmobility)}}</div>
+
+{{=form2_select_shown.custom.submit}}
+{{=form2_select_shown.custom.end}}
+-->
+
+
+<br>
+{{#=form_test}}
+<br>
+<br>
+{{=form2_select_shown}}
+<br>
+{{=form}}
+
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
+
+<!-- show more info for development -->
+{{=BR()*3}}
+{{if request.is_local:}}
+{{=response.toolbar()}}
+{{pass}}

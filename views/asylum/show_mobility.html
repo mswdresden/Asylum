@@ -1,0 +1,20 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h3>{{=T('Mobility')}}: {{=iname}}</h3>
+{{=linklist}}<br>
+{{=form}}<br>
+{{=linklist}}<br>
+<br><br>
+
+
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
+
+<!-- show more info for development -->
+{{=BR()*3}}
+{{if request.is_local:}}
+{{=response.toolbar()}}
+{{pass}}

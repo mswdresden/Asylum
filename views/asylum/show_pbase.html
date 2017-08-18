@@ -1,0 +1,14 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=T('Basic Info')}}:{{=iname}}</h2>
+{{=linklist}}<br>
+{{=form}}<br>
+{{=linklist}}<br>
+
+<!-- show more info for development -->
+{{=BR()*3}}
+{{if request.is_local:}}
+{{=response.toolbar()}}
+{{pass}}

@@ -1,0 +1,17 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h3>{{=T('Socialwellfare')}}: {{=iname}}</h3>
+{{=linklist}}<br>
+{{=form}}<br>
+{{=linklist}}<br>
+<br><br>
+
+{{if False:}}
+	<!-- show more info for development -->
+	{{=BR()*3}}
+	{{if request.is_local:}}
+	{{=response.toolbar()}}
+	{{pass}}
+{{pass}}

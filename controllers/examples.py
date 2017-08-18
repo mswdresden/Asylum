@@ -1536,7 +1536,6 @@ def examples_customformfactory():
               widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=3, _width='50%'),
               # _class='well', _width = '100%'),
               ),
-
     )
     form.process()
     return dict(form=form)

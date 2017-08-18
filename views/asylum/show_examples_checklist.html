@@ -1,0 +1,23 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+pbase_id:
+{{=pbase_id}}
+<br><br>
+
+Rows:<br>
+{{=rows}}
+<br><br>
+
+{{#=H2(T(Checklist of %s) % iname))}} ???
+<h2>Checklist of {{=iname}}</h2>
+
+TABLE:<br>
+{{=form}}
+
+
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}
