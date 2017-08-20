@@ -704,9 +704,22 @@ def asylum_querygrid():
     my_q = __get_query(query_dict)
 
 
+    print "\n ooooooooooooooooo\n ", query_dict
     q=True
-    q = (db[v[0]][v[1]] > '1990-01-01') if query_dict.querymovein==True) else (True)
-    #for k, v in qdict.iteritems():
+    if query_dict.has_key('showquery'):
+        print "setting q"
+        print query_dict.items()
+        print query_dict['querymovein'][2]
+        print query_dict['querycitizenship'][2]
+        # TODO: test and debug, add more queries, at best 'all'
+        # think of something nice and fancy to work with (custom form with automatically appearing fields)
+        q =  ((db[query_dict['querycitizenship'][0]][query_dict['querycitizenship'][1]] == query_dict['querycitizenship'][2]) \
+                if (query_dict['querycitizenship'][2] != '') else (True)) & \
+                ((db[query_dict['querymovein'][0]][query_dict['querymovein'][1]] > query_dict['querymovein'][2]) \
+                if (query_dict['querymovein'][2]!='') else (True)) #& \
+
+
+        #for k, v in qdict.iteritems():
     #    if k == 'showquery':
     #        continue
 #
@@ -723,7 +736,7 @@ def asylum_querygrid():
 
 
     #my_q = db['asylum_pbase']['birthday'] > '1990-01-01'
-    query = query_all & my_q
+    query = query_all & q
 
     #print 'putting together the fields, this is done for every call to the URL, so what is not set here is not displayed'
     fields = []
