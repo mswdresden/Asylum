@@ -476,6 +476,7 @@ def asylum_pbasegrid():
         #onvalidate= pbasegrid_onvalidate, # does NOT exist for grid
         onupdate  = pbasegrid_onaccepted,
         #ondelete  = pbasegrid_ondelete,
+        paginate=5,
 
     )
     return locals()
@@ -860,6 +861,13 @@ def asylum_prepopulate():
         row = db(db.asylum_accommodation.id == randint(min_id, max_id)).select().first()
         acco = row.street
         return acco
+
+    # fill healthinsurance, if empty
+    if db.asylum_healthinsurance.id <= 0:
+        db.asylum_healthinsurance.insert(name="AOK",address="AOK Strasse 1")
+        db.asylum_healthinsurance.insert(name="Techniker Krankenkasse", address="Bergstrasse 1")
+        db.asylum_healthinsurance.insert(name="Barmer", address="Barmer-Strasse 1")
+        db.asylum_healthinsurance.insert(name="IKK", address="IKK Strasse 1")
 
     # clean all asyl data
     #asylum_truncate(ksure=True)

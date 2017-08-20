@@ -297,6 +297,7 @@
 'Is there a name label on the mailbox?': 'Gibt es ein Namensschild am Briefkasten?',
 'Is this a dezi-appartment': 'Ist dies eine Dezi-Wohnung?',
 'Is this a Standard-Accommodation?': 'Ist das eine Standard-Unterkunft?',
+'Is this person registerd at the Bildungsagentur': 'Is this person registerd at the Bildungsagentur',
 'JSON': 'JSON',
 'JSON export of visible columns': 'JSON export of visible columns',
 'Key': 'Schlüssel',
