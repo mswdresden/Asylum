@@ -348,6 +348,7 @@
 'Moeglichkeit 2': 'Moeglichkeit 2',
 'Move-In Date': 'Einzugsdatum',
 'moveindate': 'Einzugsdatum',
+'My Query': 'My Query',
 'My Sites': 'Meine Seiten',
 'name': 'Name',
 'Name': 'Name',

@@ -242,6 +242,9 @@ web2py course by Massimo (some parts, here part 2)
 	-- 
  - part 4:
  	-- 00:00:00 tasks in todo lists
+		--- versioning! 
+		--- 24:30 prettydate
+		--- 28:30 push a button to the right
 	-- 00:08:30 record versioning
 	-- 2:08:05 populating databases with example junk
  

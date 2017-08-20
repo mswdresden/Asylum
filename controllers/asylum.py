@@ -43,7 +43,7 @@ def index():
     )
     linklist2 = UL(
         LI(A('', 'asylum_pbasegrid', _href=URL('asylum_pbasegrid')), _class='test', _id=0),
-        LI(A('', 'asylum_querygrid', _href=URL('asylum_querygrid')), _class='test', _id=0),
+        LI(A('', 'asylum_querygrid', _href=URL('asylum_querygrid#gridanchor')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
@@ -510,14 +510,14 @@ def asylum_querygrid():
         fields_tmp = table.fields()
 
         for n in fields_tmp:
-            print n
+            #print n
             fill = False
             if manager == True:
                     fill = True
             elif table.name.tablename == 'asylum_pbase':
-                print 'pbase checking'
-                print table
-                print table.name
+                #print 'pbase checking'
+                #print table
+                #print table.name
 
                 if ((n != 'id') & (n != 'uuid') & (n != 'internalname') & (n != 'is_active') &
                         (n != 'created_on') & (n != 'created_by') & (n != 'modified_on') & (n != 'modified_by')):
@@ -530,12 +530,22 @@ def asylum_querygrid():
                     fill = True
             if fill == True:
                 #print 'fill is True'
-                olist[n] = False # default to false
+                #print "table: ", table
+                #print "n: ", n
+                if  (table.name.tablename=='asylum_pbase') and (n=="name" or n=='firstname' or n=='identno'):
+                    #print '\t\t => fill is True'
+                    olist[n] = True  # set one thing to true for the start
+                else:
+                    #print '\t\t => fill is False'
+                    olist[n] = False # default to false
                 #lst.append(T('%s') % n)    # does not work
-                lst.append(T('%s'% n) )  # works
+                #lst.append(T('%s'% n) )  # works, but gets confused by internationalization
+                lst.append(n)  # works, but no transation
     # ----
     def _fill_widget_default_list(dic, lst):
+        #print "\n _fill_widget_default_list(...)"
         for k, v in dic.iteritems():
+            #print "key=%s, value=%s" % (k,v)
             if v==True:
                 lst.append(k)
             else:
@@ -591,7 +601,11 @@ def asylum_querygrid():
     fname_lst = ['showpbase', 'showchecklist', 'showaddress', 'showedu', 'showsocialwellfare', 'showmobility']
     form2_select_shown = SQLFORM.factory(
         Field(fname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
-            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst), _class='well', _width = '100%'),
+            #widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst), labels=['a','b','c'], _class='well', _width = '100%'),
+            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst),
+                                                                            #label={v: T(v) for k, v in enumerate(pbase_show_lst)},
+                                                                           _class='well', _width='100%'),
+
             default= pbase_widget_default,
             label=T('Select PBase Items')),
         Field(fname_lst[1], requires = IS_IN_SET(checklist_show_lst, multiple=True),
@@ -618,17 +632,23 @@ def asylum_querygrid():
                                                                             _class='well', _width='100%'),
               default=mobility_widget_default,
               label=T('Mobility')),
+        Field('showquery', type='boolean', default=False, label='Show the query fields'),
+        Field('querymovein',type='date', label=T('Move-In Date')),
+        Field('querycitizenship', requires=IS_IN_SET(asylum_citizenship), label=T('Which Citizenship')),
     )
-
-
+    form2_select_shown.add_button('Back', URL('index'))
     form2_select_shown['_style']='border:1px solid black'
     #form2_select_shown['_class'] = 'well'
+    #form2_select_shown.no_table_field1.show_if = (False)
+
+    query_dict = dict()
 
     if form2_select_shown.process(keepvalues=True, formname='form_two').accepted:
+
         for tab in fname_lst:
             fields_arr = form2_select_shown.vars[tab]
             for field in fields_arr:
-                print "\t field: ", field
+                print "\t tab=%s, field=%s " % (tab, field)
                 pbase_show[field] = True
                 if tab =='showpbase':
                     pbase_show[field] = True
@@ -643,16 +663,67 @@ def asylum_querygrid():
                 if tab == 'showmobility':
                     mobility_show[field] = True
 
+        query_dict['showquery']        = ['void', 'void', form2_select_shown.vars['showquery']]
+        query_dict['querymovein']      = ['asylum_checklist', 'moveindate', form2_select_shown.vars['querymovein']]
+        query_dict['querycitizenship'] = ['asylum_pbase', 'citizenship', form2_select_shown.vars['querycitizenship']]
+
     elif form2_select_shown.errors:
         response.flash = 'form2 has errors'
 
+
+    # Query
+    print "\n\n ------- \n ", query_dict.items()
+
+    query_fields = [Field('myquery', label=T('My Query'))]
+    for key, val in pbase_show.iteritems():
+        print "key/value in ODict: %s %s" %  (key, val)
+        if val == True:
+            query_fields.append(Field((str(key)) ))
+
+
+    query_form = SQLFORM.factory(*query_fields
+        #Field('myquery', label=T('My Query'))
+    )
+    my_query = '1==1'
+    if query_form.process(keepvalues=True, formname='query_form').accepted:
+        my_query = query_form.vars.myquery
+
+    response.flash = my_query
+
     # the query of everything
-    query = (db.asylum_pbase.id == db.asylum_checklist.pbase_id) \
+    query_all = (db.asylum_pbase.id == db.asylum_checklist.pbase_id) \
             & (db.asylum_pbase.id == db.asylum_address.pbase_id) \
             & (db.asylum_pbase.id == db.asylum_edu.pbase_id) \
             & (db.asylum_pbase.id == db.asylum_socialwellfare.pbase_id) \
             & (db.asylum_pbase.id == db.asylum_mobility.pbase_id) \
-            #& (db.asylum_pbase.id<5)
+            #& (db.asylum_pbase.id<200)
+            # & (my_query)
+    #query = query_all & (db.asylum_pbase.birthday>'2001-05-05') # query date
+    query = query_all & (db.asylum_pbase.name[:1]=='M') # query the first letter is an 'M'
+
+    my_q = __get_query(query_dict)
+
+
+    q=True
+    q = (db[v[0]][v[1]] > '1990-01-01') if query_dict.querymovein==True) else (True)
+    #for k, v in qdict.iteritems():
+    #    if k == 'showquery':
+    #        continue
+#
+    #    print k, v
+    #    if k == 'querymovein':
+    #        q = (db[v[0]][v[1]] > '1990-01-01')
+    #    if k == 'citizenship':
+    #        pass
+
+
+    #q = (db['asylum_pbase']['birthday'] > '1990-01-01')
+    #q = (db[v[0]][v[1]] > '1990-01-01')
+    print "\n -------- \n and the query is=: ",  q
+
+
+    #my_q = db['asylum_pbase']['birthday'] > '1990-01-01'
+    query = query_all & my_q
 
     #print 'putting together the fields, this is done for every call to the URL, so what is not set here is not displayed'
     fields = []
@@ -678,22 +749,16 @@ def asylum_querygrid():
 
     # ---
     # uuid and stuff missing for manager stuff (but first think of an intelligent logic)
-    if checklist_show['moveindate'] == True: fields.append(db.asylum_checklist.moveindate)
-    if checklist_show['dezi'] == True: fields.append(db.asylum_checklist.dezi  			)
-    if checklist_show['mailbox_labeled' ] ==True: fields.append(db.asylum_checklist.mailbox_labeled)
-    if checklist_show['appkey'] == True  		 : fields.append(db.asylum_checklist.appkey 		)
-    if checklist_show['mailkey'] == True 	 : fields.append(db.asylum_checklist.mailkey		)
-    if checklist_show['bail'] == True		 : fields.append(db.asylum_checklist.bail			)
-    if checklist_show['heatingok'] == True	 : fields.append(db.asylum_checklist.heatingok  	)
-    if checklist_show['bamfaddress'] == True    : fields.append(db.asylum_checklist.bamfaddress    )
+    if checklist_show['moveindate']          == True: fields.append(db.asylum_checklist.moveindate)
+    if checklist_show['dezi']                == True: fields.append(db.asylum_checklist.dezi  			)
+    if checklist_show['mailbox_labeled' ]    == True: fields.append(db.asylum_checklist.mailbox_labeled)
+    if checklist_show['appkey']              == True: fields.append(db.asylum_checklist.appkey 		)
+    if checklist_show['mailkey']             == True: fields.append(db.asylum_checklist.mailkey		)
+    if checklist_show['bail']                == True: fields.append(db.asylum_checklist.bail			)
+    if checklist_show['heatingok']           == True: fields.append(db.asylum_checklist.heatingok  	)
+    if checklist_show['bamfaddress']         == True: fields.append(db.asylum_checklist.bamfaddress    )
 
     # ---
-    #if address_show['uuid']                  == True:   fields.append(db.asylum_address.uuid)
-    #if address_show['name']                  == True: fields.append(db.asylum_address.name)
-    #if address_show['firstname']             == True: fields.append(db.asylum_address.firstname)
-    #if address_show['identno']               == True: fields.append(db.asylum_address.identno)
-    #if address_show['internalname']          == True: fields.append(db.asylum_address.internalname)
-
     if address_show['showstanndard']         == True: fields.append(db.asylum_address.showstanndard)
     if address_show['standardaccommodation'] == True: fields.append(db.asylum_address.standardaccommodation)
     if address_show['street']                == True: fields.append(db.asylum_address.street)
@@ -707,12 +772,6 @@ def asylum_querygrid():
     #if address_show['pbase_id']              == True: fields.append(db.asylum_address.pbase_id)
 
     # ---
-    #if edu_show['uuid']                  == True:   fields.append(db.asylum_edu.uuid)
-    #if edu_show['name']                  == True: fields.append(db.asylum_edu.name)
-    #if edu_show['firstname']             == True: fields.append(db.asylum_edu.firstname)
-    #if edu_show['identno']               == True: fields.append(db.asylum_edu.identno)
-    #if edu_show['internalname']          == True: fields.append(db.asylum_edu.internalname)
-
     if edu_show['bildungsagentur']        == True: fields.append(db.asylum_edu.bildungsagentur)
     if edu_show['profession']             == True: fields.append(db.asylum_edu.profession)
     if edu_show['germanlang']             == True: fields.append(db.asylum_edu.germanlang)
@@ -722,12 +781,6 @@ def asylum_querygrid():
     #if edu_show['pbase_id']               == True: fields.append(db.asylum_edu.pbase_id)
 
     # socialwellfare
-    # if _show['uuid']                  == True:   fields.append(db.asylum_socialwellfare.uuid)
-    # if _show['name']                  == True: fields.append(db.asylum_socialwellfare.name)
-    # if _show['firstname']             == True: fields.append(db.asylum_socialwellfare.firstname)
-    # if _show['identno']               == True: fields.append(db.asylum_socialwellfare.identno)
-    # if _show['internalname']          == True: fields.append(db.asylum_socialwellfare.internalname)
-
     if socialwellfare_show['wbsapplication'] == True: fields.append(db.asylum_socialwellfare.wbsapplication)
     if socialwellfare_show['wbsdate'] == True: fields.append(db.asylum_socialwellfare.wbsdate)
     if socialwellfare_show['chonicillness'] == True: fields.append(db.asylum_socialwellfare.chonicillness)
@@ -736,12 +789,6 @@ def asylum_querygrid():
     #if edu_show['pbase_id']               == True: fields.append(db.asylum_socialwellfare.pbase_id)
 
     # ---
-    #if mobility_show['uuid']                  == True: fields.append(db.asylum_mobility.uuid)
-    #if mobility_show['name']                  == True: fields.append(db.asylum_mobility.name)
-    #if mobility_show['firstname']             == True: fields.append(db.asylum_mobility.firstname)
-    #if mobility_show['identno']               == True: fields.append(db.asylum_mobility.identno)
-    #if mobility_show['internalname']          == True: fields.append(db.asylum_mobility.internalname)
-
     if mobility_show['dvbaboticket']        == True: fields.append(db.asylum_mobility.dvbaboticket)
     if mobility_show['dvbexpires']             == True: fields.append(db.asylum_mobility.dvbexpires)
 
@@ -756,6 +803,26 @@ def asylum_querygrid():
 
 
     return locals()
+
+# ------------------
+def __get_query(qdict):
+    print "'D' __get_query(...) ### START ###"
+    q=True
+    for k, v in qdict.iteritems():
+        if k == 'showquery':
+            continue
+
+        print k, v
+        if k == 'querymovein':
+            q = (db[v[0]][v[1]] > '1990-01-01')
+        if k == 'citizenship':
+            pass
+
+    #q = (db['asylum_pbase']['birthday'] > '1990-01-01')
+    #q = (db[v[0]][v[1]] > '1990-01-01')
+    print  q
+
+    return q
 
 # ---------------------------------
 #
@@ -787,6 +854,7 @@ def list_records():
                    )
     return locals()
 
+# ----------------
 @cache.action()
 def download():
     """
@@ -938,6 +1006,8 @@ def asylum_prepopulate():
                 pbase_id = pb_id)
 
     redirect(URL('index'))
+
+
 
 
 # --------------------
