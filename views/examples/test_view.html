@@ -1,5 +1,7 @@
+{{left_sidebar_enabled=True}}
 {{extend 'layout.html'}}
 {{= T('This is a Test view')}} <br> 
+
 
 Normal text in HTML is HTML text: "<b>hello</b><br>
 
@@ -78,3 +80,9 @@ A<br>
 
 <br><br><br><br><br>
 
+{{block left_sidebar}}
+This text goes in sidebar (attention: there is a typo in the example
+for the left_sidebar (http://www.web2py.com/books/default/chapter/29/05/the-views#Default-page-layout):
+to enable the sidebar, it must read  'left_sidebar_enabled=True'
+{{=sidebar}}
+{{end}}

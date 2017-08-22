@@ -83,9 +83,13 @@ def index():
         LI(A('', 'examples_massimo'         , _href=URL('examples_massimo')), _class='test', _id=0),
         LI(A('', 'examples_customform'      , _href=URL('examples_customform')), _class='test', _id=0),
         LI(A('', 'examples_customformfactory', _href=URL('examples_customformfactory')), _class='test', _id=0),
+        LI(A('', 'jquery1', _href=URL('jquery1')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
         #LI(A('', '', _href=URL('')), _class='test', _id=0),
-        #LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        # LI(A('', '', _href=URL('')), _class='test', _id=0),
     )
     return locals()
 
@@ -221,6 +225,7 @@ def test_view():
     link8 = A('Danger', _href=URL('index'), _class="btn btn-danger")
     link9 = A('Link', _href=URL('index'), _class="btn btn-link")
 
+    sidebar = UL(LI('hello'),LI('I am a'),LI('list in '),LI('the'),LI('sidebar'))
     return locals()
 # --------------
 def test_view_action():
@@ -1536,6 +1541,39 @@ def examples_customformfactory():
               widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=3, _width='50%'),
               # _class='well', _width = '100%'),
               ),
+        Field('bool1', type='boolean'),
+        Field('bool2', type='boolean'),
+        Field('bool3', type='boolean'),
     )
     form.process()
     return dict(form=form)
+
+##########
+# jQuery #
+##########
+
+def jquery1():
+    controller_div = [
+        DIV('click me (fadeout)!', _onclick="jQuery(this).fadeOut()"),
+        DIV('click me (slideToggle)!', _onclick="jQuery(this).slideToggle()"),
+        DIV('click me (show)!', _onclick="jQuery('.two').show()"), #class="two" is defined in the view and belongs
+        DIV('click me (hide)!', _onclick="jQuery('.two').hide()"), # to a specific
+
+    ]
+
+    atable = TABLE(TR(TD('a'), TD('b')), TR(TD('c'), TD('d')), _class="atableclass")
+    togglediv = DIV('toggle table', _onclick="jQuery('.atableclass').slideToggle()")
+
+    # example form book
+    form = SQLFORM(db.examples_taxpayer)
+    if form.process().accepted:
+        response.flash = 'record inserted'
+
+    # same thing with a form.factory
+    formfac = SQLFORM.factory(
+        Field('name'),
+        Field('check', type='boolean', default=False),
+        Field('showifchecked')
+    )
+
+    return locals()

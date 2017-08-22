@@ -1,0 +1,51 @@
+{{extend 'layout.html'}}
+{{"""
+Some Info
+"""}}
+<h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
+{{#=}}
+
+<div class="one" id="a" onclick="jQuery('.two').slideToggle()">Hello</div>
+<div class="two" id="b">World</div>
+<hr>
+{{for elm in controller_div:}}
+	{{=elm}}
+{{pass}}
+
+<hr>
+{{=atable}}
+{{=togglediv}}
+
+<hr>
+{{=form}}
+<script>
+jQuery(document).ready(function(){
+   if(jQuery('#examples_taxpayer_married').prop('checked'))
+        jQuery('#examples_taxpayer_spouse_name__row').show();
+   else jQuery('#examples_taxpayer_spouse_name__row').hide();
+   jQuery('#examples_taxpayer_married').change(function(){
+        if(jQuery('#examples_taxpayer_married').prop('checked'))
+            jQuery('#examples_taxpayer_spouse_name__row').show();
+        else jQuery('#examples_taxpayer_spouse_name__row').hide();});
+});
+</script>
+
+<hr>
+{{=formfac}}
+<script>
+jQuery(document).ready(function(){
+   if(jQuery('#no_table_check').prop('checked'))
+        jQuery('#no_table_showifchecked__row').show();
+   else jQuery('#no_table_showifchecked__row').hide();
+   jQuery('#no_table_check').change(function(){
+        if(jQuery('#no_table_check').prop('checked'))
+            jQuery('#no_table_showifchecked__row').show();
+        else jQuery('#no_table_showifchecked__row').hide();});
+});
+</script>
+
+
+<br><br>
+{{ if 'examples_standardstring' in globals():}}
+{{=CENTER(B(I(examples_standardstring)))}}<br>
+{{pass}}

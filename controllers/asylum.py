@@ -599,6 +599,7 @@ def asylum_querygrid():
 
 
     fname_lst = ['showpbase', 'showchecklist', 'showaddress', 'showedu', 'showsocialwellfare', 'showmobility']
+    qname_lst = ['querypbase', 'querychecklist', 'queryaddress', 'queryedu', 'querysocialwellfare', 'querymobility']
     form2_select_shown = SQLFORM.factory(
         Field(fname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
             #widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst), labels=['a','b','c'], _class='well', _width = '100%'),
@@ -633,6 +634,16 @@ def asylum_querygrid():
               default=mobility_widget_default,
               label=T('Mobility')),
         Field('showquery', type='boolean', default=False, label='Show the query fields'),
+
+        Field(qname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
+            widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst)),
+            default= pbase_widget_default,
+            label=T('Query PBase Items')),
+
+        Field('bool1', type='boolean'),
+        Field('bool2', type='boolean'),
+        Field('bool3', type='boolean'),
+
         Field('querymovein',type='date', label=T('Move-In Date')),
         Field('querycitizenship', requires=IS_IN_SET(asylum_citizenship), label=T('Which Citizenship')),
     )

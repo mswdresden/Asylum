@@ -336,3 +336,12 @@ db.define_table('dog',
                 Field('name'),
                 Field('dog_owner', 'reference person'))
 
+##########
+# jQuery #
+##########
+# example form book (bug in book: the fields 'name' and 'married' are missing there)
+db.define_table('examples_taxpayer',
+    Field('name'),
+    Field('married', type='boolean'),
+    Field('spouse_name'),
+                )

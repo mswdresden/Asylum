@@ -4,16 +4,60 @@ Some Info
 """}}
 <h2>{{=' '.join(x.capitalize() for x in request.function.split('_'))}}</h2>
 
+<style>
+	table, th, td {
+    	//border: 1px solid black;
+		text-align: center;
+	}
+	th, td {
+		padding: 5px;
+		border-bottom: 1px solid #ddd;
+	}
+	
+	th {
+		background-color: #4CAF50;
+	   	color: white;
+	}	
+	
+	tr:hover {background-color: #f5f5f5}
+	tr:nth-child(even) {background-color: #f2f2f2}
+	
+	table#texamples01 {
+    	width: 100%; 
+		//height: 100px;
+	    //background-color: #f1f1c1;
+		border-collapse: collapse;
+		text-align: center;
+		
+	}
+</style>
+<!--
+not used css things
+
+-->
+
 {{=form.custom.begin}}
 Name: <div class="well">{{=form.custom.widget.name}}</div>
 Some set: <div >{{=form.custom.widget.aset}}</div>
 1, 2 or 3: <div >{{=form.custom.widget.onetwothree}}</div>
 4, 5 or 6: <div >{{=form.custom.widget.fourfivesix}}</div>
 
+<div style="overflow-x:auto;">
+<table id="texamples01">
+<tr><th>Oneaaaaaaaaaaaaaaaaa</th><th>Twobbbbbbbbbbbbbbbbbb</th><th>Three</th></tr>
+<tr><td>{{=form.custom.widget.bool1}}</td><td>{{=form.custom.widget.bool2}}</td><td>{{=form.custom.widget.bool3}}</td></tr>
+<tr><td>Dog</td><td colspan="2":>Caaaaahaahaaaat</td></tr>
+</table>
+</div>
 
 {{=form.custom.submit}}
-<!-- <input type="hidden" value="id_value" name="id"> -->
 {{=form.custom.end}}
+
+<br>
+{{=BR()*5}}
+
+<!-- ??? <input type="hidden" value="id_value" name="id"> -->
+
 <br><br>
 {{ if 'examples_standardstring' in globals():}}
 {{=CENTER(B(I(examples_standardstring)))}}<br>
