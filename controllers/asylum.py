@@ -44,7 +44,7 @@ def index():
     linklist2 = UL(
         LI(A('', 'asylum_pbasegrid', _href=URL('asylum_pbasegrid')), _class='test', _id=0),
         LI(A('', 'asylum_querygrid', _href=URL('asylum_querygrid#gridanchor')), _class='test', _id=0),
-        # LI(A('', '', _href=URL('')), _class='test', _id=0),
+        LI(A('', 'asylum_querygrid2', _href=URL('asylum_querygrid2')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
         # LI(A('', '', _href=URL('')), _class='test', _id=0),
@@ -497,6 +497,121 @@ def asylum_smartgrid():
 
     return locals()
 
+
+def __make_fields_lst(table, type='', manager='False'):
+    lst = []
+    internal_fields = []
+    if manager == True: # see all, i.e. restrict nothing
+        pass
+    elif db[table].name.tablename == 'asylum_pbase':
+        internal_fields = ['id', 'uuid', 'internalname', 'is_active', 'created_on', 'created_by',
+                                'modified_on', 'modified_by']
+    else:
+        internal_fields = ['id', 'uuid', 'name', 'firstname', 'identno', 'internalname', 'pbase_id',
+                           'is_active', 'created_on', 'created_by','modified_on', 'modified_by']
+
+    lst = [((table+"_"+f+type) if type!='fieldname' else f) for f in db[table].fields() if (f not in internal_fields)]
+    return lst
+
+# --------------------
+@auth.requires_login()
+def asylum_querygrid2():
+    import string
+
+    print "\n --------------------\n 'I' asylum_querygrid2 ### START ###"
+
+    ### build lists
+    # all tables for asylum, as defined in db_asylum.py
+    tables_lst = ['asylum_pbase', 'asylum_checklist', 'asylum_address', 'asylum_edu',
+                    'asylum_socialwellfare', 'asylum_mobility']
+    # short representation (text) of the tables
+    tables_label_lst = ['Basic Info', 'Checklist', 'Address', 'Education', 'Socialwellfare', 'Mobility']
+
+    # raw fieldnames (are not unique in combination of tables)
+    fieldname_lsts    = [__make_fields_lst(tab, type='fieldname', manager=False) for tab in tables_lst]# 'name', 'firstname'
+
+    # the field_names (combination of table and field name, unique and used for defining/referncing the fields here)
+    fields_lsts       = [__make_fields_lst(tab, type=''      , manager=False) for tab in tables_lst] #'asylum_pbase_name', 'asylum_pbase_firstname'
+
+    #fields_show_lsts  = [__make_fields_lst(tab, type='_show' , manager=False) for tab in tables_lst] # asylum_pbase_name_show
+    #fields_query_lsts = [__make_fields_lst(tab, type='_query', manager=False) for tab in tables_lst] # asylum_pbase_name_query
+
+    # the fields for the grid (pbase name defaulted to shown)
+    fields = [db["asylum_pbase"]["name"]]
+
+
+    #print "\n fields_lsts=",fields_lsts
+    #print "\n fields_show_lsts=",fields_show_lsts
+    #print "\n fields_query_lsts=",fields_query_lsts
+    #print "\n fieldname_lsts=",fieldname_lsts
+
+
+    #### make the fields for show and query, make the form.factory, and process it
+    formfield_lst = []
+    for i, flds in  enumerate(fields_lsts):
+        #print " flds=",flds
+        for j, f in  enumerate(flds):
+            #print "creating field %s with label %s" % (f, fieldname_lsts[i][j])
+            default = False
+            if f=="asylum_pbase_name":
+                default=True
+            formfield_lst.append(Field(f, type='boolean',label=fieldname_lsts[i][j], default=default))
+
+    form_show = SQLFORM.factory(*formfield_lst)
+
+    if form_show.process(keepvalues=True, formname='form_show').accepted:
+        #print "\n ------- \n", form_show.vars.asylum_pbase_healthinsurance
+
+        # do not show name if explicitly choosen to not show it
+        if (form_show.vars["asylum_pbase_name"] == False) and (db["asylum_pbase"]["name"] in fields):
+            fields.remove(db["asylum_pbase"]["name"])
+
+        for i, t in enumerate(fields_lsts):
+            for j, f in enumerate(t):
+                print "\n aaaaaaaaaaaa %s: %s" % (f, form_show.vars[f])
+                if (form_show.vars[f] == True):
+                    if (i == 0 and j == 0) and ("asylum_pbase_name" in fields): pass
+                    else:
+                        fields.append(db[tables_lst[i]][fieldname_lsts[i][j]])
+
+    ### the query form
+    queryfield_lst = []
+    for i, flds in enumerate(fields_lsts):
+        # print " flds=",flds
+        for j, f in enumerate(flds):
+            # print "creating field %s with label %s" % (f, fieldname_lsts[i][j])
+            queryfield_lst.append(Field(f, type='boolean', label=fieldname_lsts[i][j]))
+
+    form_query = SQLFORM.factory(*queryfield_lst)
+
+    if form_query.process(keepvalues=True, formname='form_query').accepted:
+        response.flash = "Query form accepted - not surprising for now as we do nothing here"
+
+    ### the query of everything added by user defined queries
+    query_all = (db.asylum_pbase.id == db.asylum_checklist.pbase_id) \
+                & (db.asylum_pbase.id == db.asylum_address.pbase_id) \
+                & (db.asylum_pbase.id == db.asylum_edu.pbase_id) \
+                & (db.asylum_pbase.id == db.asylum_socialwellfare.pbase_id) \
+                & (db.asylum_pbase.id == db.asylum_mobility.pbase_id) \
+        # & (db.asylum_pbase.id<200)
+
+    # query = query_all & (db.asylum_pbase.birthday>'2001-05-05') # query date
+    #query = query_all & (db.asylum_pbase.name[:1] == 'M')  # query the first letter is an 'M'
+    query = query_all
+
+    grid_message=T("The data you have chosen") if len(fields)>0 else H4(T("No data choosen => ALL DATA SHOWN"), _class='alert')
+    form = SQLFORM.grid(query,
+                        fields=fields,
+                        field_id=db.asylum_pbase.id,
+                        deletable=False,
+                        editable=False,
+                        details=False,
+                        searchable=False,
+                        create=False,
+                        paginate=5,
+                        )
+    return locals()
+
 # --------------------
 @auth.requires_login()
 def asylum_querygrid():
@@ -599,7 +714,16 @@ def asylum_querygrid():
 
 
     fname_lst = ['showpbase', 'showchecklist', 'showaddress', 'showedu', 'showsocialwellfare', 'showmobility']
-    qname_lst = ['querypbase', 'querychecklist', 'queryaddress', 'queryedu', 'querysocialwellfare', 'querymobility']
+    qname_lst = []
+    for item in fname_lst:
+        sub_lst = [str(item + '_' + x) for x in pbase_show_lst]
+        #qname_lst.append(sub_lst)
+        qname_lst.append([str(item + '_' + x) for x in pbase_show_lst])
+
+    print "\n ------------ \n", qname_lst
+    print "can I get a single field in the list like this ... qname_lst[0][0]=", qname_lst[0][0]
+
+
     form2_select_shown = SQLFORM.factory(
         Field(fname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
             #widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst), labels=['a','b','c'], _class='well', _width = '100%'),
@@ -635,7 +759,7 @@ def asylum_querygrid():
               label=T('Mobility')),
         Field('showquery', type='boolean', default=False, label='Show the query fields'),
 
-        Field(qname_lst[0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
+        Field(qname_lst[0][0], requires=IS_IN_SET(pbase_show_lst, multiple=True),
             widget=lambda field, value: SQLFORM.widgets.checkboxes.widget(field, value, cols=len(pbase_show_lst)),
             default= pbase_widget_default,
             label=T('Query PBase Items')),
